@@ -13,10 +13,7 @@ const initialState: { user: UserType | null } = {
 // Actual Slice
 export const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    ...initialState,
-    count: 20,
-  },
+  initialState,
   reducers: {
     updateUser(state, action) {
       state.user = action.payload.user;
