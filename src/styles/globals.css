@@ -1,9 +1,20 @@
+:root {
+	--primary: #1D4ED8;
+	--secondary-dark: #ffffff;
+	--font-primary: 'Inter',
+		sans-serif;
+	--font-secondary: "Plus Jakarta Sans",
+		sans-serif;
+	--font-poppins: "Poppins",
+		sans-serif
+}
+
 html,
 body {
 	padding: 0;
 	margin: 0;
 	font-family: 'Inter', sans-serif;
-	font-weight: 500;
+	font-weight: 400;
 	font-size: 16px;
 	overflow-x: hidden;
 	color: #000000;
@@ -12,7 +23,7 @@ body {
 /* Input styles */
 .inputContainer {
 	display: flex;
-	gap: 5px;
+	gap: 10px;
 	flex-direction: column;
 	position: relative;
 }
@@ -20,10 +31,9 @@ body {
 
 .inputContainer>label {
 	font-family: 'Inter', sans-serif;
-	font-weight: 700;
+	font-weight: 500;
 	font-size: 16px;
-	color: #1E2B44;
-	margin-bottom: 15px;
+	color: #292929;
 }
 
 .inputContainer>* input,
@@ -45,16 +55,16 @@ textarea::placeholder {
 }
 
 .inputError {
-	border: 1px solid #d9534f !important;
+	border: 1px solid #DC2626 !important;
 }
 
 .error {
-	color: #d9534f;
+	color: #DC2626;
 	font-size: 0.75rem;
 }
 
 .errorText {
-	color: #d9534f !important;
+	color: #DC2626 !important;
 }
 
 .line-clamp {

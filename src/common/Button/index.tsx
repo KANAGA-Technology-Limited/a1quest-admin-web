@@ -11,7 +11,7 @@ const Button = ({
   return (
     <button
       className={
-        'bg-primary text-white h-[60px] p-5 rounded-md w-full font-medium text-md flex items-center justify-center hover:bg-primaryDark duration-300 ' +
+        'bg-primary text-white h-[52px] p-5 rounded-[8px] w-full font-medium text-md flex items-center justify-center hover:bg-primaryDark duration-300 ' +
         className
       }
       type={type}

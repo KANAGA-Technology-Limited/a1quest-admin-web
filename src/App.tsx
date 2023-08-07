@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useAppDispatch } from './store/hooks';
-import { getSessionDetails } from './functions/userSession';
 import { updateUser } from './store/slices/user';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import routes from './routes';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'reactjs-popup/dist/index.css';
+import { getSessionDetails } from './functions/userSession';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -20,6 +20,7 @@ function App() {
   }, [dispatch]);
 
   const router = createBrowserRouter(routes);
+
   return (
     <>
       <RouterProvider router={router} />

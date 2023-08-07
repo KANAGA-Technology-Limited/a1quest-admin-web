@@ -6,7 +6,7 @@ export const getSessionDetails = () => {
   let sessionDetails = localStorage.getItem(SESSION_NAME!);
   if (sessionDetails) {
     sessionDetails = decryptItem(sessionDetails, SESSION_KEY!);
-    sessionDetails = JSON.parse(sessionDetails as string);
+    sessionDetails = JSON.parse(sessionDetails);
   }
 
   return sessionDetails as UserType | null;

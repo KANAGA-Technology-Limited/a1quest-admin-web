@@ -1,4 +1,4 @@
-import { store } from '../store';
+import { store } from './../store/store';
 import { getSessionDetails } from './../functions/userSession';
 import { API_URL } from './../functions/environmentVariables';
 import axios from 'axios';
