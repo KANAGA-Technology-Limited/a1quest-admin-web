@@ -1,30 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: a1quest-web
+  name: a1quest-admin-web
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: web
+      app: admin
   template:
     metadata:
-      name: a1quest-web
+      name: a1quest-admin-web
       labels:
-        app: web
+        app: admin
     spec:
       containers:
         - image: kanagatech/a1questweb:latest
-          name: a1quest-web
+          name: a1quest-admin-web
           ports:
           - containerPort: 3000  
            
 ---
-# Node Port Service For SpringApp
+# Node Port Service For Admin-web
 apiVersion: v1
 kind: Service
 metadata:
-  name: a1quest-web
+  name: a1quest-admin-web
 spec:
   type: LoadBalancer
   ports:
@@ -32,4 +32,4 @@ spec:
       nodePort: 31600
       targetPort: 3000
   selector:
-    app: web
+    app: admin
