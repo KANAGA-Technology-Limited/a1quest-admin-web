@@ -14,7 +14,7 @@ spec:
         app: admin
     spec:
       containers:
-        - image: kanagatech/a1questweb:latest
+        - image: kanagatech/a1questadmin:latest
           name: a1quest-admin-web
           ports:
           - containerPort: 3000  
