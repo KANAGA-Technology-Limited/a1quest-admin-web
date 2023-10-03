@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+// import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import EmptyImage from './EmptyImage';
 import { useFormik } from 'formik';
 import { sendCatchFeedback, sendFeedback } from '../../functions/feedback';
 import { appAxios } from '../../api/axios';
 import Button from '../../common/Button';
-import { updateUser } from '../../store/slices/user';
+// import { updateUser } from '../../store/slices/user';
+// import { UserType } from '../../types/user';
 
 const ProfileImage = () => {
-  const { user } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
+  // const { user } = useAppSelector((state) => state.user);
+  // const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
@@ -38,8 +39,10 @@ const ProfileImage = () => {
       });
 
       sendFeedback(response.data?.message, 'success');
-      const userObject = response.data?.data;
-      dispatch(updateUser({ user: { ...user, photoUrl: userObject.photoUrl } }));
+      // const userObject = response.data?.data;
+      // dispatch(
+      //   updateUser({ user: { ...user, photoUrl: userObject.photoUrl } } as UserType)
+      // );
 
       formik.resetForm();
       const fileInput = document.getElementById('profileImage') as HTMLInputElement;
@@ -55,7 +58,7 @@ const ProfileImage = () => {
     <section className='w-full bg-white border border-[#DFDFDF] py-6 px-[28px] rounded-md'>
       <h3 className='font-bold mb-5'>Profile Image</h3>
       <div className='flex flex-col gap-5 items-center'>
-        {user?.photoUrl ? (
+        {/* {user?.photoUrl ? (
           <img
             src={user.photoUrl}
             alt='Avatar'
@@ -63,7 +66,8 @@ const ProfileImage = () => {
           />
         ) : (
           <EmptyImage />
-        )}
+        )} */}
+        <EmptyImage />
         <form
           className='flex items-center gap-5 w-full flex-wrap justify-between border border-[#DFDFDF] rounded-sm p-2'
           onSubmit={formik.handleSubmit}

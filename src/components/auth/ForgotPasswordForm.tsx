@@ -6,7 +6,7 @@ import * as yup from 'yup';
 
 import { sendCatchFeedback, sendFeedback } from '../../functions/feedback';
 import { appAxios } from '../../api/axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import BackComponent from '../../common/BackComponent';
 
 const ForgotPasswordForm = () => {
@@ -25,19 +25,19 @@ const ForgotPasswordForm = () => {
     }),
   });
   const submitValues = async () => {
-    // try {
-    //   setLoading(true);
-    //   const response = await appAxios.post('/auth/forgot-password', {
-    //     email: formik.values.email,
-    //   });
-    //   sendFeedback(response.data?.message, 'success');
-    //   navigate(`/auth/reset-password/${formik.values.email}`);
-    // } catch (error: any) {
-    //   sendCatchFeedback(error);
-    // } finally {
-    //   setLoading(false);
-    // }
-    navigate(`/auth/reset-password/${formik.values.email}`);
+    try {
+      setLoading(true);
+      const response = await appAxios.post('/admin/forgot-password', {
+        email: formik.values.email,
+      });
+      sendFeedback(response.data?.message, 'success');
+      formik.resetForm();
+      navigate(`/auth/reset-password/${formik.values.email}`);
+    } catch (error: any) {
+      sendCatchFeedback(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -60,9 +60,14 @@ const ForgotPasswordForm = () => {
           className='mb-[66px]'
         />
 
-        <Button type='submit' loading={loading}>
+        <Button type='submit' loading={loading} className='!w-full mb-10'>
           Send Verification Code
         </Button>
+        <div className='text-center'>
+          <Link to='/auth/login' className='text-primary'>
+            Back to login
+          </Link>
+        </div>
       </form>
     </>
   );

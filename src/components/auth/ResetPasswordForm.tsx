@@ -18,6 +18,7 @@ const ResetPasswordForm = () => {
   const formik = useFormik({
     initialValues: {
       email: param?.email,
+      confirmPassword: '',
       password: '',
       verificationCode: '',
     },
@@ -28,32 +29,37 @@ const ResetPasswordForm = () => {
       email: yup.string().email('Enter a valid email').required('Email is required'),
       password: yup.string().required('Password is required'),
       verificationCode: yup.string().required('Verification code is required'),
+      confirmPassword: yup
+        .string()
+        .required('Enter your password again')
+        .oneOf([yup.ref('password'), ''], 'The password you entered does not match'),
     }),
     enableReinitialize: true,
   });
   const submitValues = async () => {
-    // try {
-    //   setLoading(true);
-    //   const response = await appAxios.patch('/auth/reset-password', {
-    //     email: formik.values.email,
-    //     password: formik.values.password,
-    //     code: formik.values.verificationCode,
-    //   });
-    //   sendFeedback(response.data?.message, 'success');
-    //   navigate('/auth/success');
-    // } catch (error: any) {
-    //   sendCatchFeedback(error);
-    // } finally {
-    //   setLoading(false);
-    // }
+    try {
+      setLoading(true);
+      const response = await appAxios.post('/admin/reset-password', {
+        // email: formik.values.email,
+        password: formik.values.password,
+        confirmPassword: formik.values.confirmPassword,
+        token: formik.values.verificationCode,
+      });
+      sendFeedback(response.data?.message, 'success');
+      formik.resetForm();
 
-    navigate('/auth/success');
+      navigate('/auth/login');
+    } catch (error: any) {
+      sendCatchFeedback(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const sendVerificationCode = async () => {
     try {
       setLoading(true);
-      const response = await appAxios.post('/auth/forgot-password', {
+      const response = await appAxios.post('/admin/resend-code', {
         email: param?.email,
       });
       sendFeedback(response.data?.message, 'success');
@@ -68,7 +74,7 @@ const ResetPasswordForm = () => {
     <>
       <BackComponent
         text='Back to forgot password'
-        containerClass='absolute top-16 right-20'
+        containerClass='absolute top-20 right-20'
         destination='/auth/forgot-password'
       />
       <h1 className='font-bold text-xl md:text-[26px] mb-[3px] font-poppins'>
@@ -93,6 +99,13 @@ const ResetPasswordForm = () => {
         />
         <LabelInput
           formik={formik}
+          name='confirmPassword'
+          label='Confirm Password'
+          type='password'
+          className='mb-6'
+        />
+        <LabelInput
+          formik={formik}
           name='verificationCode'
           label='Verification Code'
           className='mb-[22px]'
@@ -109,7 +122,7 @@ const ResetPasswordForm = () => {
             </button>
           </span>
         </div>
-        <Button type='submit' loading={loading}>
+        <Button type='submit' loading={loading} className='!w-full'>
           Reset Password
         </Button>
       </form>

@@ -6,11 +6,12 @@ import * as yup from 'yup';
 
 import { sendCatchFeedback, sendFeedback } from '../../functions/feedback';
 import { appAxios } from '../../api/axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const VerifyAccountForm = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = React.useState(false);
+  const param = useParams();
 
   const formik = useFormik({
     initialValues: {
@@ -23,15 +24,30 @@ const VerifyAccountForm = () => {
       code: yup.string().required('Code is required'),
     }),
   });
+
   const submitValues = async () => {
     try {
       setLoading(true);
-      const response = await appAxios.post('/auth/verify', {
-        code: formik.values.code,
+      const response = await appAxios.post('/admin/verify-code', {
+        verificationCode: formik.values.code,
       });
       sendFeedback(response.data?.message, 'success');
       formik.resetForm();
-      navigate('/dashboard');
+      navigate('/auth/login');
+    } catch (error: any) {
+      sendCatchFeedback(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const sendVerificationCode = async () => {
+    try {
+      setLoading(true);
+      const response = await appAxios.post('/admin/resend-code', {
+        email: param?.email,
+      });
+      sendFeedback(response.data?.message, 'success');
     } catch (error: any) {
       sendCatchFeedback(error);
     } finally {
@@ -53,8 +69,19 @@ const VerifyAccountForm = () => {
           label='Verification code'
           className='mb-[22px]'
         />
-
-        <Button type='submit' loading={loading}>
+        <div className='mb-[66px]'>
+          <span className='text-sm font-normal '>
+            Didn&apos;t receive a verification code?{' '}
+            <button
+              className='text-primary font-semibold'
+              type='button'
+              onClick={sendVerificationCode}
+            >
+              Resend
+            </button>
+          </span>
+        </div>
+        <Button type='submit' loading={loading} className='w-full'>
           Verify Account
         </Button>
       </form>
