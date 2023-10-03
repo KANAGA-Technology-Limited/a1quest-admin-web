@@ -1,35 +1,28 @@
 export type UserType = {
-  token: string;
   _id: string;
-  userPermissions: {
-    login: boolean;
-    userRead: boolean;
-    approveArtisans: boolean;
-    adminRead: boolean;
-    orderRead: boolean;
-    deactivateUser: boolean;
-    deactivateAdmin: boolean;
-    createArtisanCategories: boolean;
-    createPlans: boolean;
-    createGeneralData: boolean;
-  };
-  role: string;
-  isVerified: boolean;
-  isActive: boolean;
-  fullname: string;
-  phone: string;
-  ntfToken: string;
   email: string;
+  userName: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  role: string;
   createdAt: string;
-  photoUrl?: string;
-  notificationSettings?: {
-    emailNotify: boolean;
-    newAdmin: boolean;
-    newArtisan: boolean;
-    newBooking: boolean;
-    newUser: boolean;
-    pushNotification: boolean;
-  };
+  resetCode: string;
+  resetExpires: string;
+  passwordChangedAt: string;
+  roles: string[];
+  populatedRoles: [
+    {
+      _id: string;
+      name: string;
+      permissions: {
+        _id: string;
+        name: string;
+      }[];
+      numOfAdmins: number;
+      createdAt: string;
+    }
+  ];
 };
 
 export type UncertainObjectType = {

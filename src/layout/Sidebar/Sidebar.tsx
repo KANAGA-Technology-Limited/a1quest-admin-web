@@ -5,6 +5,8 @@ import { mainLinks, navItemType, preferencesLinks } from '../navLinks';
 import styles from '../styles.module.css';
 import { LogoutIcon } from '../navIcons';
 import Logo from '../../assets/brand/logo.svg';
+import { appAxios } from '../../api/axios';
+import { sendCatchFeedback, sendFeedback } from '../../functions/feedback';
 
 function Sidebar() {
   const location = useLocation();
@@ -16,11 +18,17 @@ function Sidebar() {
     return path.includes(route);
   };
 
-  const logoutUser = () => {
-    dispatch(signOut());
-    navigate('/auth/login');
+  const logoutUser = async () => {
+    try {
+      await appAxios.get('/admin/logout');
+      sendFeedback('Logout successful', 'success');
+    } catch (error) {
+      sendCatchFeedback(error);
+    } finally {
+      dispatch(signOut());
+      navigate('/auth/login');
+    }
   };
-
   return (
     <nav className='w-[25vw] text-black pb-5 max-h-screen sticky top-0 bottom-0 hidden lg:block bg-white overflow-y-auto customized-scrollbar border-r border-r-[#F3F5F7]'>
       <div className='px-10 pt-[42px] pb-[58px]'>

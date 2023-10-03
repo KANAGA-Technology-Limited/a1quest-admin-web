@@ -1,29 +1,34 @@
-import React from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
 import LoadingIndicator from '../LoadingIndicator';
 
-const Button = ({
-  children,
-  loading = false,
-  className = '',
+function Button({
+  className,
   type = 'button',
+  loading = false,
+  onClick,
+  children,
+  color = 'primary',
   ...rest
-}: { loading?: boolean } & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
+}: ButtonHTMLAttributes<HTMLButtonElement> & {
+  color?: 'primary' | 'secondary';
+  loading?: boolean;
+}) {
   return (
     <button
+      type={type}
       className={
-        'bg-primary text-white h-[52px] p-5 rounded-[8px] w-full font-medium text-md flex items-center justify-center hover:bg-primaryDark duration-300 ' +
+        (color === 'secondary'
+          ? 'w-fit h-[50px] bg-secondary text-black rounded-lg py-3 px-8 hover:brightness-110 duration-300 font-medium disabled:bg-gray-300'
+          : 'w-fit h-[50px] bg-primary text-white rounded-lg py-3 px-8 hover:brightness-110 duration-300 font-medium disabled:bg-gray-300') +
+        ' ' +
         className
       }
-      type={type}
-      style={{
-        backgroundColor: rest.disabled || loading ? '#B0B0B0' : '#0057FF',
-      }}
-      disabled={rest.disabled || loading}
+      onClick={onClick}
       {...rest}
     >
-      {loading ? <LoadingIndicator /> : children}
+      {loading ? <LoadingIndicator size={20} /> : children}
     </button>
   );
-};
+}
 
 export default Button;

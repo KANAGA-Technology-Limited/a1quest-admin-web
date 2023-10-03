@@ -1,8 +1,8 @@
 import React from 'react';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useAppSelector } from '../../store/hooks';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { updateUser } from '../../store/slices/user';
+// import { updateUser } from '../../store/slices/user';
 import { sendCatchFeedback, sendFeedback } from '../../functions/feedback';
 import { appAxios } from '../../api/axios';
 import LabelInput from '../../common/LabelInput/LabelInput';
@@ -13,7 +13,7 @@ const Profile = () => {
   const [emailLoading, setEmailLoading] = React.useState(false);
   const [profileLoading, setProfileLoading] = React.useState(false);
   const { user } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const [openVerifyModal, setOpenVerifyModal] = React.useState(false);
 
   const emailFormik = useFormik({
@@ -34,8 +34,10 @@ const Profile = () => {
 
   const profileFormik = useFormik({
     initialValues: {
-      fullname: user?.fullname,
-      phone: user?.phone ? user.phone.replace('+234', '') : '',
+      // fullname: user?.fullname,
+      // phone: user?.phone ? user.phone.replace('+234', '') : '',
+      fullname: '',
+      phone: '',
     },
     onSubmit: () => {
       updateProfile();
@@ -50,16 +52,16 @@ const Profile = () => {
   const updateEmail = async () => {
     try {
       setEmailLoading(true);
-      const response = await appAxios.patch('/auth/update-email', {
-        email: emailFormik.values.email,
-      });
-      const userObject = response.data?.data;
+      // const response = await appAxios.patch('/auth/update-email', {
+      //   email: emailFormik.values.email,
+      // });
+      // const userObject = response.data?.data;
 
-      dispatch(
-        updateUser({
-          user: { ...user, email: userObject.email },
-        })
-      );
+      // dispatch(
+      //   updateUser({
+      //     user: { ...user, email: userObject.email },
+      //   })
+      // );
 
       // Code is sent automatically
       sendFeedback('Verify your account to continue', 'info');
@@ -79,12 +81,12 @@ const Profile = () => {
         phone: `+234${profileFormik.values.phone}`,
       });
       sendFeedback(response.data?.message, 'success');
-      const userObject = response.data?.data;
-      dispatch(
-        updateUser({
-          user: { ...user, fullname: userObject.fullname, phone: userObject.phone },
-        })
-      );
+      // const userObject = response.data?.data;
+      // dispatch(
+      //   updateUser({
+      //     user: { ...user, fullname: userObject.fullname, phone: userObject.phone },
+      //   })
+      // );
     } catch (error: any) {
       sendCatchFeedback(error);
     } finally {

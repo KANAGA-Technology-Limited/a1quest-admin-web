@@ -8,7 +8,12 @@ import { sendCatchFeedback, sendFeedback } from '../../functions/feedback';
 import { appAxios } from '../../api/axios';
 import { useAppDispatch } from '../../store/hooks';
 import { Link, useNavigate } from 'react-router-dom';
-import { updateUser } from '../../store/slices/user';
+import {
+  //  signOut,
+  updateToken,
+  updateUser,
+} from '../../store/slices/user';
+import { UserType } from '../../types/user';
 
 const LoginForm = () => {
   const dispatch = useAppDispatch();
@@ -29,28 +34,40 @@ const LoginForm = () => {
     }),
   });
   const submitValues = async () => {
-    // try {
-    //   setLoading(true);
-    //   const response = await appAxios.post('/auth/login', {
-    //     email: formik.values.email,
-    //     password: formik.values.password,
-    //   });
-    //   const userObject = response.data?.data;
-    //   dispatch(updateUser({ user: userObject }));
-    //   if (!userObject.isVerified) {
-    //     // Send verification code
-    //     sendFeedback('Verify your account to continue', 'info');
-    //     await appAxios.get('/auth/send-verification');
-    //     return navigate('/auth/verify-account');
-    //   }
-    //   sendFeedback(response.data?.message, 'success');
-    //   return navigate('/dashboard');
-    // } catch (error: any) {
-    //   sendCatchFeedback(error);
-    // } finally {
-    //   setLoading(false);
-    // }
-    return navigate('/dashboard');
+    try {
+      setLoading(true);
+      const response = await appAxios.post('/admin/login', {
+        email: formik.values.email,
+        password: formik.values.password,
+      });
+      const userToken = response.data?.data;
+      dispatch(updateToken({ token: userToken }));
+
+      const accountResponse = await appAxios.get('/admin/profile');
+      const accountInfo: UserType = accountResponse.data.data;
+      dispatch(updateUser({ user: accountInfo }));
+
+      // Check if account is verified
+      // if (!accountInfo.isVerified) {
+      //   // Sign the user out so they can verify their email first
+      //   dispatch(signOut());
+
+      //   // Send verification code
+      //   sendFeedback('Verify your account to continue', 'info');
+      //   await appAxios.post('/admin/resend-code', {
+      //     email: accountInfo.email,
+      //   });
+      //   return navigate('/auth/verify-email');
+      // }
+
+      sendFeedback(response.data?.message, 'success');
+      formik.resetForm();
+      return navigate('/dashboard');
+    } catch (error: any) {
+      sendCatchFeedback(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -75,7 +92,7 @@ const LoginForm = () => {
           className='mb-[32px]'
         />
 
-        <Button type='submit' loading={loading}>
+        <Button type='submit' loading={loading} className='!w-full'>
           Login
         </Button>
         <div className='mt-[18px] text-center'>

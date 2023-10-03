@@ -21,18 +21,18 @@ const Notification = () => {
     pushNotification: false,
   });
 
-  React.useEffect(() => {
-    if (user?.notificationSettings) {
-      setNotifications({
-        newUser: user?.notificationSettings?.newUser || false,
-        newArtisan: user?.notificationSettings?.newArtisan || false,
-        newAdmin: user?.notificationSettings?.newAdmin || false,
-        newBooking: user?.notificationSettings?.newBooking || false,
-        emailNotify: user?.notificationSettings?.emailNotify || false,
-        pushNotification: user?.notificationSettings?.pushNotification || false,
-      });
-    }
-  }, [user?.notificationSettings]);
+  // React.useEffect(() => {
+  //   if (user?.notificationSettings) {
+  //     setNotifications({
+  //       newUser: user?.notificationSettings?.newUser || false,
+  //       newArtisan: user?.notificationSettings?.newArtisan || false,
+  //       newAdmin: user?.notificationSettings?.newAdmin || false,
+  //       newBooking: user?.notificationSettings?.newBooking || false,
+  //       emailNotify: user?.notificationSettings?.emailNotify || false,
+  //       pushNotification: user?.notificationSettings?.pushNotification || false,
+  //     });
+  //   }
+  // }, [user?.notificationSettings]);
 
   const updateNotification = async () => {
     try {
@@ -42,22 +42,22 @@ const Notification = () => {
       });
       sendFeedback(response.data?.message, 'success');
       const userObject = response.data?.data;
-      dispatch(
-        updateUser({
-          user: {
-            ...user,
-            notificationSettings: {
-              ...user?.notificationSettings,
-              newUser: userObject.newUser,
-              newArtisan: userObject.newArtisan,
-              newAdmin: userObject.newAdmin,
-              newBooking: userObject.newBooking,
-              emailNotify: userObject.emailNotify,
-              pushNotification: userObject.pushNotification,
-            },
-          },
-        })
-      );
+      // dispatch(
+      //   updateUser({
+      //     user: {
+      //       ...user,
+      //       notificationSettings: {
+      //         ...user?.notificationSettings,
+      //         newUser: userObject.newUser,
+      //         newArtisan: userObject.newArtisan,
+      //         newAdmin: userObject.newAdmin,
+      //         newBooking: userObject.newBooking,
+      //         emailNotify: userObject.emailNotify,
+      //         pushNotification: userObject.pushNotification,
+      //       },
+      //     },
+      //   })
+      // );
     } catch (error: any) {
       sendCatchFeedback(error);
     } finally {

@@ -8,7 +8,7 @@ import { mainLinks, navItemType, preferencesLinks } from '../navLinks';
 import { getNameInitials } from '../../functions/stringManipulations';
 import autoAnimate from '@formkit/auto-animate';
 import Notification from './Notification';
-import { sendCatchFeedback } from '../../functions/feedback';
+import { sendCatchFeedback, sendFeedback } from '../../functions/feedback';
 import { appAxios } from '../../api/axios';
 
 function UserMenu() {
@@ -20,7 +20,8 @@ function UserMenu() {
 
   const logoutUser = async () => {
     try {
-      await appAxios.get('/auth/logout');
+      await appAxios.get('/admin/logout');
+      sendFeedback('Logout successful', 'success');
     } catch (error) {
       sendCatchFeedback(error);
     } finally {
@@ -35,6 +36,8 @@ function UserMenu() {
     }
   }, [parentRef]);
 
+  if (!user) return null;
+
   return (
     <ClickAwayListener onClickAway={() => setOpen(false)}>
       <div className='flex items-center' ref={parentRef}>
@@ -43,11 +46,13 @@ function UserMenu() {
           <button onClick={() => setOpen(true)} className='flex items-center relative'>
             <div className='w-[39px] h-[39px] bg-[#00FFFF] flex items-center justify-center rounded-full mr-[5px]'>
               <span className='font-semibold text-sm text-black uppercase'>
-                {getNameInitials(user?.fullname || '')}
+                {getNameInitials(user?.firstName + user?.lastName || '')}
               </span>
             </div>
             <div className='md:flex flex-col items-start mr-4 hidden'>
-              <span className='capitalize font-bold text-lg'>{user?.fullname}</span>
+              <span className='capitalize font-bold text-lg'>
+                {user?.firstName + user?.lastName}
+              </span>
               <span className='capitalize font-normal text-sm text-[#5A5A5A]'>
                 {user?.role}
               </span>
