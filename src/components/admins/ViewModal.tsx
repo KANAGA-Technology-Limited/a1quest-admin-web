@@ -48,7 +48,7 @@ function ViewModal({ closeModal, id, open }: Props) {
   };
 
   return (
-    <CustomModal modalState={open} closeModal={closeModal} title='Admin Details'>
+    <CustomModal isOpen={open} onRequestClose={closeModal} title='Admin Details'>
       {loading ? (
         <LoadingIndicator />
       ) : details && Object.keys(details).length ? (

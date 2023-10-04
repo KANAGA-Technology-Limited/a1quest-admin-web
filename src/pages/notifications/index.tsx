@@ -26,16 +26,16 @@ function Notifications() {
 
   const tableHeaders = ['category', 'message', 'isRead', 'createdAt', '_id'];
 
-  const markNotificationAsRead = async (id: string) => {
-    try {
-      await appAxios.patch(`/notification/update/${id}`, {
-        isRead: true,
-      });
-      getData();
-    } catch (error) {
-      sendCatchFeedback(error);
-    }
-  };
+  // const markNotificationAsRead = async (id: string) => {
+  //   try {
+  //     await appAxios.patch(`/notification/update/${id}`, {
+  //       isRead: true,
+  //     });
+  //     getData();
+  //   } catch (error) {
+  //     sendCatchFeedback(error);
+  //   }
+  // };
 
   return (
     <AppLayout>
@@ -45,12 +45,12 @@ function Notifications() {
           loading,
           tableHeaders,
           data: allData,
-          menuItems: [
-            {
-              label: 'Mark as read',
-              onClick: (id) => markNotificationAsRead(id),
-            },
-          ],
+          // menuItems: [
+          //   {
+          //     label: 'Mark as read',
+          //     onClick: (id) => markNotificationAsRead(id),
+          //   },
+          // ],
         }}
       />
     </AppLayout>

@@ -52,7 +52,7 @@ function AddModal({ closeModal, reload, open }: Props) {
   };
 
   return (
-    <CustomModal modalState={open} closeModal={closeModal} title='Add Admin'>
+    <CustomModal isOpen={open} onRequestClose={closeModal} title='Add Admin'>
       <form onSubmit={formik.handleSubmit} className='w-full'>
         <LabelInput formik={formik} name='fullname' label='Full name' className='mb-6' />
         <LabelInput

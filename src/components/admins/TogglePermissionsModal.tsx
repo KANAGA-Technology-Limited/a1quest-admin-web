@@ -57,7 +57,7 @@ function TogglePermissionsModal({ closeModal, id, open, reload }: Props) {
   };
 
   return (
-    <CustomModal modalState={open} closeModal={closeModal} title='Change Permissions'>
+    <CustomModal isOpen={open} onRequestClose={closeModal} title='Change Permissions'>
       {loading ? (
         <LoadingIndicator />
       ) : permissions && Object.keys(permissions).length ? (

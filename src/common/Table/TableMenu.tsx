@@ -4,7 +4,7 @@ import Popup from 'reactjs-popup';
 import { menuItemType } from './types';
 import { PopupActions } from 'reactjs-popup/dist/types';
 
-function TableMenu({ id, menuItems }: { id: string; menuItems?: menuItemType[] }) {
+function TableMenu({ data, menuItems }: { data: any; menuItems?: menuItemType[] }) {
   const menuRef: Ref<PopupActions> | null = useRef(null);
 
   return (
@@ -13,7 +13,7 @@ function TableMenu({ id, menuItems }: { id: string; menuItems?: menuItemType[] }
         ref={menuRef}
         trigger={
           <button
-            key={id}
+            key={data?._id}
             className='flex items-center justify-center hover:bg-gray-200 duration-500 rounded-full w-7 h-7'
           >
             <img src={MenuIcon} alt='Menu' />
@@ -38,7 +38,7 @@ function TableMenu({ id, menuItems }: { id: string; menuItems?: menuItemType[] }
               className='px-3 py-2 text-sm hover:bg-gray-700 text-[#4F4F4F] hover:!text-white cursor-pointer duration-200'
               style={item.style}
               onClick={() => {
-                item.onClick(id);
+                item.onClick(data);
                 menuRef.current && menuRef.current.close();
               }}
               key={item.label}

@@ -59,10 +59,10 @@ const ResetPasswordForm = () => {
   const sendVerificationCode = async () => {
     try {
       setLoading(true);
-      const response = await appAxios.post('/admin/resend-code', {
+      await appAxios.post('/admin/forgot-password', {
         email: param?.email,
       });
-      sendFeedback(response.data?.message, 'success');
+      sendFeedback('Verification code resent', 'success');
     } catch (error: any) {
       sendCatchFeedback(error);
     } finally {

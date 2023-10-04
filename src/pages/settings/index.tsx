@@ -8,7 +8,7 @@ import Password from '../../components/settings/Password';
 const Settings = () => {
   return (
     <AppLayout>
-      <PageHeader title='Settings' />
+      <PageHeader pageTitle='Settings' />
       <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
         <ProfileImage />
         <Password />

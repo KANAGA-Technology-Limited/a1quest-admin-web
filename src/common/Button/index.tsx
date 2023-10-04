@@ -18,8 +18,8 @@ function Button({
       type={type}
       className={
         (color === 'secondary'
-          ? 'w-fit h-[50px] bg-secondary text-black rounded-lg py-3 px-8 hover:brightness-110 duration-300 font-medium disabled:bg-gray-300'
-          : 'w-fit h-[50px] bg-primary text-white rounded-lg py-3 px-8 hover:brightness-110 duration-300 font-medium disabled:bg-gray-300') +
+          ? 'w-fit h-[50px] bg-secondary text-black rounded-lg px-4 hover:brightness-110 duration-300 font-medium disabled:bg-gray-300 flex items-center justify-center gap-2'
+          : 'w-fit h-[50px] bg-primary text-white rounded-lg px-4 hover:brightness-110 duration-300 font-medium disabled:bg-gray-300 flex items-center justify-center gap-2') +
         ' ' +
         className
       }

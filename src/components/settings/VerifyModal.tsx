@@ -45,8 +45,8 @@ function VerifyModal({ closeModal, open }: Props) {
 
   return (
     <CustomModal
-      modalState={open}
-      closeModal={closeModal}
+      isOpen={open}
+      onRequestClose={closeModal}
       title='Verify Account'
       shouldCloseOnOverlayClick={false}
     >

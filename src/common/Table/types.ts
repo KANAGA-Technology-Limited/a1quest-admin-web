@@ -11,6 +11,6 @@ export type rowType = { row: { value: string; headerName: string }[] }[];
 
 export type menuItemType = {
   label: string;
-  onClick: (id: string) => void;
+  onClick: (data: any) => void;
   style?: React.CSSProperties;
 };

@@ -1,6 +1,7 @@
 :root {
 	--primary: #1D4ED8;
 	--secondary-dark: #ffffff;
+	--error: #DC2626;
 	--font-primary: 'Inter',
 		sans-serif;
 	--font-secondary: "Plus Jakarta Sans",
