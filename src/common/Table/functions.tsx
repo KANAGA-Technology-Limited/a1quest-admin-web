@@ -5,10 +5,12 @@ export const formatTableValue = ({
   value,
   headerName,
   menuItems,
+  data,
 }: {
   value: string;
   headerName: string;
   menuItems?: menuItemType[];
+  data: any;
 }) => {
   // Boolean Check
   if (typeof value === 'boolean') {
@@ -78,9 +80,9 @@ export const formatTableValue = ({
   }
 
   // Menu ID check
-  if (headerName === '_id') {
-    return <TableMenu id={value} menuItems={menuItems} />;
+  if (headerName === 'tableAction') {
+    return <TableMenu data={data} menuItems={menuItems} />;
   }
 
-  return <span className='capitalize'>{value || '-'}</span>;
+  return <span className='capitalize'>{value?.toString() || '-'}</span>;
 };

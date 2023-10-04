@@ -52,7 +52,7 @@ function SuperAdminModal({ closeModal, id, open, reload }: Props) {
   };
 
   return (
-    <CustomModal modalState={open} closeModal={closeModal} title='Make Super Admin'>
+    <CustomModal isOpen={open} onRequestClose={closeModal} title='Make Super Admin'>
       <p>Are you sure you want to make this user a super admin?</p>
       <div className='flex items-center justify-start mt-10 gap-5'>
         <Button

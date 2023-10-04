@@ -186,37 +186,6 @@ export type ArtisanViewType = {
   views: number;
 };
 
-export type AppointmentType = {
-  _id: string;
-  location: {
-    type: string;
-    coordinates: number[];
-  };
-  status: string;
-  artisanViewed: boolean;
-  artisanCompleted: boolean;
-  userCompleted: boolean;
-  artisanCancelled: boolean;
-  userCancelled: boolean;
-  isInDispute: boolean;
-  rescheduled: number;
-  userId: string;
-  address: string;
-  duration: number;
-  notes: string;
-  artisan: {
-    _id: string;
-    email: string;
-    fullname: string;
-    phone: string;
-    companyName: string;
-  };
-  date: string;
-  createdAt: string;
-  updatedAt: string;
-  userCompletedAt: string;
-};
-
 export type DisputeType = {
   _id: string;
   status: 'open' | 'closed';
@@ -257,4 +226,13 @@ export type DisputeResponseType = {
   role: string;
   comment: string;
   model: string;
+};
+
+export type ClassType = {
+  _id: string;
+  name: string;
+  topics: number;
+  subTopics: number;
+  users: number;
+  createdAt: string;
 };

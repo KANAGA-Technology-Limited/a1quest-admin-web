@@ -46,12 +46,12 @@ function UserMenu() {
           <button onClick={() => setOpen(true)} className='flex items-center relative'>
             <div className='w-[39px] h-[39px] bg-[#00FFFF] flex items-center justify-center rounded-full mr-[5px]'>
               <span className='font-semibold text-sm text-black uppercase'>
-                {getNameInitials(user?.firstName + user?.lastName || '')}
+                {getNameInitials(user?.firstName + ' ' + user?.lastName || '')}
               </span>
             </div>
             <div className='md:flex flex-col items-start mr-4 hidden'>
               <span className='capitalize font-bold text-lg'>
-                {user?.firstName + user?.lastName}
+                {user?.firstName + ' ' + user?.lastName}
               </span>
               <span className='capitalize font-normal text-sm text-[#5A5A5A]'>
                 {user?.role}

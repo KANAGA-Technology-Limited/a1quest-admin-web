@@ -10,7 +10,7 @@ interface Props {
 function ViewModal({ closeModal, data, open }: Props) {
   if (!data) return null;
   return (
-    <CustomModal isOpen={open} onRequestClose={closeModal} title='Appointment Details'>
+    <CustomModal isOpen={open} onRequestClose={closeModal} title='Class Details'>
       {Object.keys(data).length ? (
         <>
           <p className='capitalize mb-3 pb-2 border-b-2'>

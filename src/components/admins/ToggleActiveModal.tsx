@@ -55,7 +55,7 @@ function ToggleActiveModal({ closeModal, id, open, reload }: Props) {
   };
 
   return (
-    <CustomModal modalState={open} closeModal={closeModal} title='Change Active Status'>
+    <CustomModal isOpen={open} onRequestClose={closeModal} title='Change Active Status'>
       {loading ? (
         <LoadingIndicator />
       ) : details && Object.keys(details).length ? (

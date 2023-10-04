@@ -3,13 +3,13 @@ import AppLayout from '../../layout/AppLayout';
 import PageLayout from '../../layout/PageLayout';
 import { appAxios } from '../../api/axios';
 import { sendCatchFeedback } from '../../functions/feedback';
-import ViewModal from '../../components/topics/ViewModal';
+// import ViewModal from '../../components/topics/ViewModal';
 
 const Topics = () => {
   const [allData, setAllData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [viewModal, setViewModal] = useState(false);
-  const [selected, setSelected] = useState('');
+  // const [viewModal, setViewModal] = useState(false);
+  // const [selected, setSelected] = useState('');
 
   const getData = async () => {
     try {
@@ -36,19 +36,19 @@ const Topics = () => {
           loading,
           tableHeaders,
           data: allData,
-          menuItems: [
-            {
-              label: 'View Appointment',
-              onClick: (id) => {
-                setSelected(id);
-                setViewModal(true);
-              },
-            },
-          ],
+          // menuItems: [
+          //   {
+          //     label: 'View Appointment',
+          //     onClick: (id) => {
+          //       setSelected(id);
+          //       setViewModal(true);
+          //     },
+          //   },
+          // ],
         }}
       />
 
-      <ViewModal open={viewModal} closeModal={() => setViewModal(false)} id={selected} />
+      {/* <ViewModal open={viewModal} closeModal={() => setViewModal(false)} id={selected} /> */}
     </AppLayout>
   );
 };

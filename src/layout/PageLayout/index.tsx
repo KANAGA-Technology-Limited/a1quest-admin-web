@@ -1,5 +1,5 @@
 import React from 'react';
-import PageHeader from './PageHeader';
+import PageHeader, { PageHeaderProps } from './PageHeader';
 import Table from '../../common/Table';
 import { TableProps } from '../../common/Table/types';
 
@@ -9,10 +9,21 @@ interface Props {
   tableProps: TableProps;
 }
 
-function PageLayout({ pageTitle, pageActions, tableProps }: Props) {
+function PageLayout({
+  pageTitle,
+  pageActions,
+  tableProps,
+  description,
+  summaryText,
+}: Props & PageHeaderProps) {
   return (
     <>
-      <PageHeader title={pageTitle} pageActions={pageActions} />
+      <PageHeader
+        pageTitle={pageTitle}
+        pageActions={pageActions}
+        description={description}
+        summaryText={summaryText}
+      />
       <Table
         tableHeaders={tableProps.tableHeaders}
         data={tableProps.data}

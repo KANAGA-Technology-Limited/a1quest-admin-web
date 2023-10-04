@@ -24,14 +24,15 @@ function TableBody({
 
   return (
     <tbody className='[&>*:last-child]:border-none'>
-      {tableRows.map(({ row }, index) => (
-        <tr key={index} className='border-b'>
+      {tableRows.map(({ row }, mainIndex) => (
+        <tr key={mainIndex} className='border-b'>
           {row.map((item, index) => (
             <td className='px-3 py-3' key={index}>
               {formatTableValue({
                 value: item.value,
                 headerName: item.headerName,
                 menuItems,
+                data: data[mainIndex],
               })}
             </td>
           ))}
