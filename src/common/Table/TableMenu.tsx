@@ -8,7 +8,7 @@ function TableMenu({ data, menuItems }: { data: any; menuItems?: menuItemType[] 
   const menuRef: Ref<PopupActions> | null = useRef(null);
 
   return (
-    <div className='w-full'>
+    <div className='w-full flex justify-center'>
       <Popup
         ref={menuRef}
         trigger={
