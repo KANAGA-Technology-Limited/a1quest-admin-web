@@ -23,11 +23,22 @@ function TableBody({
   );
 
   return (
-    <tbody className='[&>*:last-child]:border-none'>
+    <tbody className='[&>*:last-child]:border-none text-[#667085]'>
       {tableRows.map(({ row }, mainIndex) => (
-        <tr key={mainIndex} className='border-b'>
+        <tr
+          key={mainIndex}
+          className={
+            mainIndex % 2 === 0
+              ? 'bg-[#F9FAFB] border border-[#EAECF0] px-3 py-6 border-x-0 '
+              : 'bg-white border border-[#EAECF0] px-3 py-6 border-x-0'
+          }
+        >
           {row.map((item, index) => (
-            <td className='px-3 py-3' key={index}>
+            <td
+              className='px-3 py-3 text-sm align-middle'
+              key={index}
+              style={{ textAlign: index === 0 ? 'left' : 'center' }}
+            >
               {formatTableValue({
                 value: item.value,
                 headerName: item.headerName,
