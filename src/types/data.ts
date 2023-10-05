@@ -236,3 +236,16 @@ export type ClassType = {
   users: number;
   createdAt: string;
 };
+
+export type RoleType = {
+  numOfAdmins: number;
+  _id: string;
+  name: string;
+  permissions: string[];
+  createdAt: string;
+};
+
+export type PermissionType = {
+  _id: string;
+  name: string;
+};
