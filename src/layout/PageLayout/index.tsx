@@ -23,6 +23,7 @@ function PageLayout({
         pageActions={pageActions}
         description={description}
         summaryText={summaryText}
+        loading={tableProps.loading}
       />
       <Table
         tableHeaders={tableProps.tableHeaders}

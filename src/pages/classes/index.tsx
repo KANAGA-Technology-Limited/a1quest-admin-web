@@ -13,7 +13,7 @@ import DeleteModal from '../../components/classes/DeleteModal';
 
 const Classes = () => {
   const [allData, setAllData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [viewModal, setViewModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -43,10 +43,9 @@ const Classes = () => {
         pageTitle='Classes'
         description='Keep track of the number of classes on A1Quest'
         summaryText={
-          (allData &&
-            allData.length > 0 &&
-            `there are currently ${allData.length} classes`) ||
-          ''
+          (allData && allData.length > 0 && allData.length > 1
+            ? `there are currently ${allData.length} classes`
+            : `there is currently ${allData.length} class`) || ''
         }
         pageActions={
           <Button onClick={() => setAddModal(true)}>
