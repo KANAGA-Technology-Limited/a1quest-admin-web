@@ -3,14 +3,14 @@ import CustomModal from '../../common/CustomModal/CustomModal';
 import Button from '../../common/Button';
 import { appAxios } from '../../api/axios';
 import { sendCatchFeedback, sendFeedback } from '../../functions/feedback';
-import { ClassType } from '../../types/data';
+import { AdminType } from '../../types/data';
 import { CrossIcon } from '../icons';
 
 interface Props {
   closeModal: () => void;
   open: boolean;
   refetch: () => void;
-  data: ClassType | undefined;
+  data: AdminType | undefined;
 }
 
 function DeleteModal({ closeModal, refetch, open, data }: Props) {
@@ -20,7 +20,7 @@ function DeleteModal({ closeModal, refetch, open, data }: Props) {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await appAxios.delete('/classes/' + data?._id);
+      const response = await appAxios.delete('/admin-mgmt/' + data?._id);
       sendFeedback(response.data?.message, 'success');
       refetch();
       return closeModal();
@@ -32,26 +32,21 @@ function DeleteModal({ closeModal, refetch, open, data }: Props) {
   };
 
   if (!data) return null;
-
   return (
-    <CustomModal isOpen={open} onRequestClose={closeModal} title='Delete Class'>
+    <CustomModal isOpen={open} onRequestClose={closeModal} title='Delete Admin'>
       <form onSubmit={submitValues} className='w-full'>
         <div className='w-full border-[0.6px] rounded-md border-[#DBDBDB] p-4 mt-7 mb-10'>
           <h3 className='text-[#06102B] font-semibold text-lg mb-4 text-center'>
-            Deleting this class will erase the following:
+            Deleting this admin would do the following:
           </h3>
           <ul className='flex flex-col gap-3'>
             <li className='flex items-center gap-[10px] text-[#4B5768]'>
               <CrossIcon />
-              <span>The data of all the topics associated with it.</span>
+              <span>Lose the trail of event logs done</span>
             </li>
             <li className='flex items-center gap-[10px] text-[#4B5768]'>
               <CrossIcon />
-              <span>The data of all the users taking it</span>
-            </li>
-            <li className='flex items-center gap-[10px] text-[#4B5768]'>
-              <CrossIcon />
-              <span>The data of all the sub-topics associated with it.</span>
+              <span>Revoke access to A1Quest</span>
             </li>
           </ul>
         </div>

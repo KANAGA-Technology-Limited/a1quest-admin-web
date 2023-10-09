@@ -1,7 +1,5 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import CustomModal from '../../common/CustomModal/CustomModal';
-import * as yup from 'yup';
-import { useFormik } from 'formik';
 import Button from '../../common/Button';
 import { appAxios } from '../../api/axios';
 import { sendCatchFeedback, sendFeedback } from '../../functions/feedback';
@@ -18,25 +16,12 @@ interface Props {
 function DeleteModal({ closeModal, refetch, open, data }: Props) {
   const [loading, setLoading] = useState(false);
 
-  const formik = useFormik({
-    initialValues: {
-      name: data?.name || '',
-    },
-    onSubmit: () => {
-      submitValues();
-    },
-    validationSchema: yup.object({
-      name: yup.string().required('Required'),
-    }),
-    enableReinitialize: true,
-  });
-
-  const submitValues = async () => {
+  const submitValues = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       setLoading(true);
       const response = await appAxios.delete('/roles/' + data?._id);
       sendFeedback(response.data?.message, 'success');
-      formik.resetForm();
       refetch();
       return closeModal();
     } catch (error: any) {
@@ -45,9 +30,12 @@ function DeleteModal({ closeModal, refetch, open, data }: Props) {
       setLoading(false);
     }
   };
+
+  if (!data) return null;
+
   return (
     <CustomModal isOpen={open} onRequestClose={closeModal} title='Delete Role'>
-      <form onSubmit={formik.handleSubmit} className='w-full'>
+      <form onSubmit={submitValues} className='w-full'>
         <div className='w-full border-[0.6px] rounded-md border-[#DBDBDB] p-4 mt-7 mb-10'>
           <h3 className='text-[#06102B] font-semibold text-lg mb-4 text-center'>
             Deleting this role would do the following:

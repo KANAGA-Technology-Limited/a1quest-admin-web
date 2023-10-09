@@ -6,24 +6,27 @@ import { appAxios } from '../../api/axios';
 import { sendCatchFeedback } from '../../functions/feedback';
 import AddModal from '../../components/admins/AddModal';
 import ViewModal from '../../components/admins/ViewModal';
-import ToggleActiveModal from '../../components/admins/ToggleActiveModal';
-import TogglePermissionsModal from '../../components/admins/TogglePermissionsModal';
-import SuperAdminModal from '../../components/admins/SuperAdminModal';
+import { AddIcon } from '../../components/icons';
+import { AdminType, RoleType } from '../../types/data';
+import EditModal from '../../components/admins/EditModal';
+import DeleteModal from '../../components/admins/DeleteModal';
+import AssignRole from '../../components/admins/AssignRole';
 
 function Admins() {
   const [allData, setAllData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [addModal, setAddModal] = useState(false);
+  const [assignModal, setAssignModal] = useState(false);
   const [viewModal, setViewModal] = useState(false);
-  const [selected, setSelected] = useState('');
-  const [toggleActiveModal, setToggleActiveModal] = useState(false);
-  const [togglePermissionsModal, setTogglePermissionsModal] = useState(false);
-  const [superAdminModal, setSuperAdminModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [selected, setSelected] = useState<AdminType | undefined>(undefined);
+  const [allRoles, setAllRoles] = useState<RoleType[] | undefined>(undefined);
 
   const getData = async () => {
     try {
       setLoading(true);
-      const response = await appAxios.post(`/all/admin`);
+      const response = await appAxios.get(`/admin-mgmt`, {});
       setAllData(response.data?.data);
     } catch (error) {
       sendCatchFeedback(error);
@@ -35,26 +38,45 @@ function Admins() {
     getData();
   }, []);
 
+  const getRoles = async () => {
+    try {
+      setLoading(true);
+      const response = await appAxios.get(`/roles`, {});
+      setAllRoles(response.data?.data);
+    } catch (error) {
+      sendCatchFeedback(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    getRoles();
+  }, []);
+
   const tableHeaders = [
-    'fullname',
+    'firstName',
+    'lastName',
     'email',
-    'phone',
-    'role',
-    'isActive',
-    'isVerified',
-    '_id',
+    'phoneNumber',
+    'userName',
+    'tableAction',
   ];
 
   return (
     <AppLayout>
       <PageLayout
-        pageTitle='Admins'
+        pageTitle='Administrators'
+        description='Manage admins, assign roles'
+        summaryText={
+          (allData &&
+            allData.length > 0 &&
+            `${allData.length} ${allData.length > 1 ? 'admins' : 'admin'}`) ||
+          ''
+        }
         pageActions={
-          <Button
-            style={{ width: 'fit-content', height: 48 }}
-            onClick={() => setAddModal(true)}
-          >
-            Add new admin
+          <Button onClick={() => setAddModal(true)}>
+            <AddIcon />
+            Add admin
           </Button>
         }
         tableProps={{
@@ -64,54 +86,62 @@ function Admins() {
           menuItems: [
             {
               label: 'View Admin',
-              onClick: (id) => {
-                setSelected(id);
+              onClick: (data) => {
+                setSelected(data);
                 setViewModal(true);
               },
             },
             {
-              label: 'Change Permissions',
-              onClick: (id) => {
-                setSelected(id);
-                setTogglePermissionsModal(true);
+              label: 'Edit Admin',
+              onClick: (data) => {
+                setSelected(data);
+                setEditModal(true);
               },
             },
             {
-              label: 'Change Active Status',
-              onClick: (id) => {
-                setSelected(id);
-                setToggleActiveModal(true);
+              label: 'Assign Role',
+              onClick: (data) => {
+                setSelected(data);
+                setAssignModal(true);
               },
             },
             {
-              label: 'Make Super Admin',
-              onClick: (id) => {
-                setSelected(id);
-                setSuperAdminModal(true);
+              label: 'Delete Admin',
+              onClick: (data) => {
+                setSelected(data);
+                setDeleteModal(true);
+              },
+              style: {
+                color: 'var(--error)',
               },
             },
           ],
         }}
       />
       <AddModal open={addModal} closeModal={() => setAddModal(false)} reload={getData} />
-      <ViewModal open={viewModal} closeModal={() => setViewModal(false)} id={selected} />
-      <ToggleActiveModal
-        open={toggleActiveModal}
-        closeModal={() => setToggleActiveModal(false)}
-        id={selected}
+      <EditModal
+        open={editModal}
+        closeModal={() => setEditModal(false)}
         reload={getData}
+        data={selected}
       />
-      <TogglePermissionsModal
-        open={togglePermissionsModal}
-        closeModal={() => setTogglePermissionsModal(false)}
-        id={selected}
+      <AssignRole
+        open={assignModal}
+        closeModal={() => setAssignModal(false)}
         reload={getData}
+        data={selected}
+        allRoles={allRoles}
       />
-      <SuperAdminModal
-        open={superAdminModal}
-        closeModal={() => setSuperAdminModal(false)}
-        id={selected}
-        reload={getData}
+      <ViewModal
+        open={viewModal}
+        closeModal={() => setViewModal(false)}
+        id={selected?._id || ''}
+      />
+      <DeleteModal
+        open={deleteModal}
+        closeModal={() => setDeleteModal(false)}
+        data={selected}
+        refetch={getData}
       />
     </AppLayout>
   );
