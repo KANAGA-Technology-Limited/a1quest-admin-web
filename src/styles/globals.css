@@ -95,3 +95,16 @@ textarea::placeholder {
 .customized-scrollbar::-webkit-scrollbar-thumb:hover {
 	background: #999;
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scroll-bar::-webkit-scrollbar {
+	display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scroll-bar {
+	-ms-overflow-style: none;
+	/* IE and Edge */
+	scrollbar-width: none;
+	/* Firefox */
+}
