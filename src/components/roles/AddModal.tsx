@@ -46,6 +46,7 @@ function AddModal({ closeModal, refetch, open, permissions }: Props) {
       });
       sendFeedback(response.data?.message, 'success');
       formik.resetForm();
+      setSelectedPermissions(undefined);
       refetch();
       return closeModal();
     } catch (error: any) {

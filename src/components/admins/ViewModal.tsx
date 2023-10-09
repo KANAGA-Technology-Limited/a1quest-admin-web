@@ -3,7 +3,7 @@ import CustomModal from '../../common/CustomModal/CustomModal';
 import { appAxios } from '../../api/axios';
 import { sendCatchFeedback } from '../../functions/feedback';
 import LoadingIndicator from '../../common/LoadingIndicator';
-import { AdminType, AdminPermissionType } from '../../types/data';
+import { AdminType } from '../../types/data';
 
 interface Props {
   closeModal: () => void;
@@ -19,7 +19,7 @@ function ViewModal({ closeModal, id, open }: Props) {
     const getItem = async () => {
       setLoading(true);
       try {
-        const response = await appAxios.get('/single/admin/' + id);
+        const response = await appAxios.get('/admin-mgmt/' + id);
         setDetails(response.data?.data);
       } catch (error) {
         sendCatchFeedback(error);
@@ -28,24 +28,10 @@ function ViewModal({ closeModal, id, open }: Props) {
       }
     };
 
-    if (open) {
+    if (open && id) {
       getItem();
     }
   }, [open, id]);
-
-  const getPermissionsList = (permissions: AdminPermissionType) => {
-    return (
-      Object.keys(permissions)
-        .map((key) => {
-          if (permissions[key as keyof typeof permissions]) {
-            return key;
-          }
-          return null;
-        })
-        .filter((item) => item)
-        .join(', ') || 'None'
-    );
-  };
 
   return (
     <CustomModal isOpen={open} onRequestClose={closeModal} title='Admin Details'>
@@ -54,16 +40,39 @@ function ViewModal({ closeModal, id, open }: Props) {
       ) : details && Object.keys(details).length ? (
         <>
           <p className='capitalize mb-3 pb-2 border-b-2'>
-            <b>FullName:</b> {details.fullname}
+            <b>Username:</b> {details.userName}
+          </p>
+          <p className='capitalize mb-3 pb-2 border-b-2'>
+            <b>First name:</b> {details.firstName}
+          </p>
+          <p className='capitalize mb-3 pb-2 border-b-2'>
+            <b>Last name:</b> {details.lastName}
           </p>
           <p className='mb-3 pb-2 border-b-2'>
             <b>Email:</b> {details.email}
           </p>
           <p className='capitalize mb-3 pb-2 border-b-2'>
-            <b>Phone:</b> {details.phone}
+            <b>Phone:</b> {details.phoneNumber}
           </p>
           <p className='capitalize mb-3 pb-2 border-b-2'>
-            <b>Permissions:</b> {getPermissionsList(details.userPermissions)}
+            <b>Role:</b>{' '}
+            {details.populatedRoles.length > 0
+              ? details.populatedRoles.map((item) => item.name).join(', ')
+              : 'None'}
+          </p>
+          <p className='capitalize mb-3 pb-2 border-b-2'>
+            <b>Permissions:</b>{' '}
+            {details.populatedRoles.length <= 0
+              ? 'None'
+              : details.populatedRoles
+                  .map((item) => item.permissions.map((permission) => permission.name))
+                  .join(', ')}
+          </p>
+          <p className='capitalize mb-3 pb-2 border-b-2'>
+            <b>Admin Type:</b> {details.role}
+          </p>
+          <p className='capitalize mb-3 pb-2 border-b-2'>
+            <b>Created at:</b> {new Date(details.createdAt).toDateString()}
           </p>
         </>
       ) : (

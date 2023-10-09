@@ -49,7 +49,6 @@ function CustomModal({
     // Check if modal is open and prevent body from scrolling
     if (typeof window !== 'undefined') {
       const body = document.body;
-      ReactModal.setAppElement('#root');
 
       if (isOpen) {
         // Disable scroll
@@ -61,6 +60,10 @@ function CustomModal({
       }
     }
   }, [isOpen]);
+
+  React.useEffect(() => {
+    ReactModal.setAppElement('#root');
+  }, []);
 
   return (
     <ReactModal
