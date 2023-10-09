@@ -4,8 +4,6 @@ import { updateUser } from './store/slices/user';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import routes from './routes';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import 'reactjs-popup/dist/index.css';
 import { getSessionDetails } from './functions/userSession';
 
 function App() {

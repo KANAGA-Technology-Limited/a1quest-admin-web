@@ -22,11 +22,19 @@ function Admins() {
   const [deleteModal, setDeleteModal] = useState(false);
   const [selected, setSelected] = useState<AdminType | undefined>(undefined);
   const [allRoles, setAllRoles] = useState<RoleType[] | undefined>(undefined);
+  const [filter, setFilter] = useState('all');
 
   const getData = async () => {
     try {
       setLoading(true);
-      const response = await appAxios.get(`/admin-mgmt`, {});
+      // @ts-ignore
+      const response = await appAxios.get(`/admin-mgmt`, {
+        ...(filter &&
+          filter !== 'all' && {
+            populate: { path: 'roles', select: 'name' },
+            roles: filter,
+          }),
+      });
       setAllData(response.data?.data);
     } catch (error) {
       sendCatchFeedback(error);
@@ -36,7 +44,8 @@ function Admins() {
   };
   useEffect(() => {
     getData();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filter]);
 
   const getRoles = async () => {
     try {
@@ -117,6 +126,24 @@ function Admins() {
             },
           ],
         }}
+        pageFilters={
+          allRoles
+            ? {
+                filters: [
+                  {
+                    label: 'All',
+                    value: 'all',
+                  },
+                  ...allRoles.map((item) => ({
+                    label: item.name,
+                    value: item._id,
+                  })),
+                ],
+                onChange: (value) => setFilter(value),
+                activeFilter: filter,
+              }
+            : undefined
+        }
       />
       <AddModal open={addModal} closeModal={() => setAddModal(false)} reload={getData} />
       <EditModal
