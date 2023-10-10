@@ -27,13 +27,15 @@ function Admins() {
   const getData = async () => {
     try {
       setLoading(true);
-      // @ts-ignore
+
       const response = await appAxios.get(`/admin-mgmt`, {
-        ...(filter &&
-          filter !== 'all' && {
-            populate: { path: 'roles', select: 'name' },
-            roles: filter,
-          }),
+        data: {
+          ...(filter &&
+            filter !== 'all' && {
+              populate: { path: 'roles', select: 'name' },
+              roles: filter,
+            }),
+        },
       });
       setAllData(response.data?.data);
     } catch (error) {
