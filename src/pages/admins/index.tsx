@@ -28,14 +28,12 @@ function Admins() {
     try {
       setLoading(true);
 
-      const response = await appAxios.get(`/admin-mgmt`, {
-        data: {
-          ...(filter &&
-            filter !== 'all' && {
-              populate: { path: 'roles', select: 'name' },
-              roles: filter,
-            }),
-        },
+      const response = await appAxios.post(`/admin-mgmt/get`, {
+        ...(filter &&
+          filter !== 'all' && {
+            populate: { path: 'roles', select: 'name' },
+            roles: filter,
+          }),
       });
       setAllData(response.data?.data);
     } catch (error) {
