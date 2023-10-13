@@ -10,6 +10,7 @@ import autoAnimate from '@formkit/auto-animate';
 import Notification from './Notification';
 import { sendCatchFeedback, sendFeedback } from '../../functions/feedback';
 import { appAxios } from '../../api/axios';
+import usePermissions from '../../hooks/usePermissions';
 
 function UserMenu() {
   const [open, setOpen] = useState(false);
@@ -17,6 +18,7 @@ function UserMenu() {
   const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.user);
   const parentRef = useRef(null);
+  const { hasPermission } = usePermissions();
 
   const logoutUser = async () => {
     try {
@@ -65,13 +67,27 @@ function UserMenu() {
               style={{ boxShadow: '12px 12px 24px rgba(0, 0, 0, 0.1)' }}
             >
               <ul className='flex flex-col'>
-                {[...mainLinks, ...preferencesLinks].map((item: navItemType) => (
-                  <Link to={item.href} key={item.href}>
-                    <li className='p-2 hover:bg-primary hover:text-white text-sm'>
-                      {item.label}
-                    </li>
-                  </Link>
-                ))}
+                {[...mainLinks, ...preferencesLinks].map((item: navItemType) => {
+                  if (item.permission) {
+                    return (
+                      hasPermission(item.permission) && (
+                        <Link to={item.href} key={item.href}>
+                          <li className='p-2 hover:bg-primary hover:text-white text-sm'>
+                            {item.label}
+                          </li>
+                        </Link>
+                      )
+                    );
+                  } else {
+                    return (
+                      <Link to={item.href} key={item.href}>
+                        <li className='p-2 hover:bg-primary hover:text-white text-sm'>
+                          {item.label}
+                        </li>
+                      </Link>
+                    );
+                  }
+                })}
 
                 <li
                   className='p-2 text-sm hover:bg-primary text-error hover:text-white cursor-pointer'

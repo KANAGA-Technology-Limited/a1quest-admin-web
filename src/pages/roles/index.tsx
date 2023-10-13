@@ -10,6 +10,8 @@ import EditModal from '../../components/roles/EditModal';
 import DeleteModal from '../../components/roles/DeleteModal';
 import Button from '../../common/Button';
 import { AddIcon } from '../../components/icons';
+import usePermissions from '../../hooks/usePermissions';
+import { PERMISSIONS } from '../../hooks/data';
 // import ViewModal from '../../components/topics/ViewModal';
 
 const Roles = () => {
@@ -23,6 +25,7 @@ const Roles = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [addModal, setAddModal] = useState(false);
   const [selected, setSelected] = useState<RoleType | undefined>(undefined);
+  const { hasPermission } = usePermissions();
 
   const getData = async () => {
     try {
@@ -37,7 +40,8 @@ const Roles = () => {
   };
 
   useEffect(() => {
-    getData();
+    hasPermission(PERMISSIONS.view_roles) && getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getPermissions = async () => {
@@ -50,7 +54,8 @@ const Roles = () => {
   };
 
   useEffect(() => {
-    getPermissions();
+    hasPermission(PERMISSIONS.view_permissions) && getPermissions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const tableHeaders = ['name', 'numOfAdmins', 'createdAt', 'tableAction'];
@@ -67,10 +72,12 @@ const Roles = () => {
           ''
         }
         pageActions={
-          <Button onClick={() => setAddModal(true)}>
-            <AddIcon />
-            Add Role
-          </Button>
+          hasPermission(PERMISSIONS.create_role) && (
+            <Button onClick={() => setAddModal(true)}>
+              <AddIcon />
+              Add Role
+            </Button>
+          )
         }
         tableProps={{
           loading,
@@ -83,6 +90,7 @@ const Roles = () => {
                 setSelected(data);
                 setViewModal(true);
               },
+              permission: hasPermission(PERMISSIONS.view_role),
             },
             {
               label: 'Edit Role',
@@ -90,6 +98,7 @@ const Roles = () => {
                 setSelected(data);
                 setEditModal(true);
               },
+              permission: hasPermission(PERMISSIONS.update_role),
             },
             {
               label: 'Delete Role',
@@ -97,6 +106,7 @@ const Roles = () => {
                 setSelected(data);
                 setDeleteModal(true);
               },
+              permission: hasPermission(PERMISSIONS.delete_role),
               style: {
                 color: 'var(--error)',
               },

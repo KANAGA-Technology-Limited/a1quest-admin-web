@@ -89,6 +89,7 @@ function EditModal({ closeModal, refetch, open, data, permissions }: Props) {
                   checked={checked}
                   value={String(checked)}
                   id={permission._id}
+                  key={permission._id}
                   label={permission.name}
                   className='capitalize'
                   onChange={() => {

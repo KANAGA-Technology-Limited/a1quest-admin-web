@@ -8,6 +8,7 @@ import { NotificationType } from '../../types/data';
 const Notification = () => {
   const [allData, setAllData] = React.useState<NotificationType[] | []>([]);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getData = async () => {
     try {
       const response = await appAxios.post(`/all/notification`);
@@ -17,9 +18,9 @@ const Notification = () => {
     }
   };
 
-  React.useEffect(() => {
-    getData();
-  }, []);
+  // React.useEffect(() => {
+  //   getData();
+  // }, []);
 
   const unreadNotifications = React.useMemo(() => {
     return allData.filter((data) => !data.isRead);
