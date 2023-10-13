@@ -11,6 +11,8 @@ import { AdminType, RoleType } from '../../types/data';
 import EditModal from '../../components/admins/EditModal';
 import DeleteModal from '../../components/admins/DeleteModal';
 import AssignRole from '../../components/admins/AssignRole';
+import usePermissions from '../../hooks/usePermissions';
+import { PERMISSIONS } from '../../hooks/data';
 
 function Admins() {
   const [allData, setAllData] = useState([]);
@@ -23,6 +25,7 @@ function Admins() {
   const [selected, setSelected] = useState<AdminType | undefined>(undefined);
   const [allRoles, setAllRoles] = useState<RoleType[] | undefined>(undefined);
   const [filter, setFilter] = useState('all');
+  const { hasPermission } = usePermissions();
 
   const getData = async () => {
     try {
@@ -43,7 +46,7 @@ function Admins() {
     }
   };
   useEffect(() => {
-    getData();
+    hasPermission(PERMISSIONS.view_admins) && getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
@@ -59,7 +62,8 @@ function Admins() {
     }
   };
   useEffect(() => {
-    getRoles();
+    hasPermission(PERMISSIONS.view_roles) && getRoles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const tableHeaders = [
@@ -83,10 +87,12 @@ function Admins() {
           ''
         }
         pageActions={
-          <Button onClick={() => setAddModal(true)}>
-            <AddIcon />
-            Add admin
-          </Button>
+          hasPermission(PERMISSIONS.create_admin) && (
+            <Button onClick={() => setAddModal(true)}>
+              <AddIcon />
+              Add admin
+            </Button>
+          )
         }
         tableProps={{
           loading,
@@ -99,6 +105,7 @@ function Admins() {
                 setSelected(data);
                 setViewModal(true);
               },
+              permission: hasPermission(PERMISSIONS.view_admin),
             },
             {
               label: 'Edit Admin',
@@ -106,6 +113,7 @@ function Admins() {
                 setSelected(data);
                 setEditModal(true);
               },
+              permission: hasPermission(PERMISSIONS.update_admin),
             },
             {
               label: 'Assign Role',
@@ -113,6 +121,7 @@ function Admins() {
                 setSelected(data);
                 setAssignModal(true);
               },
+              permission: hasPermission(PERMISSIONS.assign_to_admin),
             },
             {
               label: 'Delete Admin',
@@ -123,6 +132,7 @@ function Admins() {
               style: {
                 color: 'var(--error)',
               },
+              permission: hasPermission(PERMISSIONS.delete_admin),
             },
           ],
         }}

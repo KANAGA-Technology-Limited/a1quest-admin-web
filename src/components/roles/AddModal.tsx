@@ -78,6 +78,7 @@ function AddModal({ closeModal, refetch, open, permissions }: Props) {
                   value={String(checked)}
                   id={permission._id}
                   label={permission.name}
+                  key={permission._id}
                   className='capitalize'
                   onChange={() => {
                     // Check if permission exists

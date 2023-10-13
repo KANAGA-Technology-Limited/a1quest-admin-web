@@ -33,19 +33,22 @@ function TableMenu({ data, menuItems }: { data: any; menuItems?: menuItemType[] 
         closeOnEscape
       >
         <ul className='flex flex-col w-full'>
-          {menuItems?.map((item) => (
-            <li
-              className='px-3 py-2 text-sm hover:bg-gray-700 text-[#4F4F4F] hover:!text-white cursor-pointer duration-200'
-              style={item.style}
-              onClick={() => {
-                item.onClick(data);
-                menuRef.current && menuRef.current.close();
-              }}
-              key={item.label}
-            >
-              {item.label}
-            </li>
-          ))}
+          {menuItems?.map(
+            (item) =>
+              item.permission && (
+                <li
+                  className='px-3 py-2 text-sm hover:bg-gray-700 text-[#4F4F4F] hover:!text-white cursor-pointer duration-200'
+                  style={item.style}
+                  onClick={() => {
+                    item.onClick(data);
+                    menuRef.current && menuRef.current.close();
+                  }}
+                  key={item.label}
+                >
+                  {item.label}
+                </li>
+              )
+          )}
         </ul>
       </Popup>
     </div>

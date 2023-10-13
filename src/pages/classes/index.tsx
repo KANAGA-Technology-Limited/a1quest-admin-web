@@ -10,6 +10,8 @@ import ViewModal from '../../components/classes/ViewModal';
 import AddModal from '../../components/classes/AddModal';
 import EditModal from '../../components/classes/EditModal';
 import DeleteModal from '../../components/classes/DeleteModal';
+import usePermissions from '../../hooks/usePermissions';
+import { PERMISSIONS } from '../../hooks/data';
 
 const Classes = () => {
   const [allData, setAllData] = useState([]);
@@ -19,6 +21,7 @@ const Classes = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [addModal, setAddModal] = useState(false);
   const [selected, setSelected] = useState<ClassType | undefined>(undefined);
+  const { hasPermission } = usePermissions();
 
   const getData = async () => {
     try {
@@ -32,7 +35,8 @@ const Classes = () => {
     }
   };
   useEffect(() => {
-    getData();
+    hasPermission(PERMISSIONS.view_class) && getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const tableHeaders = ['name', 'topics', 'subTopics', 'users', 'tableAction'];
@@ -48,10 +52,12 @@ const Classes = () => {
             : `there is currently ${allData.length} class`) || ''
         }
         pageActions={
-          <Button onClick={() => setAddModal(true)}>
-            <AddIcon />
-            Add Class
-          </Button>
+          hasPermission(PERMISSIONS.create_class) && (
+            <Button onClick={() => setAddModal(true)}>
+              <AddIcon />
+              Add Class
+            </Button>
+          )
         }
         tableProps={{
           loading,
@@ -64,6 +70,7 @@ const Classes = () => {
                 setSelected(data);
                 setViewModal(true);
               },
+              permission: hasPermission(PERMISSIONS.view_class),
             },
             {
               label: 'Edit Class',
@@ -71,6 +78,7 @@ const Classes = () => {
                 setSelected(data);
                 setEditModal(true);
               },
+              permission: hasPermission(PERMISSIONS.update_class),
             },
             {
               label: 'Delete Class',
@@ -81,6 +89,7 @@ const Classes = () => {
               style: {
                 color: 'var(--error)',
               },
+              permission: hasPermission(PERMISSIONS.delete_class),
             },
           ],
         }}

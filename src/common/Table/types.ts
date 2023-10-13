@@ -13,4 +13,5 @@ export type menuItemType = {
   label: string;
   onClick: (data: any) => void;
   style?: React.CSSProperties;
+  permission?: boolean;
 };

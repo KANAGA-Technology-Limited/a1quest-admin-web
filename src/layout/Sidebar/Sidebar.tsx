@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../store/hooks';
 import { signOut } from '../../store/slices/user';
 import { mainLinks, navItemType, preferencesLinks } from '../navLinks';
@@ -7,16 +7,13 @@ import { LogoutIcon } from '../navIcons';
 import Logo from '../../assets/brand/logo.svg';
 import { appAxios } from '../../api/axios';
 import { sendCatchFeedback, sendFeedback } from '../../functions/feedback';
+import usePermissions from '../../hooks/usePermissions';
+import SidebarLink from './SidebarLink';
 
 function Sidebar() {
-  const location = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const checkRouteMatch = (route: string) => {
-    const path = location.pathname;
-    return path.includes(route);
-  };
+  const { hasPermission } = usePermissions();
 
   const logoutUser = async () => {
     try {
@@ -45,35 +42,33 @@ function Sidebar() {
           Main Menu
         </p>
         <div className='flex flex-col gap-2 mb-[56px]'>
-          {mainLinks.map((item: navItemType) => (
-            <Link key={item.href} to={item.href}>
-              <li
-                className={
-                  checkRouteMatch(item.href) ? styles.activeNavLink : styles.navLink
-                }
-              >
-                {item.icon}
-                <span>{item.label}</span>
-              </li>
-            </Link>
-          ))}
+          {mainLinks.map((item: navItemType) => {
+            if (item.permission) {
+              return (
+                hasPermission(item.permission) && (
+                  <SidebarLink item={item} key={item.href} />
+                )
+              );
+            } else {
+              return <SidebarLink item={item} key={item.href} />;
+            }
+          })}
         </div>
         <p className='text-[#90A3BF] font-medium text-sm font-secondary mx-4 mb-[10px]'>
           Preferences
         </p>
         <div className='flex flex-col gap-2 mb-[56px]'>
-          {preferencesLinks.map((item: navItemType) => (
-            <Link key={item.href} to={item.href}>
-              <li
-                className={
-                  checkRouteMatch(item.href) ? styles.activeNavLink : styles.navLink
-                }
-              >
-                {item.icon}
-                <span>{item.label}</span>
-              </li>
-            </Link>
-          ))}
+          {preferencesLinks.map((item: navItemType) => {
+            if (item.permission) {
+              return (
+                hasPermission(item.permission) && (
+                  <SidebarLink item={item} key={item.href} />
+                )
+              );
+            } else {
+              return <SidebarLink item={item} key={item.href} />;
+            }
+          })}
         </div>
         <li className={styles.navLink} onClick={logoutUser}>
           <LogoutIcon />

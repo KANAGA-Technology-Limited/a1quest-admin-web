@@ -1,3 +1,4 @@
+import { PERMISSIONS } from '../hooks/data';
 import {
   AdminsIcon,
   ClassIcon,
@@ -18,6 +19,7 @@ export interface navItemType {
     label: string;
     href: string;
   }[];
+  permission?: string;
 }
 
 export const mainLinks: navItemType[] = [
@@ -36,6 +38,7 @@ export const mainLinks: navItemType[] = [
     label: 'Class',
     href: '/classes',
     icon: <ClassIcon className={styles.navIcon} />,
+    permission: PERMISSIONS.view_class,
   },
   {
     label: 'User',
@@ -49,11 +52,13 @@ export const preferencesLinks: navItemType[] = [
     label: 'Admins',
     href: '/admins',
     icon: <AdminsIcon className={styles.navIcon} />,
+    permission: PERMISSIONS.view_admins,
   },
   {
     label: 'Roles',
     href: '/roles',
     icon: <RoleIcon className={styles.navIcon} />,
+    permission: PERMISSIONS.view_roles,
   },
   {
     label: 'Settings',
