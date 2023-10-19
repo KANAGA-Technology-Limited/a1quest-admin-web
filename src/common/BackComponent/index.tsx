@@ -1,22 +1,30 @@
 import React from 'react';
 import ArrowLeftImage from '../../assets/icons/arrow-left.svg';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const BackComponent = ({
   containerClass,
   text = 'Back',
   destination,
+  showText = true,
+  useDefaultBack = false,
 }: {
   containerClass?: string;
   text?: string;
-  destination: string;
+  showText?: boolean;
+  destination?: string;
+  useDefaultBack?: boolean;
 }) => {
+  const navigate = useNavigate();
   return (
     <div className={containerClass}>
-      <Link to={destination} className='flex items-center gap-2 \'>
+      <button
+        onClick={() => (useDefaultBack ? navigate(-1) : navigate(destination || ''))}
+        className='flex items-center gap-2'
+      >
         <img src={ArrowLeftImage} alt='Back' className='h-5' />
-        <span>{text}</span>
-      </Link>
+        {showText && <span>{text}</span>}
+      </button>
     </div>
   );
 };

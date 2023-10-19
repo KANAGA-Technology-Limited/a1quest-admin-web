@@ -9,6 +9,7 @@ import { AddIcon } from '../../components/icons';
 import AddModal from '../../components/topics/AddModal';
 import EditModal from '../../components/topics/EditModal';
 import DeleteModal from '../../components/topics/DeleteModal';
+import { useNavigate } from 'react-router-dom';
 // import ViewModal from '../../components/topics/ViewModal';
 
 const Topics = () => {
@@ -20,6 +21,7 @@ const Topics = () => {
   const [editModal, setEditModal] = useState(false);
   const [selected, setSelected] = useState<TopicType | undefined>(undefined);
   const [deleteModal, setDeleteModal] = useState(false);
+  const navigate = useNavigate();
 
   const getClasses = async () => {
     try {
@@ -88,9 +90,8 @@ const Topics = () => {
           menuItems: [
             {
               label: 'View Topic',
-              onClick: (data) => {
-                // setSelected(data);
-                // setViewModal(true);
+              onClick: (data: TopicType) => {
+                navigate(`/topics/${data._id}`);
               },
               permission: true,
               // permission: hasPermission(PERMISSIONS.view_admin),
