@@ -28,14 +28,14 @@ const StyledTabs = ({ panels, tabs, panelClassName }: Props) => {
           index === selectedTab ? (
             <div
               key={index}
-              className='w-fit text-primary p-3 pb-0 font-semibold duration-500 transition-colors border-b-[#1D4ED8] border-b-[2px]'
+              className='w-fit text-primary p-3 font-semibold duration-500 transition-colors border-b-[#1D4ED8] border-b-[2px]'
             >
               {tab}
             </div>
           ) : (
             <div
               key={index}
-              className='w-fit bg-transparent p-3 text-[#323A46] rounded-lg font-normal cursor-pointer duration-500 transition-colors'
+              className='w-fit p-3 text-[#667085] font-medium cursor-pointer duration-500 transition-colors'
               onClick={() => {
                 setSelectedTab(index);
                 setSearchParams((params) => {
