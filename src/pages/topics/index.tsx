@@ -3,18 +3,51 @@ import AppLayout from '../../layout/AppLayout';
 import PageLayout from '../../layout/PageLayout';
 import { appAxios } from '../../api/axios';
 import { sendCatchFeedback } from '../../functions/feedback';
+import { ClassType, TopicType } from '../../types/data';
+import Button from '../../common/Button';
+import { AddIcon } from '../../components/icons';
+import AddModal from '../../components/topics/AddModal';
+import EditModal from '../../components/topics/EditModal';
+import DeleteModal from '../../components/topics/DeleteModal';
+import { useNavigate } from 'react-router-dom';
 // import ViewModal from '../../components/topics/ViewModal';
 
 const Topics = () => {
   const [allData, setAllData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  // const [viewModal, setViewModal] = useState(false);
-  // const [selected, setSelected] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [allClasses, setAllClasses] = useState<ClassType[] | undefined>(undefined);
+  const [filter, setFilter] = useState('');
+  const [addModal, setAddModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const [selected, setSelected] = useState<TopicType | undefined>(undefined);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const navigate = useNavigate();
+
+  const getClasses = async () => {
+    try {
+      setLoading(true);
+
+      const response = await appAxios.get(`/classes`);
+      setAllClasses(response.data?.data);
+      setFilter(response.data.data[0]._id);
+    } catch (error) {
+      sendCatchFeedback(error);
+    }
+  };
+  useEffect(() => {
+    getClasses();
+  }, []);
 
   const getData = async () => {
     try {
       setLoading(true);
-      const response = await appAxios.post(`/all/booking`);
+
+      const response = await appAxios.post(`/topics/view-topics`, {
+        ...(filter &&
+          filter !== '' && {
+            class_id: filter,
+          }),
+      });
       setAllData(response.data?.data);
     } catch (error) {
       sendCatchFeedback(error);
@@ -23,32 +56,104 @@ const Topics = () => {
     }
   };
   useEffect(() => {
-    getData();
-  }, []);
+    if (filter) {
+      getData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filter]);
 
-  const tableHeaders = ['artisan', 'createdAt', 'duration', 'notes', 'status', '_id'];
+  const tableHeaders = ['title', 'description', 'tableAction'];
 
   return (
     <AppLayout>
       <PageLayout
         pageTitle='Topics'
+        description='Keep track of of the subject on A1Quest'
+        summaryText={
+          (allData &&
+            allData.length > 0 &&
+            `you currently have a total number of ${allData.length} ${
+              allData.length > 1 ? 'subjects' : 'subject'
+            }`) ||
+          ''
+        }
+        pageActions={
+          <Button onClick={() => setAddModal(true)}>
+            <AddIcon />
+            Add Topic
+          </Button>
+        }
         tableProps={{
           loading,
           tableHeaders,
           data: allData,
-          // menuItems: [
-          //   {
-          //     label: 'View Appointment',
-          //     onClick: (id) => {
-          //       setSelected(id);
-          //       setViewModal(true);
-          //     },
-          //   },
-          // ],
+          menuItems: [
+            {
+              label: 'View Topic',
+              onClick: (data: TopicType) => {
+                navigate(`/topics/${data._id}`);
+              },
+              permission: true,
+              // permission: hasPermission(PERMISSIONS.view_admin),
+            },
+            {
+              label: 'Edit Topic',
+              onClick: (data) => {
+                setSelected(data);
+                setEditModal(true);
+              },
+              permission: true,
+
+              // permission: hasPermission(PERMISSIONS.update_admin),
+            },
+            {
+              label: 'Delete Topic',
+              onClick: (data) => {
+                setSelected(data);
+                setDeleteModal(true);
+              },
+              style: {
+                color: 'var(--error)',
+              },
+              permission: true,
+
+              // permission: hasPermission(PERMISSIONS.delete_admin),
+            },
+          ],
         }}
+        pageFilters={
+          allClasses
+            ? {
+                filters: allClasses.map((item) => ({
+                  label: item.name,
+                  value: item._id,
+                })),
+                onChange: (value) => setFilter(value),
+                activeFilter: filter,
+              }
+            : undefined
+        }
       />
 
-      {/* <ViewModal open={viewModal} closeModal={() => setViewModal(false)} id={selected} /> */}
+      <AddModal
+        open={addModal}
+        closeModal={() => setAddModal(false)}
+        reload={getData}
+        classes={allClasses}
+      />
+      <EditModal
+        open={editModal}
+        closeModal={() => setEditModal(false)}
+        reload={getData}
+        classes={allClasses}
+        data={selected}
+      />
+      <DeleteModal
+        open={deleteModal}
+        closeModal={() => setDeleteModal(false)}
+        data={selected}
+        refetch={getData}
+      />
     </AppLayout>
   );
 };

@@ -19,6 +19,7 @@ function PageLayout({
   description,
   summaryText,
   pageFilters,
+  showBack,
 }: Props & PageHeaderProps) {
   return (
     <>
@@ -28,6 +29,7 @@ function PageLayout({
         description={description}
         summaryText={summaryText}
         loading={tableProps.loading}
+        showBack={showBack}
       />
       {pageFilters && <PageFilter filter={pageFilters} />}
       <Table

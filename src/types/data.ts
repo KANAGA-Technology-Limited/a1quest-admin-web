@@ -248,3 +248,96 @@ export type PermissionType = {
   _id: string;
   name: string;
 };
+
+export type TopicType = {
+  _id: string;
+  title: string;
+  description: string;
+  class_id: string;
+  sub_topics: [];
+  created_by: string;
+  last_updated_by: string;
+  creation_date: Date;
+  last_update_date: Date;
+  documents: {
+    url: string;
+    identifier: string;
+    uploaded_at: Date;
+    uploaded_by: string;
+    _id: string;
+  }[];
+  audios: {
+    url: string;
+    identifier: string;
+    uploaded_at: Date;
+    uploaded_by: string;
+    _id: string;
+  }[];
+
+  videos: {
+    url: string;
+    identifier: string;
+    uploaded_at: Date;
+    uploaded_by: string;
+    _id: string;
+  }[];
+};
+
+export type SingleTopicType = {
+  _id: string;
+  title: string;
+  description: string;
+  class_id: {
+    _id: string;
+    name: string;
+  };
+  sub_topics: [];
+  created_by: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
+  last_updated_by: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
+  creation_date: Date;
+  last_update_date: Date;
+  documents: {
+    url: string;
+    identifier: string;
+    uploaded_at: Date;
+    uploaded_by: {
+      _id: string;
+      firstName: string;
+      lastName: string;
+    };
+    _id: string;
+  }[];
+  audios: {
+    url: string;
+    identifier: string;
+    uploaded_at: Date;
+    uploaded_by: {
+      _id: string;
+      firstName: string;
+      lastName: string;
+    };
+    _id: string;
+  }[];
+
+  videos: {
+    url: string;
+    identifier: string;
+    uploaded_at: Date;
+    uploaded_by: {
+      _id: string;
+      firstName: string;
+      lastName: string;
+    };
+    _id: string;
+  }[];
+};
+
+export type TopicResourceType = 'videos' | 'documents' | 'audios';
