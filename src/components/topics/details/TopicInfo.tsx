@@ -23,8 +23,10 @@ const TopicInfo = ({ data }: { data: SingleTopicType | undefined }) => {
     }
   };
   useEffect(() => {
-    getClasses();
-  }, []);
+    if (data) {
+      getClasses();
+    }
+  }, [data]);
 
   const formik = useFormik({
     initialValues: {

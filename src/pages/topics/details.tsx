@@ -22,6 +22,7 @@ const TopicDetails = () => {
   const [data, setData] = useState<SingleTopicType | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const [addModal, setAddModal] = useState(false);
+  const [selected, setSelected] = useState<SingleTopicType | undefined>(undefined);
   const { id } = useParams();
 
   const panels = [
@@ -55,7 +56,12 @@ const TopicDetails = () => {
         pageTitle={loading ? '' : data?.title || 'Topic Details'}
         destination='/topics'
         pageActions={
-          <Button onClick={() => setAddModal(true)}>
+          <Button
+            onClick={() => {
+              setSelected(data);
+              setAddModal(true);
+            }}
+          >
             <AddIcon />
             Add File
           </Button>
@@ -78,7 +84,7 @@ const TopicDetails = () => {
         open={addModal}
         closeModal={() => setAddModal(false)}
         reload={getData}
-        classes={[]}
+        data={selected}
       />
     </AppLayout>
   );
