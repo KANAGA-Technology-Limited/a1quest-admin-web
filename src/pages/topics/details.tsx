@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AppLayout from '../../layout/AppLayout';
 import PageHeader from '../../layout/PageLayout/PageHeader';
-import { TopicType } from '../../types/data';
+import { SingleTopicType } from '../../types/data';
 import Button from '../../common/Button';
 import { appAxios } from '../../api/axios';
 import { useParams } from 'react-router-dom';
@@ -17,19 +17,20 @@ import TopicAudios from '../../components/topics/details/TopicAudios';
 import LoadingIndicator from '../../common/LoadingIndicator';
 
 const tabs = ['About', 'Sub-Topics', 'Videos', 'Audios', 'Documents'];
-const panels = [
-  <TopicInfo key='About' />,
-  <AllSubTopics key='Sub-Topics' />,
-  <TopicVideos key='Videos' />,
-  <TopicAudios key='Audios' />,
-  <TopicDocuments key='Documents' />,
-];
 
 const TopicDetails = () => {
-  const [data, setData] = useState<TopicType | undefined>(undefined);
+  const [data, setData] = useState<SingleTopicType | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const [addModal, setAddModal] = useState(false);
   const { id } = useParams();
+
+  const panels = [
+    <TopicInfo key='About' data={data} />,
+    <AllSubTopics key='Sub-Topics' topic={data?._id} />,
+    <TopicVideos key='Videos' data={data} />,
+    <TopicAudios key='Audios' data={data} />,
+    <TopicDocuments key='Documents' data={data} />,
+  ];
 
   const getData = async () => {
     try {
@@ -47,10 +48,12 @@ const TopicDetails = () => {
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <AppLayout>
       <PageHeader
         pageTitle={loading ? '' : data?.title || 'Topic Details'}
+        destination='/topics'
         pageActions={
           <Button onClick={() => setAddModal(true)}>
             <AddIcon />

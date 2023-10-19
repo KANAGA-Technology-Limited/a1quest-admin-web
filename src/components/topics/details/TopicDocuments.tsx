@@ -1,6 +1,7 @@
 import React from 'react';
+import { SingleTopicType } from '../../../types/data';
 
-const TopicDocuments = () => {
+const TopicDocuments = ({ data }: { data: SingleTopicType | undefined }) => {
   return <div>TopicDocuments</div>;
 };
 
