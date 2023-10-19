@@ -25,14 +25,6 @@ const TopicDetails = () => {
   const [selected, setSelected] = useState<SingleTopicType | undefined>(undefined);
   const { id } = useParams();
 
-  const panels = [
-    <TopicInfo key='About' data={data} />,
-    <AllSubTopics key='Sub-Topics' topic={data?._id} />,
-    <TopicVideos key='Videos' data={data} />,
-    <TopicAudios key='Audios' data={data} />,
-    <TopicDocuments key='Documents' data={data} />,
-  ];
-
   const getData = async () => {
     try {
       setLoading(true);
@@ -49,6 +41,14 @@ const TopicDetails = () => {
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const panels = [
+    <TopicInfo key='About' data={data} />,
+    <AllSubTopics key='Sub-Topics' topic={data?._id} />,
+    <TopicVideos key='Videos' data={data} refetch={getData} />,
+    <TopicAudios key='Audios' data={data} refetch={getData} />,
+    <TopicDocuments key='Documents' data={data} refetch={getData} />,
+  ];
 
   return (
     <AppLayout>
@@ -67,7 +67,7 @@ const TopicDetails = () => {
           </Button>
         }
         description='View and maintain all the files associated with this topic'
-        summaryText='edit topic description and some other details'
+        summaryText='edit topic description and other details'
         loading={loading}
         showBack
       />

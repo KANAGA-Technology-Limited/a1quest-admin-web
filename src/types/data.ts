@@ -339,3 +339,5 @@ export type SingleTopicType = {
     _id: string;
   }[];
 };
+
+export type TopicResourceType = 'videos' | 'documents' | 'audios';
