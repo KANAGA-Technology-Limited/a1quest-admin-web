@@ -248,3 +248,37 @@ export type PermissionType = {
   _id: string;
   name: string;
 };
+
+export type TopicType = {
+  _id: string;
+  title: string;
+  description: string;
+  class_id: string;
+  sub_topics: [];
+  created_by: string;
+  last_updated_by: string;
+  creation_date: Date;
+  last_update_date: Date;
+  documents: {
+    url: string;
+    identifier: string;
+    uploaded_at: Date;
+    uploaded_by: string;
+    _id: string;
+  }[];
+  audios: {
+    url: string;
+    identifier: string;
+    uploaded_at: Date;
+    uploaded_by: string;
+    _id: string;
+  }[];
+
+  videos: {
+    url: string;
+    identifier: string;
+    uploaded_at: Date;
+    uploaded_by: string;
+    _id: string;
+  }[];
+};

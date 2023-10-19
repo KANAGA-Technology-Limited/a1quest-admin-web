@@ -3,18 +3,23 @@ import AppLayout from '../../layout/AppLayout';
 import PageLayout from '../../layout/PageLayout';
 import { appAxios } from '../../api/axios';
 import { sendCatchFeedback } from '../../functions/feedback';
-import { ClassType } from '../../types/data';
+import { ClassType, TopicType } from '../../types/data';
 import Button from '../../common/Button';
 import { AddIcon } from '../../components/icons';
+import AddModal from '../../components/topics/AddModal';
+import EditModal from '../../components/topics/EditModal';
+import DeleteModal from '../../components/topics/DeleteModal';
 // import ViewModal from '../../components/topics/ViewModal';
 
 const Topics = () => {
   const [allData, setAllData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [allClasses, setAllClasses] = useState<ClassType[] | undefined>(undefined);
   const [filter, setFilter] = useState('');
-  // const [viewModal, setViewModal] = useState(false);
-  // const [selected, setSelected] = useState('');
+  const [addModal, setAddModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const [selected, setSelected] = useState<TopicType | undefined>(undefined);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const getClasses = async () => {
     try {
@@ -25,8 +30,6 @@ const Topics = () => {
       setFilter(response.data.data[0]._id);
     } catch (error) {
       sendCatchFeedback(error);
-    } finally {
-      setLoading(false);
     }
   };
   useEffect(() => {
@@ -73,9 +76,7 @@ const Topics = () => {
           ''
         }
         pageActions={
-          <Button
-          //  onClick={() => setAddModal(true)}
-          >
+          <Button onClick={() => setAddModal(true)}>
             <AddIcon />
             Add Topic
           </Button>
@@ -84,15 +85,40 @@ const Topics = () => {
           loading,
           tableHeaders,
           data: allData,
-          // menuItems: [
-          //   {
-          //     label: 'View Appointment',
-          //     onClick: (id) => {
-          //       setSelected(id);
-          //       setViewModal(true);
-          //     },
-          //   },
-          // ],
+          menuItems: [
+            {
+              label: 'View Topic',
+              onClick: (data) => {
+                // setSelected(data);
+                // setViewModal(true);
+              },
+              permission: true,
+              // permission: hasPermission(PERMISSIONS.view_admin),
+            },
+            {
+              label: 'Edit Topic',
+              onClick: (data) => {
+                setSelected(data);
+                setEditModal(true);
+              },
+              permission: true,
+
+              // permission: hasPermission(PERMISSIONS.update_admin),
+            },
+            {
+              label: 'Delete Topic',
+              onClick: (data) => {
+                setSelected(data);
+                setDeleteModal(true);
+              },
+              style: {
+                color: 'var(--error)',
+              },
+              permission: true,
+
+              // permission: hasPermission(PERMISSIONS.delete_admin),
+            },
+          ],
         }}
         pageFilters={
           allClasses
@@ -108,7 +134,25 @@ const Topics = () => {
         }
       />
 
-      {/* <ViewModal open={viewModal} closeModal={() => setViewModal(false)} id={selected} /> */}
+      <AddModal
+        open={addModal}
+        closeModal={() => setAddModal(false)}
+        reload={getData}
+        classes={allClasses}
+      />
+      <EditModal
+        open={editModal}
+        closeModal={() => setEditModal(false)}
+        reload={getData}
+        classes={allClasses}
+        data={selected}
+      />
+      <DeleteModal
+        open={deleteModal}
+        closeModal={() => setDeleteModal(false)}
+        data={selected}
+        refetch={getData}
+      />
     </AppLayout>
   );
 };

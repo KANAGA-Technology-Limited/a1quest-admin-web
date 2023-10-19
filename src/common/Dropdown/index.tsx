@@ -36,7 +36,7 @@ function Dropdown({
           {label && (
             <label
               htmlFor={name}
-              className={`text-sm text-[#64748B] font-medium flex gap-[2px] items-center ${
+              className={`text-[#292929] font-medium flex gap-[2px] items-center ${
                 formik.touched[name] && formik.errors[name] ? 'errorText' : ''
               }`}
             >
