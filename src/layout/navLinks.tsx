@@ -33,6 +33,7 @@ export const mainLinks: navItemType[] = [
     label: 'Topic',
     href: '/topics',
     icon: <TopicIcon className={styles.navIcon} />,
+    permission: PERMISSIONS.view_topics,
   },
   {
     label: 'Class',
