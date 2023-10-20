@@ -14,6 +14,8 @@ import SubTopicDocuments from '../../components/topics/details/sub-topics/SubTop
 import SubTopicAudios from '../../components/topics/details/sub-topics/SubTopicAudios';
 import SubTopicVideos from '../../components/topics/details/sub-topics/SubTopicVideos';
 import AddFileModal from '../../components/topics/details/sub-topics/AddFileModal';
+import usePermissions from '../../hooks/usePermissions';
+import { PERMISSIONS } from '../../hooks/data';
 
 const tabs = ['About', 'Videos', 'Audios', 'Documents'];
 
@@ -23,6 +25,7 @@ const SubTopicDetails = () => {
   const [addModal, setAddModal] = useState(false);
   const [selected, setSelected] = useState<SingleSubTopicType | undefined>(undefined);
   const { id } = useParams();
+  const { hasPermission } = usePermissions();
 
   const getData = async () => {
     try {
@@ -37,7 +40,7 @@ const SubTopicDetails = () => {
     }
   };
   useEffect(() => {
-    getData();
+    hasPermission(PERMISSIONS.view_subtopics) && getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -52,17 +55,19 @@ const SubTopicDetails = () => {
     <AppLayout>
       <PageHeader
         pageTitle={loading ? '' : data?.title || 'Sub-Topic Details'}
-        destination='/topics'
+        destination={`/topics/${data?.topic_id?._id}`}
         pageActions={
-          <Button
-            onClick={() => {
-              setSelected(data);
-              setAddModal(true);
-            }}
-          >
-            <AddIcon />
-            Add File
-          </Button>
+          hasPermission(PERMISSIONS.upload_subtopic_resource) && (
+            <Button
+              onClick={() => {
+                setSelected(data);
+                setAddModal(true);
+              }}
+            >
+              <AddIcon />
+              Add File
+            </Button>
+          )
         }
         description='View and maintain all the files associated with this sub-topic'
         summaryText='edit sub-topic description and other details'

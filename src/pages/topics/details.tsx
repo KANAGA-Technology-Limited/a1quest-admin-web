@@ -15,6 +15,8 @@ import TopicDocuments from '../../components/topics/details/TopicDocuments';
 import TopicVideos from '../../components/topics/details/TopicVideos';
 import TopicAudios from '../../components/topics/details/TopicAudios';
 import LoadingIndicator from '../../common/LoadingIndicator';
+import usePermissions from '../../hooks/usePermissions';
+import { PERMISSIONS } from '../../hooks/data';
 
 const tabs = ['About', 'Sub-Topics', 'Videos', 'Audios', 'Documents'];
 
@@ -24,6 +26,7 @@ const TopicDetails = () => {
   const [addModal, setAddModal] = useState(false);
   const [selected, setSelected] = useState<SingleTopicType | undefined>(undefined);
   const { id } = useParams();
+  const { hasPermission } = usePermissions();
 
   const getData = async () => {
     try {
@@ -38,7 +41,7 @@ const TopicDetails = () => {
     }
   };
   useEffect(() => {
-    getData();
+    hasPermission(PERMISSIONS.view_topic) && getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -56,15 +59,17 @@ const TopicDetails = () => {
         pageTitle={loading ? '' : data?.title || 'Topic Details'}
         destination='/topics'
         pageActions={
-          <Button
-            onClick={() => {
-              setSelected(data);
-              setAddModal(true);
-            }}
-          >
-            <AddIcon />
-            Add File
-          </Button>
+          hasPermission(PERMISSIONS.upload_topic_resource) && (
+            <Button
+              onClick={() => {
+                setSelected(data);
+                setAddModal(true);
+              }}
+            >
+              <AddIcon />
+              Add File
+            </Button>
+          )
         }
         description='View and maintain all the files associated with this topic'
         summaryText='edit topic description and other details'

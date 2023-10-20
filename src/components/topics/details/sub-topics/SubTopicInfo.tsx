@@ -7,10 +7,13 @@ import { useFormik } from 'formik';
 import LabelInput from '../../../../common/LabelInput/LabelInput';
 import TextArea from '../../../../common/TextArea/TextArea';
 import Button from '../../../../common/Button';
+import usePermissions from '../../../../hooks/usePermissions';
+import { PERMISSIONS } from '../../../../hooks/data';
 
 const SubTopicInfo = ({ data }: { data: SingleSubTopicType | undefined }) => {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const { hasPermission } = usePermissions();
 
   const formik = useFormik({
     initialValues: {
@@ -68,23 +71,24 @@ const SubTopicInfo = ({ data }: { data: SingleSubTopicType | undefined }) => {
         disabled={!isEditing}
         rows={3}
       />
-      {isEditing ? (
-        <Button
-          onClick={() => formik.handleSubmit()}
-          loading={loading}
-          className='!w-[236px] !max-w-full mt-10'
-        >
-          Update
-        </Button>
-      ) : (
-        <Button
-          onClick={() => setIsEditing(true)}
-          color='secondary'
-          className='!w-[236px] !max-w-full mt-10'
-        >
-          Edit
-        </Button>
-      )}
+      {hasPermission(PERMISSIONS.update_subtopic) &&
+        (isEditing ? (
+          <Button
+            onClick={() => formik.handleSubmit()}
+            loading={loading}
+            className='!w-[236px] !max-w-full mt-10'
+          >
+            Update
+          </Button>
+        ) : (
+          <Button
+            onClick={() => setIsEditing(true)}
+            color='secondary'
+            className='!w-[236px] !max-w-full mt-10'
+          >
+            Edit
+          </Button>
+        ))}
     </form>
   );
 };

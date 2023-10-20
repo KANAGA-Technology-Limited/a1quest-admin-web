@@ -1,6 +1,8 @@
 import React from 'react';
 import { SingleSubTopicType } from '../../../../types/data';
 import DeleteMenu from './DeleteMenu';
+import usePermissions from '../../../../hooks/usePermissions';
+import { PERMISSIONS } from '../../../../hooks/data';
 
 const SubTopicVideos = ({
   data,
@@ -9,6 +11,8 @@ const SubTopicVideos = ({
   data: SingleSubTopicType | undefined;
   refetch: () => void;
 }) => {
+  const { hasPermission } = usePermissions();
+
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 gap-x-[13px] gap-y-[26px] w-full'>
       {data?.videos && data.videos.length > 0 ? (
@@ -23,12 +27,14 @@ const SubTopicVideos = ({
               <source src={item.url} type='video/mp4' />
               Your browser does not support the video tag.
             </video>
-            <DeleteMenu
-              subTopicId={data._id}
-              resourceId={item._id}
-              resourceType='videos'
-              refetch={refetch}
-            />
+            {hasPermission(PERMISSIONS.remove_subtopic_resources) && (
+              <DeleteMenu
+                subTopicId={data._id}
+                resourceId={item._id}
+                resourceType='videos'
+                refetch={refetch}
+              />
+            )}
           </div>
         ))
       ) : (
