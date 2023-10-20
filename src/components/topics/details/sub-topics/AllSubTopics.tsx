@@ -10,6 +10,8 @@ import Table from '../../../../common/Table';
 import { useNavigate } from 'react-router-dom';
 import EditModal from './EditModal';
 import DeleteModal from './DeleteModal';
+import usePermissions from '../../../../hooks/usePermissions';
+import { PERMISSIONS } from '../../../../hooks/data';
 
 const AllSubTopics = ({ topic }: { topic: string | undefined }) => {
   const [addModal, setAddModal] = useState(false);
@@ -19,6 +21,7 @@ const AllSubTopics = ({ topic }: { topic: string | undefined }) => {
   const [editModal, setEditModal] = useState(false);
   const [selected, setSelected] = useState<SubTopicType | undefined>(undefined);
   const [deleteModal, setDeleteModal] = useState(false);
+  const { hasPermission } = usePermissions();
 
   const getData = async () => {
     try {
@@ -36,7 +39,7 @@ const AllSubTopics = ({ topic }: { topic: string | undefined }) => {
   };
 
   useEffect(() => {
-    getData();
+    hasPermission(PERMISSIONS.view_subtopics) && getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -47,10 +50,12 @@ const AllSubTopics = ({ topic }: { topic: string | undefined }) => {
       <PageHeader
         pageTitle='Sub Topics'
         pageActions={
-          <Button onClick={() => setAddModal(true)}>
-            <AddIcon />
-            Add Sub-Topic
-          </Button>
+          hasPermission(PERMISSIONS.create_subtopic) && (
+            <Button onClick={() => setAddModal(true)}>
+              <AddIcon />
+              Add Sub-Topic
+            </Button>
+          )
         }
       />
       <div>
@@ -64,8 +69,7 @@ const AllSubTopics = ({ topic }: { topic: string | undefined }) => {
               onClick: (data: SubTopicType) => {
                 navigate(`/topics/sub-topic/${data._id}`);
               },
-              permission: true,
-              // permission: hasPermission(PERMISSIONS.view_admin),
+              permission: hasPermission(PERMISSIONS.view_subtopic),
             },
             {
               label: 'Edit Sub-Topic',
@@ -73,9 +77,7 @@ const AllSubTopics = ({ topic }: { topic: string | undefined }) => {
                 setSelected(data);
                 setEditModal(true);
               },
-              permission: true,
-
-              // permission: hasPermission(PERMISSIONS.update_admin),
+              permission: hasPermission(PERMISSIONS.update_subtopic),
             },
             {
               label: 'Delete Sub-Topic',
@@ -86,9 +88,7 @@ const AllSubTopics = ({ topic }: { topic: string | undefined }) => {
               style: {
                 color: 'var(--error)',
               },
-              permission: true,
-
-              // permission: hasPermission(PERMISSIONS.delete_admin),
+              permission: hasPermission(PERMISSIONS.delete_subtopic),
             },
           ]}
         />

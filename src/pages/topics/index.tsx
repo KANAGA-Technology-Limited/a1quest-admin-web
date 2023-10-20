@@ -10,6 +10,8 @@ import AddModal from '../../components/topics/AddModal';
 import EditModal from '../../components/topics/EditModal';
 import DeleteModal from '../../components/topics/DeleteModal';
 import { useNavigate } from 'react-router-dom';
+import usePermissions from '../../hooks/usePermissions';
+import { PERMISSIONS } from '../../hooks/data';
 // import ViewModal from '../../components/topics/ViewModal';
 
 const Topics = () => {
@@ -22,6 +24,7 @@ const Topics = () => {
   const [selected, setSelected] = useState<TopicType | undefined>(undefined);
   const [deleteModal, setDeleteModal] = useState(false);
   const navigate = useNavigate();
+  const { hasPermission } = usePermissions();
 
   const getClasses = async () => {
     try {
@@ -35,7 +38,8 @@ const Topics = () => {
     }
   };
   useEffect(() => {
-    getClasses();
+    hasPermission(PERMISSIONS.view_class) && getClasses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getData = async () => {
@@ -57,7 +61,7 @@ const Topics = () => {
   };
   useEffect(() => {
     if (filter) {
-      getData();
+      hasPermission(PERMISSIONS.view_topics) && getData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
@@ -78,10 +82,12 @@ const Topics = () => {
           ''
         }
         pageActions={
-          <Button onClick={() => setAddModal(true)}>
-            <AddIcon />
-            Add Topic
-          </Button>
+          hasPermission(PERMISSIONS.create_topic) && (
+            <Button onClick={() => setAddModal(true)}>
+              <AddIcon />
+              Add Topic
+            </Button>
+          )
         }
         tableProps={{
           loading,
@@ -93,8 +99,7 @@ const Topics = () => {
               onClick: (data: TopicType) => {
                 navigate(`/topics/${data._id}`);
               },
-              permission: true,
-              // permission: hasPermission(PERMISSIONS.view_admin),
+              permission: hasPermission(PERMISSIONS.view_topic),
             },
             {
               label: 'Edit Topic',
@@ -102,9 +107,7 @@ const Topics = () => {
                 setSelected(data);
                 setEditModal(true);
               },
-              permission: true,
-
-              // permission: hasPermission(PERMISSIONS.update_admin),
+              permission: hasPermission(PERMISSIONS.update_topic),
             },
             {
               label: 'Delete Topic',
@@ -115,9 +118,7 @@ const Topics = () => {
               style: {
                 color: 'var(--error)',
               },
-              permission: true,
-
-              // permission: hasPermission(PERMISSIONS.delete_admin),
+              permission: hasPermission(PERMISSIONS.delete_topic),
             },
           ],
         }}

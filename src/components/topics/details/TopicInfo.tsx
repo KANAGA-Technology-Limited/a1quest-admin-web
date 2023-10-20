@@ -8,11 +8,14 @@ import LabelInput from '../../../common/LabelInput/LabelInput';
 import Dropdown from '../../../common/Dropdown';
 import TextArea from '../../../common/TextArea/TextArea';
 import Button from '../../../common/Button';
+import usePermissions from '../../../hooks/usePermissions';
+import { PERMISSIONS } from '../../../hooks/data';
 
 const TopicInfo = ({ data }: { data: SingleTopicType | undefined }) => {
   const [loading, setLoading] = useState(false);
   const [allClasses, setAllClasses] = useState<ClassType[] | undefined>(undefined);
   const [isEditing, setIsEditing] = useState(false);
+  const { hasPermission } = usePermissions();
 
   const getClasses = async () => {
     try {
@@ -24,8 +27,9 @@ const TopicInfo = ({ data }: { data: SingleTopicType | undefined }) => {
   };
   useEffect(() => {
     if (data) {
-      getClasses();
+      hasPermission(PERMISSIONS.view_class) && getClasses();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const formik = useFormik({
@@ -104,23 +108,24 @@ const TopicInfo = ({ data }: { data: SingleTopicType | undefined }) => {
         disabled={!isEditing}
         rows={3}
       />
-      {isEditing ? (
-        <Button
-          onClick={() => formik.handleSubmit()}
-          loading={loading}
-          className='!w-[236px] !max-w-full mt-10'
-        >
-          Update
-        </Button>
-      ) : (
-        <Button
-          onClick={() => setIsEditing(true)}
-          color='secondary'
-          className='!w-[236px] !max-w-full mt-10'
-        >
-          Edit
-        </Button>
-      )}
+      {hasPermission(PERMISSIONS.update_topic) &&
+        (isEditing ? (
+          <Button
+            onClick={() => formik.handleSubmit()}
+            loading={loading}
+            className='!w-[236px] !max-w-full mt-10'
+          >
+            Update
+          </Button>
+        ) : (
+          <Button
+            onClick={() => setIsEditing(true)}
+            color='secondary'
+            className='!w-[236px] !max-w-full mt-10'
+          >
+            Edit
+          </Button>
+        ))}
     </form>
   );
 };

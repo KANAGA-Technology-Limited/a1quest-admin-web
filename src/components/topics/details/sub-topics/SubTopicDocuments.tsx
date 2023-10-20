@@ -1,6 +1,8 @@
 import React from 'react';
 import { SingleSubTopicType } from '../../../../types/data';
 import DeleteMenu from './DeleteMenu';
+import usePermissions from '../../../../hooks/usePermissions';
+import { PERMISSIONS } from '../../../../hooks/data';
 
 const SubTopicDocuments = ({
   data,
@@ -9,7 +11,8 @@ const SubTopicDocuments = ({
   data: SingleSubTopicType | undefined;
   refetch: () => void;
 }) => {
-  console.log(data?.documents);
+  const { hasPermission } = usePermissions();
+
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 gap-x-[13px] gap-y-[26px] w-full'>
       {data?.documents && data.documents.length > 0 ? (
@@ -22,14 +25,16 @@ const SubTopicDocuments = ({
               title='Document'
               className='rounded-lg'
             ></iframe>
-            <DeleteMenu
-              subTopicId={data._id}
-              resourceId={item._id}
-              resourceType='documents'
-              refetch={refetch}
-              className='!left-2 !right-auto'
-              menuClassName='!left-0 !right-auto'
-            />
+            {hasPermission(PERMISSIONS.remove_subtopic_resources) && (
+              <DeleteMenu
+                subTopicId={data._id}
+                resourceId={item._id}
+                resourceType='documents'
+                refetch={refetch}
+                className='!left-2 !right-auto'
+                menuClassName='!left-0 !right-auto'
+              />
+            )}
           </div>
         ))
       ) : (
