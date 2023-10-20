@@ -1,12 +1,12 @@
 import React from 'react';
-import { SingleTopicType } from '../../../types/data';
+import { SingleSubTopicType } from '../../../../types/data';
 import DeleteMenu from './DeleteMenu';
 
-const TopicDocuments = ({
+const SubTopicDocuments = ({
   data,
   refetch,
 }: {
-  data: SingleTopicType | undefined;
+  data: SingleSubTopicType | undefined;
   refetch: () => void;
 }) => {
   console.log(data?.documents);
@@ -23,7 +23,7 @@ const TopicDocuments = ({
               className='rounded-lg'
             ></iframe>
             <DeleteMenu
-              topicId={data._id}
+              subTopicId={data._id}
               resourceId={item._id}
               resourceType='documents'
               refetch={refetch}
@@ -39,4 +39,4 @@ const TopicDocuments = ({
   );
 };
 
-export default TopicDocuments;
+export default SubTopicDocuments;
