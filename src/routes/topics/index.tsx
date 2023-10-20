@@ -1,5 +1,6 @@
 import Topics from '../../pages/topics';
 import TopicDetails from '../../pages/topics/details';
+import SubTopicDetails from '../../pages/topics/subtopicDetails';
 import { PrivateRoute } from '../utils';
 
 const topicsRoutes = [
@@ -16,6 +17,14 @@ const topicsRoutes = [
     element: (
       <PrivateRoute>
         <TopicDetails />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/topics/sub-topic/:id',
+    element: (
+      <PrivateRoute>
+        <SubTopicDetails />
       </PrivateRoute>
     ),
   },

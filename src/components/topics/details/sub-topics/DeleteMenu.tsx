@@ -1,20 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
-import MoreIcon from '../../../assets/icons/more.svg';
+import MoreIcon from '../../../../assets/icons/more.svg';
 import autoAnimate from '@formkit/auto-animate';
 import ClickAwayListener from 'react-click-away-listener';
-import { DeleteIcon } from '../../icons';
-import DeleteModal from './DeleteModal';
-import { TopicResourceType } from '../../../types/data';
+import { DeleteIcon } from '../../../icons';
+import DeleteMenuModal from './DeleteMenuModal';
+import { TopicResourceType } from '../../../../types/data';
 
 const DeleteMenu = ({
   resourceId,
   resourceType,
-  topicId,
+  subTopicId,
   refetch,
   className = '',
   menuClassName = '',
 }: {
-  topicId: string;
+  subTopicId: string;
   resourceId: string;
   resourceType: TopicResourceType;
   refetch: () => void;
@@ -62,12 +62,12 @@ const DeleteMenu = ({
           </div>
         </div>
       </ClickAwayListener>
-      <DeleteModal
+      <DeleteMenuModal
         open={deleteModal}
         closeModal={() => setDeleteModal(false)}
         resourceId={resourceId}
         resourceType={resourceType}
-        topicId={topicId}
+        subTopicId={subTopicId}
         refetch={refetch}
       />
     </>

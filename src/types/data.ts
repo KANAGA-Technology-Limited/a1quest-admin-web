@@ -341,3 +341,104 @@ export type SingleTopicType = {
 };
 
 export type TopicResourceType = 'videos' | 'documents' | 'audios';
+
+export type SubTopicType = {
+  _id: string;
+  title: string;
+  description: string;
+  topic_id: string;
+  created_by: string;
+  last_updated_by: string;
+  creation_date: Date;
+  last_update_date: Date;
+  documents: {
+    url: string;
+    identifier: string;
+    uploaded_at: Date;
+    uploaded_by: {
+      _id: string;
+      firstName: string;
+      lastName: string;
+    };
+    _id: string;
+  }[];
+  audios: {
+    url: string;
+    identifier: string;
+    uploaded_at: Date;
+    uploaded_by: {
+      _id: string;
+      firstName: string;
+      lastName: string;
+    };
+    _id: string;
+  }[];
+
+  videos: {
+    url: string;
+    identifier: string;
+    uploaded_at: Date;
+    uploaded_by: {
+      _id: string;
+      firstName: string;
+      lastName: string;
+    };
+    _id: string;
+  }[];
+};
+
+export type SingleSubTopicType = {
+  _id: string;
+  title: string;
+  description: string;
+  topic_id: {
+    _id: string;
+    title: string;
+  };
+  created_by: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
+  last_updated_by: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
+  creation_date: Date;
+  last_update_date: Date;
+  documents: {
+    url: string;
+    identifier: string;
+    uploaded_at: Date;
+    uploaded_by: {
+      _id: string;
+      firstName: string;
+      lastName: string;
+    };
+    _id: string;
+  }[];
+  audios: {
+    url: string;
+    identifier: string;
+    uploaded_at: Date;
+    uploaded_by: {
+      _id: string;
+      firstName: string;
+      lastName: string;
+    };
+    _id: string;
+  }[];
+
+  videos: {
+    url: string;
+    identifier: string;
+    uploaded_at: Date;
+    uploaded_by: {
+      _id: string;
+      firstName: string;
+      lastName: string;
+    };
+    _id: string;
+  }[];
+};
