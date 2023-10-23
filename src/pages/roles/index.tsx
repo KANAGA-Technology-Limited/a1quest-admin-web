@@ -46,7 +46,7 @@ const Roles = () => {
 
   const getPermissions = async () => {
     try {
-      const response = await appAxios.get(`/roles/permissions`);
+      const response = await appAxios.get(`/roles/permissions?limit=200`);
       setAllPermissions(response.data?.data);
     } catch (error) {
       sendCatchFeedback(error);

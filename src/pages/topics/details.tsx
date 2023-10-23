@@ -17,8 +17,9 @@ import TopicAudios from '../../components/topics/details/TopicAudios';
 import LoadingIndicator from '../../common/LoadingIndicator';
 import usePermissions from '../../hooks/usePermissions';
 import { PERMISSIONS } from '../../hooks/data';
+import TestList from '../../components/topics/details/test_flow/TestList';
 
-const tabs = ['About', 'Sub-Topics', 'Videos', 'Audios', 'Documents'];
+const tabs = ['About', 'Sub-Topics', 'Videos', 'Audios', 'Documents', 'Tests'];
 
 const TopicDetails = () => {
   const [data, setData] = useState<SingleTopicType | undefined>(undefined);
@@ -51,6 +52,7 @@ const TopicDetails = () => {
     <TopicVideos key='Videos' data={data} refetch={getData} />,
     <TopicAudios key='Audios' data={data} refetch={getData} />,
     <TopicDocuments key='Documents' data={data} refetch={getData} />,
+    <TestList key='Tests' topic={data?._id || ''} />,
   ];
 
   return (
