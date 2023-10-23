@@ -14,9 +14,6 @@ function ViewModal({ closeModal, data, open }: Props) {
       {Object.keys(data).length ? (
         <>
           <p className='capitalize mb-3 pb-2 border-b-2'>
-            <b>Created At:</b> {new Date(data.creation_date).toDateString()}
-          </p>
-          <p className='capitalize mb-3 pb-2 border-b-2'>
             <b>Duration:</b> {data.duration} minutes
           </p>
           <p className='capitalize mb-3 pb-2 border-b-2'>
@@ -53,6 +50,12 @@ function ViewModal({ closeModal, data, open }: Props) {
               </div>
             ))}
           </div>
+          <p className='capitalize mb-3 pb-2 border-b-2'>
+            <b>Created At:</b> {new Date(data.creation_date).toDateString()}
+          </p>
+          <p className='capitalize mb-3 pb-2 border-b-2'>
+            <b>Updated At:</b> {new Date(data.last_update_date).toDateString()}
+          </p>
         </>
       ) : (
         <>No detail found</>
