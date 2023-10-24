@@ -15,7 +15,10 @@ function TableHeader({ tableHeaders }: { tableHeaders: string[] }) {
               }}
             >
               {/* Convert camel cased header to words */}
-              {header?.replace(/([a-z])([A-Z])/g, '$1 $2')?.toLowerCase()}
+              {header
+                ?.replace(/([a-z])([A-Z])/g, '$1 $2')
+                ?.replace('_', ' ')
+                ?.toLowerCase()}
             </th>
           ) : (
             <th

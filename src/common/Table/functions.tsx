@@ -24,7 +24,7 @@ export const formatTableValue = ({
   }
 
   // Data check
-  if (['createdAt'].includes(headerName)) {
+  if (['createdAt', 'creation_date', 'last_update_date'].includes(headerName)) {
     return new Date(value).toDateString();
   }
 

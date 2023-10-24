@@ -44,7 +44,7 @@ const TopicDetails = () => {
   useEffect(() => {
     hasPermission(PERMISSIONS.view_topic) && getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [hasPermission]);
 
   const panels = [
     <TopicInfo key='About' data={data} />,

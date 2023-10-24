@@ -42,7 +42,7 @@ const SubTopicDetails = () => {
   useEffect(() => {
     hasPermission(PERMISSIONS.view_subtopics) && getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [hasPermission]);
 
   const panels = [
     <SubTopicInfo key='About' data={data} />,

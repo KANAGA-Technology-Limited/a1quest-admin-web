@@ -15,7 +15,7 @@ import { AddIcon } from '../../../icons';
 
 const TestList = ({ topic }: { topic: string }) => {
   const [addModal, setAddModal] = useState(false);
-  const [data, setData] = useState(undefined);
+  const [data, setData] = useState<TestType[] | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const [editModal, setEditModal] = useState(false);
   const [selected, setSelected] = useState<TestType | undefined>(undefined);
@@ -48,7 +48,7 @@ const TestList = ({ topic }: { topic: string }) => {
   return (
     <div>
       <PageHeader
-        pageTitle='Test'
+        pageTitle='Tests'
         pageActions={
           hasPermission(PERMISSIONS.create_test) && (
             <Button onClick={() => setAddModal(true)}>
@@ -108,7 +108,7 @@ const TestList = ({ topic }: { topic: string }) => {
         open={editModal}
         closeModal={() => setEditModal(false)}
         reload={getData}
-        data={undefined}
+        data={selected}
         topic={topic}
       />
 

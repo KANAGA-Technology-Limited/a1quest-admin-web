@@ -30,7 +30,7 @@ function Dropdown({
   [x: string]: any;
 }) {
   return (
-    <div className={'w-full flex flex-col gap-[7px] !text-left ' + className}>
+    <div className={'w-full flex flex-col gap-[8px] !text-left ' + className}>
       {useFormik ? (
         <>
           {label && (
@@ -65,7 +65,7 @@ function Dropdown({
               }),
               control: (provided, state) => ({
                 ...provided,
-                paddingBlock: 6,
+                paddingBlock: 9,
                 boxShadow: 'none',
                 borderColor: state.isFocused ? 'var(--primary)' : '#D0D5DD',
                 outline: state.isFocused ? '1px solid var(--primary)' : 'none',
@@ -113,7 +113,7 @@ function Dropdown({
               }),
               control: (provided, state) => ({
                 ...provided,
-                paddingBlock: 6,
+                paddingBlock: 9,
                 boxShadow: 'none',
                 borderColor: state.isFocused ? 'var(--primary)' : '#D0D5DD',
                 outline: state.isFocused ? '1px solid var(--primary)' : 'none',

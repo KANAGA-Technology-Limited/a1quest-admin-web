@@ -48,7 +48,7 @@ function Admins() {
   useEffect(() => {
     hasPermission(PERMISSIONS.view_admins) && getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter]);
+  }, [filter, hasPermission]);
 
   const getRoles = async () => {
     try {

@@ -443,22 +443,28 @@ export type SingleSubTopicType = {
   }[];
 };
 
+export type AllowedQuestionTypes = 'input' | 'radio' | 'checkbox' | 'dropdown';
+export type AllowedInputTypes = 'number' | 'text';
+
+export type TestQuestionType = {
+  title?: string;
+  question_type?: AllowedQuestionTypes;
+  question_input_type?: AllowedInputTypes;
+  options?: {
+    option_value: string;
+    isCorrectAnswer?: boolean;
+    _id?: string;
+  }[];
+  _id?: string;
+};
+
 export type TestType = {
   _id: string;
   duration: number;
   notice: string;
   topic_id: string;
   sub_topic_id: string;
-  questions: {
-    title: string;
-    question_type: 'input' | 'radio' | 'checkbox' | 'dropdown';
-    question_input_type: 'number' | 'text';
-    options: {
-      option_value: string;
-      _id: string;
-    }[];
-    _id: string;
-  }[];
+  questions: TestQuestionType[];
   created_by: string;
   creation_date: Date;
   last_updated_by: string;
@@ -477,16 +483,7 @@ export type SingleTestType = {
     _id: string;
     title: string;
   };
-  questions: {
-    title: string;
-    question_type: 'input' | 'radio' | 'checkbox' | 'dropdown';
-    question_input_type: 'number' | 'text';
-    options: {
-      option_value: string;
-      _id: string;
-    }[];
-    _id: string;
-  }[];
+  questions: TestQuestionType[];
   created_by: {
     _id: string;
     firstName: string;

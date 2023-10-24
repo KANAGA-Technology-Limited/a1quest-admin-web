@@ -42,7 +42,7 @@ const Roles = () => {
   useEffect(() => {
     hasPermission(PERMISSIONS.view_roles) && getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [hasPermission]);
 
   const getPermissions = async () => {
     try {
@@ -56,7 +56,7 @@ const Roles = () => {
   useEffect(() => {
     hasPermission(PERMISSIONS.view_permissions) && getPermissions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [hasPermission]);
 
   const tableHeaders = ['name', 'numOfAdmins', 'createdAt', 'tableAction'];
 
