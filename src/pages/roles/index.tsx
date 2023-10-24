@@ -42,11 +42,11 @@ const Roles = () => {
   useEffect(() => {
     hasPermission(PERMISSIONS.view_roles) && getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [hasPermission]);
 
   const getPermissions = async () => {
     try {
-      const response = await appAxios.get(`/roles/permissions`);
+      const response = await appAxios.get(`/roles/permissions?limit=200`);
       setAllPermissions(response.data?.data);
     } catch (error) {
       sendCatchFeedback(error);
@@ -56,7 +56,7 @@ const Roles = () => {
   useEffect(() => {
     hasPermission(PERMISSIONS.view_permissions) && getPermissions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [hasPermission]);
 
   const tableHeaders = ['name', 'numOfAdmins', 'createdAt', 'tableAction'];
 

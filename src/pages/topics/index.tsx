@@ -40,7 +40,7 @@ const Topics = () => {
   useEffect(() => {
     hasPermission(PERMISSIONS.view_class) && getClasses();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [hasPermission]);
 
   const getData = async () => {
     try {
@@ -64,7 +64,7 @@ const Topics = () => {
       hasPermission(PERMISSIONS.view_topics) && getData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter]);
+  }, [filter, hasPermission]);
 
   const tableHeaders = ['title', 'description', 'tableAction'];
 

@@ -16,8 +16,9 @@ import SubTopicVideos from '../../components/topics/details/sub-topics/SubTopicV
 import AddFileModal from '../../components/topics/details/sub-topics/AddFileModal';
 import usePermissions from '../../hooks/usePermissions';
 import { PERMISSIONS } from '../../hooks/data';
+import TestList from '../../components/topics/details/sub-topics/test_flow/TestList';
 
-const tabs = ['About', 'Videos', 'Audios', 'Documents'];
+const tabs = ['About', 'Videos', 'Audios', 'Documents', 'Tests'];
 
 const SubTopicDetails = () => {
   const [data, setData] = useState<SingleSubTopicType | undefined>(undefined);
@@ -42,13 +43,14 @@ const SubTopicDetails = () => {
   useEffect(() => {
     hasPermission(PERMISSIONS.view_subtopics) && getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [hasPermission]);
 
   const panels = [
     <SubTopicInfo key='About' data={data} />,
     <SubTopicVideos key='Videos' data={data} refetch={getData} />,
     <SubTopicAudios key='Audios' data={data} refetch={getData} />,
     <SubTopicDocuments key='Documents' data={data} refetch={getData} />,
+    <TestList key='Tests' subTopic={data?._id || ''} topic={data?.topic_id._id || ''} />,
   ];
 
   return (

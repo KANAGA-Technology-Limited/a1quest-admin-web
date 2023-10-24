@@ -37,7 +37,7 @@ const Classes = () => {
   useEffect(() => {
     hasPermission(PERMISSIONS.view_class) && getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [hasPermission]);
 
   const tableHeaders = ['name', 'topics', 'subTopics', 'users', 'tableAction'];
 

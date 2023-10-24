@@ -40,4 +40,11 @@ export const PERMISSIONS: PERMISSIONS_TYPE = Object.freeze({
   view_subtopics: 'View SubTopics',
   create_subtopic: 'Create SubTopic',
   delete_subtopic: 'Delete SubTopic',
+
+  // Tests
+  view_test: 'View Test',
+  update_test: 'Update Test',
+  delete_test: 'Delete Test',
+  view_tests: 'View Tests',
+  create_test: 'Create Test',
 });
