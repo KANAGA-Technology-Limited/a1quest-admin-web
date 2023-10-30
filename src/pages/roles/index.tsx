@@ -12,6 +12,7 @@ import Button from '../../common/Button';
 import { AddIcon } from '../../components/icons';
 import usePermissions from '../../hooks/usePermissions';
 import { PERMISSIONS } from '../../hooks/data';
+import Pagination from '../../common/Pagination';
 // import ViewModal from '../../components/topics/ViewModal';
 
 const Roles = () => {
@@ -26,12 +27,15 @@ const Roles = () => {
   const [addModal, setAddModal] = useState(false);
   const [selected, setSelected] = useState<RoleType | undefined>(undefined);
   const { hasPermission } = usePermissions();
+  const [totalResults, setTotalResults] = useState(0);
+  const [page, setPage] = useState(1);
 
   const getData = async () => {
     try {
       setLoading(true);
-      const response = await appAxios.get(`/roles`);
+      const response = await appAxios.get(`/roles?page=${page}`);
       setAllData(response.data?.data);
+      setTotalResults(response.data?.count);
     } catch (error) {
       sendCatchFeedback(error);
     } finally {
@@ -42,7 +46,7 @@ const Roles = () => {
   useEffect(() => {
     hasPermission(PERMISSIONS.view_roles) && getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasPermission]);
+  }, [hasPermission, page]);
 
   const getPermissions = async () => {
     try {
@@ -114,6 +118,7 @@ const Roles = () => {
           ],
         }}
       />
+      <Pagination page={page} setPage={setPage} totalResults={totalResults} />
 
       <ViewModal
         open={viewModal}

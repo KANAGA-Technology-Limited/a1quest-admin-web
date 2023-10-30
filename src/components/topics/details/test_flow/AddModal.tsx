@@ -65,13 +65,14 @@ function AddModal({ closeModal, reload, open, topic }: Props) {
           question_input_type: question.question_input_type,
           options: question.options?.map((option) => ({
             option_value: option.option_value,
-            isCorrectAnswer: option.isCorrectAnswer,
+            isCorrectAnswer: option.isCorrectAnswer || false,
           })),
         })),
       });
       closeModal();
       reload();
       formik.resetForm();
+      setQuestions(undefined);
       sendFeedback(response.data?.message, 'success');
     } catch (error) {
       sendCatchFeedback(error);

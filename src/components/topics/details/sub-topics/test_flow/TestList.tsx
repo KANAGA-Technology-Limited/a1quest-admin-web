@@ -12,6 +12,7 @@ import { TestType } from '../../../../../types/data';
 import usePermissions from '../../../../../hooks/usePermissions';
 import Button from '../../../../../common/Button';
 import { AddIcon } from '../../../../icons';
+import Pagination from '../../../../../common/Pagination';
 
 const TestList = ({ subTopic, topic }: { subTopic: string; topic: string }) => {
   const [addModal, setAddModal] = useState(false);
@@ -22,6 +23,8 @@ const TestList = ({ subTopic, topic }: { subTopic: string; topic: string }) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const { hasPermission } = usePermissions();
   const [viewModal, setViewModal] = useState(false);
+  const [totalResults, setTotalResults] = useState(0);
+  const [page, setPage] = useState(1);
 
   const getData = async () => {
     try {
@@ -30,8 +33,10 @@ const TestList = ({ subTopic, topic }: { subTopic: string; topic: string }) => {
       const response = await appAxios.post(`/tests/view-tests`, {
         sub_topic_id: subTopic,
         topic_id: topic,
+        page,
       });
       setData(response.data?.data);
+      setTotalResults(response.data?.count);
     } catch (error) {
       sendCatchFeedback(error);
     } finally {
@@ -42,12 +47,12 @@ const TestList = ({ subTopic, topic }: { subTopic: string; topic: string }) => {
   useEffect(() => {
     hasPermission(PERMISSIONS.view_tests) && getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [hasPermission, page]);
 
   const tableHeaders = ['creation_date', 'duration', 'tableAction'];
 
   return (
-    <div>
+    <>
       <PageHeader
         pageTitle='Tests'
         pageActions={
@@ -59,44 +64,43 @@ const TestList = ({ subTopic, topic }: { subTopic: string; topic: string }) => {
           )
         }
       />
-      <div>
-        <Table
-          tableHeaders={tableHeaders}
-          data={data || []}
-          loading={loading}
-          menuItems={[
-            {
-              label: 'View Test',
-              onClick: (data) => {
-                setSelected(data);
-                setViewModal(true);
-              },
-              permission: hasPermission(PERMISSIONS.view_test),
-            },
-            {
-              label: 'Edit Test',
-              onClick: (data) => {
-                setSelected(data);
-                setEditModal(true);
-              },
-              permission: hasPermission(PERMISSIONS.update_test),
-            },
-            {
-              label: 'Delete Test',
-              onClick: (data) => {
-                setSelected(data);
-                setDeleteModal(true);
-              },
-              style: {
-                color: 'var(--error)',
-              },
-              permission: hasPermission(PERMISSIONS.delete_test),
-            },
-          ]}
-        />
-      </div>
 
-      {/* Not done */}
+      <Table
+        tableHeaders={tableHeaders}
+        data={data || []}
+        loading={loading}
+        menuItems={[
+          {
+            label: 'View Test',
+            onClick: (data) => {
+              setSelected(data);
+              setViewModal(true);
+            },
+            permission: hasPermission(PERMISSIONS.view_test),
+          },
+          {
+            label: 'Edit Test',
+            onClick: (data) => {
+              setSelected(data);
+              setEditModal(true);
+            },
+            permission: hasPermission(PERMISSIONS.update_test),
+          },
+          {
+            label: 'Delete Test',
+            onClick: (data) => {
+              setSelected(data);
+              setDeleteModal(true);
+            },
+            style: {
+              color: 'var(--error)',
+            },
+            permission: hasPermission(PERMISSIONS.delete_test),
+          },
+        ]}
+      />
+      <Pagination page={page} setPage={setPage} totalResults={totalResults} />
+
       <AddModal
         open={addModal}
         closeModal={() => setAddModal(false)}
@@ -105,7 +109,6 @@ const TestList = ({ subTopic, topic }: { subTopic: string; topic: string }) => {
         topic={topic}
       />
 
-      {/* Not done */}
       <EditModal
         open={editModal}
         closeModal={() => setEditModal(false)}
@@ -126,7 +129,7 @@ const TestList = ({ subTopic, topic }: { subTopic: string; topic: string }) => {
         closeModal={() => setViewModal(false)}
         data={selected}
       />
-    </div>
+    </>
   );
 };
 
