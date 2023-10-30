@@ -12,6 +12,7 @@ import EditModal from './EditModal';
 import DeleteModal from './DeleteModal';
 import usePermissions from '../../../../hooks/usePermissions';
 import { PERMISSIONS } from '../../../../hooks/data';
+import Pagination from '../../../../common/Pagination';
 
 const AllSubTopics = ({ topic }: { topic: string | undefined }) => {
   const [addModal, setAddModal] = useState(false);
@@ -22,6 +23,8 @@ const AllSubTopics = ({ topic }: { topic: string | undefined }) => {
   const [selected, setSelected] = useState<SubTopicType | undefined>(undefined);
   const [deleteModal, setDeleteModal] = useState(false);
   const { hasPermission } = usePermissions();
+  const [totalResults, setTotalResults] = useState(0);
+  const [page, setPage] = useState(1);
 
   const getData = async () => {
     try {
@@ -29,8 +32,10 @@ const AllSubTopics = ({ topic }: { topic: string | undefined }) => {
 
       const response = await appAxios.post(`/sub-topics/view-sub-topics`, {
         topic_id: topic,
+        page,
       });
       setData(response.data?.data);
+      setTotalResults(response.data?.count);
     } catch (error) {
       sendCatchFeedback(error);
     } finally {
@@ -41,12 +46,12 @@ const AllSubTopics = ({ topic }: { topic: string | undefined }) => {
   useEffect(() => {
     hasPermission(PERMISSIONS.view_subtopics) && getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [hasPermission, page]);
 
   const tableHeaders = ['title', 'description', 'tableAction'];
 
   return (
-    <div>
+    <>
       <PageHeader
         pageTitle='Sub Topics'
         pageActions={
@@ -58,41 +63,41 @@ const AllSubTopics = ({ topic }: { topic: string | undefined }) => {
           )
         }
       />
-      <div>
-        <Table
-          tableHeaders={tableHeaders}
-          data={data || []}
-          loading={loading}
-          menuItems={[
-            {
-              label: 'View Sub-Topic',
-              onClick: (data: SubTopicType) => {
-                navigate(`/topics/sub-topic/${data._id}`);
-              },
-              permission: hasPermission(PERMISSIONS.view_subtopic),
+
+      <Table
+        tableHeaders={tableHeaders}
+        data={data || []}
+        loading={loading}
+        menuItems={[
+          {
+            label: 'View Sub-Topic',
+            onClick: (data: SubTopicType) => {
+              navigate(`/topics/sub-topic/${data._id}`);
             },
-            {
-              label: 'Edit Sub-Topic',
-              onClick: (data) => {
-                setSelected(data);
-                setEditModal(true);
-              },
-              permission: hasPermission(PERMISSIONS.update_subtopic),
+            permission: hasPermission(PERMISSIONS.view_subtopic),
+          },
+          {
+            label: 'Edit Sub-Topic',
+            onClick: (data) => {
+              setSelected(data);
+              setEditModal(true);
             },
-            {
-              label: 'Delete Sub-Topic',
-              onClick: (data) => {
-                setSelected(data);
-                setDeleteModal(true);
-              },
-              style: {
-                color: 'var(--error)',
-              },
-              permission: hasPermission(PERMISSIONS.delete_subtopic),
+            permission: hasPermission(PERMISSIONS.update_subtopic),
+          },
+          {
+            label: 'Delete Sub-Topic',
+            onClick: (data) => {
+              setSelected(data);
+              setDeleteModal(true);
             },
-          ]}
-        />
-      </div>
+            style: {
+              color: 'var(--error)',
+            },
+            permission: hasPermission(PERMISSIONS.delete_subtopic),
+          },
+        ]}
+      />
+      <Pagination page={page} setPage={setPage} totalResults={totalResults} />
 
       <AddModal
         open={addModal}
@@ -113,7 +118,7 @@ const AllSubTopics = ({ topic }: { topic: string | undefined }) => {
         data={selected}
         refetch={getData}
       />
-    </div>
+    </>
   );
 };
 

@@ -13,6 +13,7 @@ import DeleteModal from '../../components/admins/DeleteModal';
 import AssignRole from '../../components/admins/AssignRole';
 import usePermissions from '../../hooks/usePermissions';
 import { PERMISSIONS } from '../../hooks/data';
+import Pagination from '../../common/Pagination';
 
 function Admins() {
   const [allData, setAllData] = useState([]);
@@ -26,6 +27,8 @@ function Admins() {
   const [allRoles, setAllRoles] = useState<RoleType[] | undefined>(undefined);
   const [filter, setFilter] = useState('all');
   const { hasPermission } = usePermissions();
+  const [totalResults, setTotalResults] = useState(0);
+  const [page, setPage] = useState(1);
 
   const getData = async () => {
     try {
@@ -37,8 +40,10 @@ function Admins() {
             populate: { path: 'roles', select: 'name' },
             roles: filter,
           }),
+        page,
       });
       setAllData(response.data?.data);
+      setTotalResults(response.data?.count);
     } catch (error) {
       sendCatchFeedback(error);
     } finally {
@@ -48,7 +53,7 @@ function Admins() {
   useEffect(() => {
     hasPermission(PERMISSIONS.view_admins) && getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter, hasPermission]);
+  }, [filter, hasPermission, page]);
 
   const getRoles = async () => {
     try {
@@ -64,7 +69,7 @@ function Admins() {
   useEffect(() => {
     hasPermission(PERMISSIONS.view_roles) && getRoles();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [hasPermission]);
 
   const tableHeaders = [
     'firstName',
@@ -155,6 +160,7 @@ function Admins() {
             : undefined
         }
       />
+      <Pagination page={page} setPage={setPage} totalResults={totalResults} />
       <AddModal open={addModal} closeModal={() => setAddModal(false)} reload={getData} />
       <EditModal
         open={editModal}

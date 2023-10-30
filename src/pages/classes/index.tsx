@@ -12,6 +12,7 @@ import EditModal from '../../components/classes/EditModal';
 import DeleteModal from '../../components/classes/DeleteModal';
 import usePermissions from '../../hooks/usePermissions';
 import { PERMISSIONS } from '../../hooks/data';
+import Pagination from '../../common/Pagination';
 
 const Classes = () => {
   const [allData, setAllData] = useState([]);
@@ -22,12 +23,15 @@ const Classes = () => {
   const [addModal, setAddModal] = useState(false);
   const [selected, setSelected] = useState<ClassType | undefined>(undefined);
   const { hasPermission } = usePermissions();
+  const [totalResults, setTotalResults] = useState(0);
+  const [page, setPage] = useState(1);
 
   const getData = async () => {
     try {
       setLoading(true);
-      const response = await appAxios.get(`/classes`);
+      const response = await appAxios.get(`/classes?page=${page}`);
       setAllData(response.data?.data);
+      setTotalResults(response.data?.count);
     } catch (error) {
       sendCatchFeedback(error);
     } finally {
@@ -37,7 +41,7 @@ const Classes = () => {
   useEffect(() => {
     hasPermission(PERMISSIONS.view_class) && getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasPermission]);
+  }, [hasPermission, page]);
 
   const tableHeaders = ['name', 'topics', 'subTopics', 'users', 'tableAction'];
 
@@ -94,6 +98,7 @@ const Classes = () => {
           ],
         }}
       />
+      <Pagination page={page} setPage={setPage} totalResults={totalResults} />
 
       <ViewModal
         open={viewModal}

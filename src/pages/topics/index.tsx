@@ -12,6 +12,7 @@ import DeleteModal from '../../components/topics/DeleteModal';
 import { useNavigate } from 'react-router-dom';
 import usePermissions from '../../hooks/usePermissions';
 import { PERMISSIONS } from '../../hooks/data';
+import Pagination from '../../common/Pagination';
 // import ViewModal from '../../components/topics/ViewModal';
 
 const Topics = () => {
@@ -25,6 +26,8 @@ const Topics = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const navigate = useNavigate();
   const { hasPermission } = usePermissions();
+  const [totalResults, setTotalResults] = useState(0);
+  const [page, setPage] = useState(1);
 
   const getClasses = async () => {
     try {
@@ -51,8 +54,10 @@ const Topics = () => {
           filter !== '' && {
             class_id: filter,
           }),
+        page,
       });
       setAllData(response.data?.data);
+      setTotalResults(response.data?.count);
     } catch (error) {
       sendCatchFeedback(error);
     } finally {
@@ -64,7 +69,7 @@ const Topics = () => {
       hasPermission(PERMISSIONS.view_topics) && getData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter, hasPermission]);
+  }, [filter, hasPermission, page]);
 
   const tableHeaders = ['title', 'description', 'tableAction'];
 
@@ -135,6 +140,7 @@ const Topics = () => {
             : undefined
         }
       />
+      <Pagination page={page} setPage={setPage} totalResults={totalResults} />
 
       <AddModal
         open={addModal}
