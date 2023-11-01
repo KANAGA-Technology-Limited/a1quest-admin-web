@@ -259,28 +259,6 @@ export type TopicType = {
   last_updated_by: string;
   creation_date: Date;
   last_update_date: Date;
-  documents: {
-    url: string;
-    identifier: string;
-    uploaded_at: Date;
-    uploaded_by: string;
-    _id: string;
-  }[];
-  audios: {
-    url: string;
-    identifier: string;
-    uploaded_at: Date;
-    uploaded_by: string;
-    _id: string;
-  }[];
-
-  videos: {
-    url: string;
-    identifier: string;
-    uploaded_at: Date;
-    uploaded_by: string;
-    _id: string;
-  }[];
 };
 
 export type SingleTopicType = {
@@ -304,43 +282,9 @@ export type SingleTopicType = {
   };
   creation_date: Date;
   last_update_date: Date;
-  documents: {
-    url: string;
-    identifier: string;
-    uploaded_at: Date;
-    uploaded_by: {
-      _id: string;
-      firstName: string;
-      lastName: string;
-    };
-    _id: string;
-  }[];
-  audios: {
-    url: string;
-    identifier: string;
-    uploaded_at: Date;
-    uploaded_by: {
-      _id: string;
-      firstName: string;
-      lastName: string;
-    };
-    _id: string;
-  }[];
-
-  videos: {
-    url: string;
-    identifier: string;
-    uploaded_at: Date;
-    uploaded_by: {
-      _id: string;
-      firstName: string;
-      lastName: string;
-    };
-    _id: string;
-  }[];
 };
 
-export type TopicResourceType = 'videos' | 'documents' | 'audios';
+export type ResourceType = 'video' | 'document' | 'audio';
 
 export type SubTopicType = {
   _id: string;
@@ -351,40 +295,6 @@ export type SubTopicType = {
   last_updated_by: string;
   creation_date: Date;
   last_update_date: Date;
-  documents: {
-    url: string;
-    identifier: string;
-    uploaded_at: Date;
-    uploaded_by: {
-      _id: string;
-      firstName: string;
-      lastName: string;
-    };
-    _id: string;
-  }[];
-  audios: {
-    url: string;
-    identifier: string;
-    uploaded_at: Date;
-    uploaded_by: {
-      _id: string;
-      firstName: string;
-      lastName: string;
-    };
-    _id: string;
-  }[];
-
-  videos: {
-    url: string;
-    identifier: string;
-    uploaded_at: Date;
-    uploaded_by: {
-      _id: string;
-      firstName: string;
-      lastName: string;
-    };
-    _id: string;
-  }[];
 };
 
 export type SingleSubTopicType = {
@@ -407,40 +317,6 @@ export type SingleSubTopicType = {
   };
   creation_date: Date;
   last_update_date: Date;
-  documents: {
-    url: string;
-    identifier: string;
-    uploaded_at: Date;
-    uploaded_by: {
-      _id: string;
-      firstName: string;
-      lastName: string;
-    };
-    _id: string;
-  }[];
-  audios: {
-    url: string;
-    identifier: string;
-    uploaded_at: Date;
-    uploaded_by: {
-      _id: string;
-      firstName: string;
-      lastName: string;
-    };
-    _id: string;
-  }[];
-
-  videos: {
-    url: string;
-    identifier: string;
-    uploaded_at: Date;
-    uploaded_by: {
-      _id: string;
-      firstName: string;
-      lastName: string;
-    };
-    _id: string;
-  }[];
 };
 
 export type AllowedQuestionTypes = 'input' | 'radio' | 'checkbox' | 'dropdown';
@@ -496,4 +372,70 @@ export type SingleTestType = {
     lastName: string;
   };
   last_update_date: Date;
+};
+
+export type LessonType = {
+  _id: string;
+  title: string;
+  description: string;
+  topic_id: {
+    _id: string;
+    title: string;
+    description: string;
+  };
+  sub_topic_id: {
+    _id: string;
+    title: string;
+    description: string;
+  };
+  created_by: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
+  last_updated_by: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
+  creation_date: string;
+  last_update_date: string;
+  document_identifier: string;
+  document_url: string;
+  audio_identifier: string;
+  audio_url: string;
+  video_identifier: string;
+  video_url: string;
+};
+
+export type SingleLessonType = {
+  _id: string;
+  title: string;
+  description: string;
+  topic_id: {
+    _id: string;
+    title: string;
+  };
+  sub_topic_id: {
+    _id: string;
+    title: string;
+  };
+  created_by: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
+  last_updated_by: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
+  creation_date: string;
+  last_update_date: string;
+  document_identifier: string;
+  document_url: string;
+  audio_identifier: string;
+  audio_url: string;
+  video_identifier: string;
+  video_url: string;
 };

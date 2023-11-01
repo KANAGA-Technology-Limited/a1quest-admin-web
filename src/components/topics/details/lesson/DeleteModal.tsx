@@ -1,56 +1,32 @@
 import { FormEvent, useState } from 'react';
-import { TopicResourceType } from '../../../types/data';
-import Button from '../../../common/Button';
-import { CrossIcon } from '../../icons';
-import CustomModal from '../../../common/CustomModal/CustomModal';
-import { sendCatchFeedback, sendFeedback } from '../../../functions/feedback';
-import { appAxios } from '../../../api/axios';
+import CustomModal from '../../../../common/CustomModal/CustomModal';
+import Button from '../../../../common/Button';
+import { appAxios } from '../../../../api/axios';
+import { sendCatchFeedback, sendFeedback } from '../../../../functions/feedback';
+import { SingleLessonType } from '../../../../types/data';
+import { CrossIcon } from '../../../icons';
 
 interface Props {
   closeModal: () => void;
   open: boolean;
   refetch: () => void;
-  topicId: string;
-  resourceId: string;
-  resourceType: TopicResourceType;
+  data: SingleLessonType | undefined;
 }
 
 const deleteEvents = [
-  'Unlink this resource from this topic',
-  'Delete the resource file forever',
+  'Delete this lesson from its parent lesson',
+  'Erase all the associated audio, video and document files',
+  'Clear all associated statistics',
 ];
 
-const resourceTypes: TopicResourceType[] = ['audios', 'documents', 'videos'];
-
-function DeleteModal({
-  closeModal,
-  refetch,
-  open,
-  resourceId,
-  resourceType,
-  topicId,
-}: Props) {
+function DeleteModal({ closeModal, refetch, open, data }: Props) {
   const [loading, setLoading] = useState(false);
 
   const submitValues = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await appAxios.patch(`/topics/${topicId}/remove-resources`, {
-        [resourceType]: [resourceId],
-
-        // Attach other resource types because the backend setup
-        // was made to clear all resource types when desired
-        ...resourceTypes
-          .filter((item) => item !== resourceType)
-          .reduce(
-            (a, b) => ({
-              ...a,
-              [b]: [],
-            }),
-            {}
-          ),
-      });
+      const response = await appAxios.delete('/lessons/' + data?._id);
       sendFeedback(response.data?.message, 'success');
       refetch();
       return closeModal();
@@ -61,13 +37,13 @@ function DeleteModal({
     }
   };
 
-  if (!topicId) return null;
+  if (!data) return null;
   return (
-    <CustomModal isOpen={open} onRequestClose={closeModal} title='Delete Resource'>
+    <CustomModal isOpen={open} onRequestClose={closeModal} title='Delete Lesson'>
       <form onSubmit={submitValues} className='w-full'>
         <div className='w-full border-[0.6px] rounded-md border-[#DBDBDB] p-4 mt-7 mb-10'>
           <h3 className='text-[#06102B] font-semibold text-lg mb-4 text-center'>
-            Deleting this resource would do the following:
+            Deleting this lesson would do the following:
           </h3>
           <ul className='flex flex-col gap-3'>
             {deleteEvents.map((item) => (

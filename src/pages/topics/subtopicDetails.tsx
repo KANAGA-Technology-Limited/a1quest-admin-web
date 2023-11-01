@@ -2,29 +2,22 @@ import React, { useEffect, useState } from 'react';
 import AppLayout from '../../layout/AppLayout';
 import PageHeader from '../../layout/PageLayout/PageHeader';
 import { SingleSubTopicType } from '../../types/data';
-import Button from '../../common/Button';
 import { appAxios } from '../../api/axios';
 import { useParams } from 'react-router-dom';
 import { sendCatchFeedback } from '../../functions/feedback';
-import { AddIcon } from '../../components/icons';
 import StyledTabs from '../../common/StyledTabs';
 import LoadingIndicator from '../../common/LoadingIndicator';
 import SubTopicInfo from '../../components/topics/details/sub-topics/SubTopicInfo';
-import SubTopicDocuments from '../../components/topics/details/sub-topics/SubTopicDocuments';
-import SubTopicAudios from '../../components/topics/details/sub-topics/SubTopicAudios';
-import SubTopicVideos from '../../components/topics/details/sub-topics/SubTopicVideos';
-import AddFileModal from '../../components/topics/details/sub-topics/AddFileModal';
 import usePermissions from '../../hooks/usePermissions';
 import { PERMISSIONS } from '../../hooks/data';
 import TestList from '../../components/topics/details/sub-topics/test_flow/TestList';
+import AllLessons from '../../components/topics/details/lesson/AllLessons';
 
-const tabs = ['About', 'Videos', 'Audios', 'Documents', 'Tests'];
+const tabs = ['About', 'Lessons', 'Tests'];
 
 const SubTopicDetails = () => {
   const [data, setData] = useState<SingleSubTopicType | undefined>(undefined);
   const [loading, setLoading] = useState(true);
-  const [addModal, setAddModal] = useState(false);
-  const [selected, setSelected] = useState<SingleSubTopicType | undefined>(undefined);
   const { id } = useParams();
   const { hasPermission } = usePermissions();
 
@@ -47,9 +40,11 @@ const SubTopicDetails = () => {
 
   const panels = [
     <SubTopicInfo key='About' data={data} />,
-    <SubTopicVideos key='Videos' data={data} refetch={getData} />,
-    <SubTopicAudios key='Audios' data={data} refetch={getData} />,
-    <SubTopicDocuments key='Documents' data={data} refetch={getData} />,
+    <AllLessons
+      key='Lessons'
+      subTopic={data?._id || ''}
+      topic={data?.topic_id._id || ''}
+    />,
     <TestList key='Tests' subTopic={data?._id || ''} topic={data?.topic_id._id || ''} />,
   ];
 
@@ -58,20 +53,7 @@ const SubTopicDetails = () => {
       <PageHeader
         pageTitle={loading ? '' : data?.title || 'Sub-Topic Details'}
         destination={`/topics/${data?.topic_id?._id}`}
-        pageActions={
-          hasPermission(PERMISSIONS.upload_subtopic_resource) && (
-            <Button
-              onClick={() => {
-                setSelected(data);
-                setAddModal(true);
-              }}
-            >
-              <AddIcon />
-              Add File
-            </Button>
-          )
-        }
-        description='View and maintain all the files associated with this sub-topic'
+        description='View and maintain all the details associated with this sub-topic'
         summaryText='edit sub-topic description and other details'
         loading={loading}
         showBack
@@ -85,12 +67,6 @@ const SubTopicDetails = () => {
           <StyledTabs tabs={tabs} panels={panels} panelClassName='px-5' />
         )}
       </section>
-      <AddFileModal
-        open={addModal}
-        closeModal={() => setAddModal(false)}
-        reload={getData}
-        data={selected}
-      />
     </AppLayout>
   );
 };
