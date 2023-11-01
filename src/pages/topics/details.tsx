@@ -2,30 +2,22 @@ import React, { useEffect, useState } from 'react';
 import AppLayout from '../../layout/AppLayout';
 import PageHeader from '../../layout/PageLayout/PageHeader';
 import { SingleTopicType } from '../../types/data';
-import Button from '../../common/Button';
 import { appAxios } from '../../api/axios';
 import { useParams } from 'react-router-dom';
 import { sendCatchFeedback } from '../../functions/feedback';
-import { AddIcon } from '../../components/icons';
-import AddFileModal from '../../components/topics/details/AddFileModal';
 import StyledTabs from '../../common/StyledTabs';
 import TopicInfo from '../../components/topics/details/TopicInfo';
 import AllSubTopics from '../../components/topics/details/sub-topics/AllSubTopics';
-import TopicDocuments from '../../components/topics/details/TopicDocuments';
-import TopicVideos from '../../components/topics/details/TopicVideos';
-import TopicAudios from '../../components/topics/details/TopicAudios';
 import LoadingIndicator from '../../common/LoadingIndicator';
 import usePermissions from '../../hooks/usePermissions';
 import { PERMISSIONS } from '../../hooks/data';
 import TestList from '../../components/topics/details/test_flow/TestList';
 
-const tabs = ['About', 'Sub-Topics', 'Videos', 'Audios', 'Documents', 'Tests'];
+const tabs = ['About', 'Sub-Topics', 'Tests'];
 
 const TopicDetails = () => {
   const [data, setData] = useState<SingleTopicType | undefined>(undefined);
   const [loading, setLoading] = useState(true);
-  const [addModal, setAddModal] = useState(false);
-  const [selected, setSelected] = useState<SingleTopicType | undefined>(undefined);
   const { id } = useParams();
   const { hasPermission } = usePermissions();
 
@@ -49,9 +41,6 @@ const TopicDetails = () => {
   const panels = [
     <TopicInfo key='About' data={data} />,
     <AllSubTopics key='Sub-Topics' topic={data?._id} />,
-    <TopicVideos key='Videos' data={data} refetch={getData} />,
-    <TopicAudios key='Audios' data={data} refetch={getData} />,
-    <TopicDocuments key='Documents' data={data} refetch={getData} />,
     <TestList key='Tests' topic={data?._id || ''} />,
   ];
 
@@ -60,20 +49,7 @@ const TopicDetails = () => {
       <PageHeader
         pageTitle={loading ? '' : data?.title || 'Topic Details'}
         destination='/topics'
-        pageActions={
-          hasPermission(PERMISSIONS.upload_topic_resource) && (
-            <Button
-              onClick={() => {
-                setSelected(data);
-                setAddModal(true);
-              }}
-            >
-              <AddIcon />
-              Add File
-            </Button>
-          )
-        }
-        description='View and maintain all the files associated with this topic'
+        description='View and maintain all the details associated with this topic'
         summaryText='edit topic description and other details'
         loading={loading}
         showBack
@@ -87,12 +63,6 @@ const TopicDetails = () => {
           <StyledTabs tabs={tabs} panels={panels} panelClassName='px-5' />
         )}
       </section>
-      <AddFileModal
-        open={addModal}
-        closeModal={() => setAddModal(false)}
-        reload={getData}
-        data={selected}
-      />
     </AppLayout>
   );
 };

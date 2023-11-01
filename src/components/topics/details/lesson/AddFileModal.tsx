@@ -1,17 +1,17 @@
 import React, { useMemo, useRef, useState } from 'react';
-import CustomModal from '../../../common/CustomModal/CustomModal';
-import Button from '../../../common/Button';
-import { appAxios } from '../../../api/axios';
-import { sendCatchFeedback, sendFeedback } from '../../../functions/feedback';
-import { SingleTopicType } from '../../../types/data';
-import Dropdown from '../../../common/Dropdown';
-import { formatQuantity } from '../../../functions/stringManipulations';
+import CustomModal from '../../../../common/CustomModal/CustomModal';
+import Button from '../../../../common/Button';
+import { appAxios } from '../../../../api/axios';
+import { sendCatchFeedback, sendFeedback } from '../../../../functions/feedback';
+import { SingleLessonType } from '../../../../types/data';
+import Dropdown from '../../../../common/Dropdown';
+import { formatQuantity } from '../../../../functions/stringManipulations';
 
 interface Props {
   closeModal: () => void;
   reload: () => void;
   open: boolean;
-  data: SingleTopicType | undefined;
+  data: SingleLessonType | undefined;
 }
 
 function AddFileModal({ closeModal, reload, open, data }: Props) {
@@ -29,10 +29,10 @@ function AddFileModal({ closeModal, reload, open, data }: Props) {
       e.preventDefault();
       setLoading(true);
       const formData = new FormData();
-      formData.append('topicResource', file);
+      formData.append('lessonResource', file);
 
       const response = await appAxios.post(
-        `/topics/${data?._id}/upload-resources`,
+        `/lessons/${data?._id}/upload-resources`,
         formData,
         {
           headers: {

@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { TopicResourceType } from '../../../../types/data';
+import { ResourceType } from '../../../../types/data';
 import Button from '../../../../common/Button';
 import { CrossIcon } from '../../../icons';
 import CustomModal from '../../../../common/CustomModal/CustomModal';
@@ -10,50 +10,44 @@ interface Props {
   closeModal: () => void;
   open: boolean;
   refetch: () => void;
-  subTopicId: string;
+  lessonId: string;
   resourceId: string;
-  resourceType: TopicResourceType;
+  resourceType: ResourceType;
 }
 
-const deleteEvents = [
-  'Unlink this resource from this sub-topic',
-  'Delete the resource file forever',
-];
+const deleteEvents = ['Unlink this file from this lesson', 'Delete this file forever'];
 
-const resourceTypes: TopicResourceType[] = ['audios', 'documents', 'videos'];
+const resourceTypes: ResourceType[] = ['audio', 'document', 'video'];
 
-function DeleteModal({
+function DeleteFileModal({
   closeModal,
   refetch,
   open,
   resourceId,
   resourceType,
-  subTopicId,
+  lessonId,
 }: Props) {
   const [loading, setLoading] = useState(false);
-
+  console.log(resourceId, resourceType);
   const submitValues = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await appAxios.patch(
-        `/sub-topics/${subTopicId}/remove-resources`,
-        {
-          [resourceType]: [resourceId],
+      const response = await appAxios.patch(`/lessons/${lessonId}/remove-resources`, {
+        [resourceType]: resourceId,
 
-          // Attach other resource types because the backend setup
-          // was made to clear all resource types when desired
-          ...resourceTypes
-            .filter((item) => item !== resourceType)
-            .reduce(
-              (a, b) => ({
-                ...a,
-                [b]: [],
-              }),
-              {}
-            ),
-        }
-      );
+        // Attach other resource types because the backend setup
+        // was made to clear all resource types when desired
+        ...resourceTypes
+          .filter((item) => item !== resourceType)
+          .reduce(
+            (a, b) => ({
+              ...a,
+              [b]: '',
+            }),
+            {}
+          ),
+      });
       sendFeedback(response.data?.message, 'success');
       refetch();
       return closeModal();
@@ -64,13 +58,17 @@ function DeleteModal({
     }
   };
 
-  if (!subTopicId) return null;
+  if (!lessonId) return null;
   return (
-    <CustomModal isOpen={open} onRequestClose={closeModal} title='Delete Resource'>
+    <CustomModal
+      isOpen={open}
+      onRequestClose={closeModal}
+      title={`Delete ${resourceType} file`}
+    >
       <form onSubmit={submitValues} className='w-full'>
         <div className='w-full border-[0.6px] rounded-md border-[#DBDBDB] p-4 mt-7 mb-10'>
           <h3 className='text-[#06102B] font-semibold text-lg mb-4 text-center'>
-            Deleting this resource would do the following:
+            Deleting this {resourceType} file would do the following:
           </h3>
           <ul className='flex flex-col gap-3'>
             {deleteEvents.map((item) => (
@@ -95,4 +93,4 @@ function DeleteModal({
   );
 }
 
-export default DeleteModal;
+export default DeleteFileModal;

@@ -47,4 +47,13 @@ export const PERMISSIONS: PERMISSIONS_TYPE = Object.freeze({
   delete_test: 'Delete Test',
   view_tests: 'View Tests',
   create_test: 'Create Test',
+
+  // Lessons
+  view_lesson: 'View Lesson',
+  update_lesson: 'Update Lesson',
+  upload_lesson_resource: 'Upload Lesson Resource',
+  remove_lesson_resources: 'Remove Lesson Resources',
+  delete_lesson: 'Delete Lesson',
+  create_lesson: 'Create Lesson',
+  view_lessons: 'View Lessons',
 });

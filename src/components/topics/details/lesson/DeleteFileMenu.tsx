@@ -1,22 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
-import MoreIcon from '../../../assets/icons/more.svg';
+import MoreIcon from '../../../../assets/icons/more.svg';
 import autoAnimate from '@formkit/auto-animate';
 import ClickAwayListener from 'react-click-away-listener';
-import { DeleteIcon } from '../../icons';
-import DeleteModal from './DeleteModal';
-import { TopicResourceType } from '../../../types/data';
+import { DeleteIcon } from '../../../icons';
+import DeleteFileModal from './DeleteFileModal';
+import { ResourceType } from '../../../../types/data';
 
-const DeleteMenu = ({
+const DeleteFileMenu = ({
   resourceId,
   resourceType,
-  topicId,
+  lessonId,
   refetch,
   className = '',
   menuClassName = '',
 }: {
-  topicId: string;
+  lessonId: string;
   resourceId: string;
-  resourceType: TopicResourceType;
+  resourceType: ResourceType;
   refetch: () => void;
   className?: string;
   menuClassName?: string;
@@ -62,16 +62,16 @@ const DeleteMenu = ({
           </div>
         </div>
       </ClickAwayListener>
-      <DeleteModal
+      <DeleteFileModal
         open={deleteModal}
         closeModal={() => setDeleteModal(false)}
         resourceId={resourceId}
         resourceType={resourceType}
-        topicId={topicId}
+        lessonId={lessonId}
         refetch={refetch}
       />
     </>
   );
 };
 
-export default DeleteMenu;
+export default DeleteFileMenu;
