@@ -5,6 +5,10 @@ import './styles/backgrounds.css';
 import 'react-indiana-drag-scroll/dist/style.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'reactjs-popup/dist/index.css';
+
+// React PDF
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import React from 'react';

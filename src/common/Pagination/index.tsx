@@ -4,15 +4,17 @@ export default function Pagination({
   totalResults,
   page,
   setPage,
+  defaultTotalPages,
 }: {
-  totalResults: number;
+  totalResults?: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   page: number;
+  defaultTotalPages?: number;
 }) {
   const limit = 20;
 
-  const totalPages: number = Math.ceil(totalResults / limit);
-  if (!totalResults) return null;
+  const totalPages: number = defaultTotalPages || Math.ceil((totalResults || 0) / limit);
+  if (!totalResults && !defaultTotalPages) return null;
 
   return (
     <aside className='flex justify-between w-full items-center px-[30px] mt-[27px] flex-wrap'>
