@@ -3,10 +3,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import Pagination from '../Pagination';
 import ReactResizeDetector from 'react-resize-detector';
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.js',
-  import.meta.url
-).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
 
 const PDFViewer = ({ file }: { file: string }) => {
   const [numPages, setNumPages] = useState<number>(0);
