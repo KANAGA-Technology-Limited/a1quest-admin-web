@@ -28,7 +28,7 @@ function DeleteFileModal({
   lessonId,
 }: Props) {
   const [loading, setLoading] = useState(false);
-  console.log(resourceId, resourceType);
+
   const submitValues = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
