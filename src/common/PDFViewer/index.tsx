@@ -1,17 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import Pagination from '../Pagination';
-import { SizeMe } from 'react-sizeme';
+import ReactResizeDetector from 'react-resize-detector';
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.js',
-  import.meta.url
-).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
 
 const PDFViewer = ({ file }: { file: string }) => {
   const [numPages, setNumPages] = useState<number>(0);
   const [pageNumber, setPageNumber] = useState<number>(1);
-
   function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
     setNumPages(numPages);
   }
@@ -19,24 +15,26 @@ const PDFViewer = ({ file }: { file: string }) => {
   return (
     <>
       <div className='h-full'>
-        <SizeMe>
-          {({ size }) => (
-            <Document
-              file={file}
-              onLoadSuccess={onDocumentLoadSuccess}
-              externalLinkTarget='_blank'
-              loading='Please wait...'
-            >
-              {/* Show all pages at once */}
-              {/* {Array.apply(null, Array(numPages))
+        <ReactResizeDetector handleWidth handleHeight>
+          {({ width, targetRef }) => (
+            <div ref={targetRef as any} className='w-full h-full'>
+              <Document
+                file={file}
+                onLoadSuccess={onDocumentLoadSuccess}
+                externalLinkTarget='_blank'
+                loading='Please wait...'
+              >
+                {/* Show all pages at once */}
+                {/* {Array.apply(null, Array(numPages))
                 .map((x, i) => i + 1)
                 .map((page) => (
                   <Page pageNumber={page} />
                 ))} */}
-              <Page pageNumber={pageNumber} width={size.width ? size.width : 1} />
-            </Document>
+                <Page pageNumber={pageNumber} width={width ? width : 1} />
+              </Document>
+            </div>
           )}
-        </SizeMe>
+        </ReactResizeDetector>
 
         <Pagination
           page={pageNumber}
