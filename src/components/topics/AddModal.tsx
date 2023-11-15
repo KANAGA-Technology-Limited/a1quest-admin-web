@@ -25,6 +25,9 @@ function AddModal({ closeModal, reload, open, classes }: Props) {
       title: '',
       selectedClass: '',
       description: '',
+      test_notice: '',
+      num_of_questions: '',
+      test_duration: '',
     },
     onSubmit: () => {
       submitValues();
@@ -43,6 +46,9 @@ function AddModal({ closeModal, reload, open, classes }: Props) {
         title: formik.values.title,
         class_id: formik.values.selectedClass,
         description: formik.values.description,
+        test_notice: formik.values.test_notice,
+        num_of_questions: Number(formik.values.num_of_questions),
+        test_duration: Number(formik.values.test_duration),
       });
       closeModal();
       reload();
@@ -65,6 +71,7 @@ function AddModal({ closeModal, reload, open, classes }: Props) {
             label='Topic title'
             className='mb-6'
             placeholder='Title'
+            required
           />
           <Dropdown
             values={
@@ -78,6 +85,7 @@ function AddModal({ closeModal, reload, open, classes }: Props) {
             className='capitalize mb-6'
             placeholder='Class'
             label='Class'
+            required
           />
           <TextArea
             formik={formik}
@@ -85,6 +93,31 @@ function AddModal({ closeModal, reload, open, classes }: Props) {
             label='Topic description'
             placeholder='Description'
             rows={3}
+            className='mb-6'
+            required
+          />
+          <TextArea
+            formik={formik}
+            name='test_notice'
+            label='Test notice'
+            placeholder="Notice to the students when taking this topics's test"
+            rows={3}
+            className='mb-6'
+          />
+          <LabelInput
+            formik={formik}
+            name='num_of_questions'
+            label='Number of test questions'
+            placeholder='Number of questions students should answer'
+            className='mb-6'
+            type='number'
+          />
+          <LabelInput
+            formik={formik}
+            name='test_duration'
+            label='Test duration (minutes)'
+            placeholder='How long the test should take for this topic'
+            type='number'
           />
         </div>
         <div className='flex items-center w-full justify-around gap-4 px-5'>

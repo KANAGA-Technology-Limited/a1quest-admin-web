@@ -15,9 +15,10 @@ interface Props {
 
 const deleteEvents = [
   'Delete subtopics under it',
-  'Erase all the associated audio files',
-  'Erase all the associated video files',
-  'Erase all the associated doc files',
+  'Delete the associated test questions',
+  'Delete the associated audio file',
+  'Delete the associated video file',
+  'Delete the associated document file',
   'Clear all associated statistics',
 ];
 

@@ -37,6 +37,9 @@ const TopicInfo = ({ data }: { data: SingleTopicType | undefined }) => {
       title: data?.title || '',
       selectedClass: data?.class_id?._id || '',
       description: data?.description || '',
+      test_notice: data?.test_notice || '',
+      num_of_questions: data?.num_of_questions || '',
+      test_duration: data?.test_duration || '',
     },
     onSubmit: () => {
       submitValues();
@@ -56,6 +59,9 @@ const TopicInfo = ({ data }: { data: SingleTopicType | undefined }) => {
         title: formik.values.title,
         class_id: formik.values.selectedClass,
         description: formik.values.description,
+        test_notice: formik.values.test_notice,
+        num_of_questions: Number(formik.values.num_of_questions),
+        test_duration: Number(formik.values.test_duration),
       });
 
       sendFeedback(response.data?.message, 'success');
@@ -74,12 +80,33 @@ const TopicInfo = ({ data }: { data: SingleTopicType | undefined }) => {
       className='border-[0.5px] border-[#DBDBDB] rounded-[6px] px-5 py-4 w-full'
       spellCheck
     >
+      {/* Uneditable elements */}
+      <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 pb-2 border-b-2'>
+        <p>
+          <b>Enrollments:</b> {data.num_of_enrollments || 0}
+        </p>
+        <p>
+          <b>Created by:</b> {data.created_by.firstName + ' ' + data.created_by.lastName}
+        </p>
+        <p>
+          <b>Date created:</b> {new Date(data.creation_date).toDateString()}
+        </p>
+        <p>
+          <b>Last updated by:</b>{' '}
+          {data.last_updated_by.firstName + ' ' + data.last_updated_by.lastName}
+        </p>
+        <p>
+          <b>Last date updated:</b> {new Date(data.last_update_date).toDateString()}
+        </p>
+      </div>
+
       <LabelInput
         formik={formik}
         name='title'
         label='Topic title'
         className='mb-6'
         disabled={!isEditing}
+        required
       />
       <Dropdown
         values={
@@ -98,6 +125,7 @@ const TopicInfo = ({ data }: { data: SingleTopicType | undefined }) => {
           value: formik.values.selectedClass,
         }}
         isDisabled={!isEditing}
+        required
       />
 
       <TextArea
@@ -107,16 +135,54 @@ const TopicInfo = ({ data }: { data: SingleTopicType | undefined }) => {
         placeholder='Description'
         disabled={!isEditing}
         rows={3}
+        className='mb-6'
+        required
       />
+      <TextArea
+        formik={formik}
+        name='test_notice'
+        label='Test notice'
+        placeholder="Notice to the students when taking this topics's test"
+        rows={3}
+        className='mb-6'
+        disabled={!isEditing}
+      />
+      <LabelInput
+        formik={formik}
+        name='num_of_questions'
+        label='Number of test questions'
+        placeholder='Number of questions students should answer'
+        className='mb-6'
+        type='number'
+        disabled={!isEditing}
+      />
+      <LabelInput
+        formik={formik}
+        name='test_duration'
+        label='Test duration (minutes)'
+        disabled={!isEditing}
+        placeholder='How long the test should take for this topic'
+        type='number'
+      />
+
       {hasPermission(PERMISSIONS.update_topic) &&
         (isEditing ? (
-          <Button
-            onClick={() => formik.handleSubmit()}
-            loading={loading}
-            className='!w-[236px] !max-w-full mt-10'
-          >
-            Update
-          </Button>
+          <div className='flex gap-5 mt-10'>
+            <Button
+              onClick={() => formik.handleSubmit()}
+              loading={loading}
+              className='!w-[236px] !max-w-full'
+            >
+              Update
+            </Button>
+            <Button
+              onClick={() => setIsEditing(false)}
+              color='secondary'
+              className='!w-[236px] !max-w-full'
+            >
+              Cancel
+            </Button>
+          </div>
         ) : (
           <Button
             onClick={() => setIsEditing(true)}

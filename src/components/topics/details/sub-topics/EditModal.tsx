@@ -24,6 +24,9 @@ function EditModal({ closeModal, reload, open, data, topic }: Props) {
     initialValues: {
       title: data?.title || '',
       description: data?.description || '',
+      test_notice: data?.test_notice || '',
+      num_of_questions: data?.num_of_questions || '',
+      test_duration: data?.test_duration || '',
     },
     onSubmit: () => {
       submitValues();
@@ -42,10 +45,12 @@ function EditModal({ closeModal, reload, open, data, topic }: Props) {
         title: formik.values.title,
         topic_id: topic,
         description: formik.values.description,
+        test_notice: formik.values.test_notice,
+        num_of_questions: Number(formik.values.num_of_questions),
+        test_duration: Number(formik.values.test_duration),
       });
       closeModal();
       reload();
-      formik.resetForm();
       sendFeedback(response.data?.message, 'success');
     } catch (error) {
       sendCatchFeedback(error);
@@ -65,6 +70,7 @@ function EditModal({ closeModal, reload, open, data, topic }: Props) {
             name='title'
             label='Sub-Topic title'
             className='mb-6'
+            required
           />
 
           <TextArea
@@ -73,6 +79,31 @@ function EditModal({ closeModal, reload, open, data, topic }: Props) {
             label='Sub-Topic description'
             placeholder='Description'
             rows={3}
+            className='mb-6'
+            required
+          />
+          <TextArea
+            formik={formik}
+            name='test_notice'
+            label='Test notice'
+            placeholder="Notice to the students when taking this sub-topics's test"
+            rows={3}
+            className='mb-6'
+          />
+          <LabelInput
+            formik={formik}
+            name='num_of_questions'
+            label='Number of test questions'
+            placeholder='Number of questions students should answer'
+            className='mb-6'
+            type='number'
+          />
+          <LabelInput
+            formik={formik}
+            name='test_duration'
+            label='Test duration (minutes)'
+            placeholder='How long the test should take for this sub-topic'
+            type='number'
           />
         </div>
         <div className='flex items-center w-full justify-around gap-4 px-5'>

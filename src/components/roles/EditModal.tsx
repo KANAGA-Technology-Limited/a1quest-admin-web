@@ -47,7 +47,6 @@ function EditModal({ closeModal, refetch, open, data, permissions }: Props) {
         permissions: selectedPermissions.map((item) => item._id),
       });
       sendFeedback(response.data?.message, 'success');
-      formik.resetForm();
       setSelectedPermissions(undefined);
       refetch();
       return closeModal();
