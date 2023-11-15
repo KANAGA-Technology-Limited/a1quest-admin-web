@@ -6,8 +6,8 @@ import { sendCatchFeedback, sendFeedback } from '../../../../../functions/feedba
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import LabelInput from '../../../../../common/LabelInput/LabelInput';
-import { TestQuestionType, TestType } from '../../../../../types/data';
-import QuestionForm from './QuestionForm';
+import { QuestionOptionType, TestType } from '../../../../../types/data';
+import OptionForm from './OptionForm';
 
 interface Props {
   closeModal: () => void;
@@ -20,37 +20,36 @@ interface Props {
 
 function EditModal({ closeModal, reload, open, subTopic, data, topic }: Props) {
   const [loading, setLoading] = useState(false);
-  const [questions, setQuestions] = useState<TestQuestionType[] | undefined>(undefined);
+  const [options, setOptions] = useState<QuestionOptionType[] | undefined>(undefined);
 
   const formik = useFormik({
     initialValues: {
-      duration: data?.duration || '',
-      notice: data?.notice || '',
+      title: data?.title || '',
+      question_type: data?.question_type || '',
+      question_input_type: data?.question_input_type || '',
     },
     onSubmit: () => {
       submitValues();
     },
     validationSchema: yup.object({
-      notice: yup.string().required('Required'),
-      duration: yup.string().required('Required'),
+      title: yup.string().required('Required'),
+      question_type: yup.string().required('Required'),
+      question_input_type: yup.string().when('question_type', {
+        is: 'input',
+        then: (schema) => schema.required('Input type is required'),
+      }),
     }),
     enableReinitialize: true,
   });
 
   const submitValues = async () => {
-    if (!questions || questions.length <= 0) {
-      return sendFeedback('Please add questions under this test', 'error');
+    if (!options || options.length <= 0) {
+      return sendFeedback('Please add options under this question', 'error');
     }
 
-    const invalidQuestionInput = questions.some(
-      (item) =>
-        !item.title || // question title isn't provided
-        !item.question_type || // question type isn't selected
-        (item.question_type === 'input' && !item.question_input_type) || // question type is input and input type isn't selected
-        !item.options || // no options
-        item.options.some((option) => !option.option_value) || // one option name is missing
-        !item.options.some((option) => option.isCorrectAnswer) // no correct answer selected
-    );
+    const invalidQuestionInput =
+      options.some((item) => !item.option_value) || // option doesn't have value
+      !options.some((item) => item.isCorrectAnswer); // no correct answer selected
 
     if (invalidQuestionInput) {
       return sendFeedback('Please ensure all fields are entered correctly', 'error');
@@ -58,19 +57,15 @@ function EditModal({ closeModal, reload, open, subTopic, data, topic }: Props) {
 
     try {
       setLoading(true);
-      const response = await appAxios.patch(`/tests/${data?._id}`, {
-        duration: Number(formik.values.duration),
-        notice: formik.values.notice,
+      const response = await appAxios.patch(`/questions/${data?._id}`, {
         sub_topic_id: subTopic,
         topic_id: topic,
-        questions: questions.map((question) => ({
-          title: question.title,
-          question_type: question.question_type,
-          question_input_type: question.question_input_type,
-          options: question.options?.map((option) => ({
-            option_value: option.option_value,
-            isCorrectAnswer: option.isCorrectAnswer || false,
-          })),
+        title: formik.values.title,
+        question_type: formik.values.question_type,
+        question_input_type: formik.values.question_input_type,
+        options: options?.map((option) => ({
+          option_value: option.option_value,
+          isCorrectAnswer: option.isCorrectAnswer || false,
         })),
       });
       closeModal();
@@ -86,7 +81,7 @@ function EditModal({ closeModal, reload, open, subTopic, data, topic }: Props) {
 
   useEffect(() => {
     if (data) {
-      setQuestions(data.questions);
+      setOptions(data.options);
     }
   }, [data]);
 
@@ -120,7 +115,7 @@ function EditModal({ closeModal, reload, open, subTopic, data, topic }: Props) {
             />
           </div>
 
-          <QuestionForm questions={questions} setQuestions={setQuestions} />
+          <OptionForm options={options} setOptions={setOptions} />
         </div>
         <div className='flex items-center justify-center w-full px-5'>
           <div className='md:max-w-[50%] flex w-full justify-center gap-4'>

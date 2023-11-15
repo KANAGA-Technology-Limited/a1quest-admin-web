@@ -13,7 +13,7 @@ import usePermissions from '../../hooks/usePermissions';
 import { PERMISSIONS } from '../../hooks/data';
 import TestList from '../../components/topics/details/test_flow/TestList';
 
-const tabs = ['About', 'Sub-Topics', 'Tests'];
+const tabs = ['About', 'Sub-Topics', 'Test'];
 
 const TopicDetails = () => {
   const [data, setData] = useState<SingleTopicType | undefined>(undefined);
@@ -41,7 +41,7 @@ const TopicDetails = () => {
   const panels = [
     <TopicInfo key='About' data={data} />,
     <AllSubTopics key='Sub-Topics' topic={data?._id} />,
-    <TestList key='Tests' topic={data?._id || ''} />,
+    <TestList key='Test' topic={data?._id || ''} />,
   ];
 
   return (

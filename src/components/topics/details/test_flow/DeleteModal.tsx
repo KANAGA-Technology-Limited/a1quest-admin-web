@@ -14,8 +14,7 @@ interface Props {
 }
 
 const deleteEvents = [
-  'Delete this test from its parent topic',
-  'Delete all the questions under this test',
+  'Delete this question from the test list',
   'Clear all associated statistics',
 ];
 
@@ -26,7 +25,7 @@ function DeleteModal({ closeModal, refetch, open, data }: Props) {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await appAxios.delete('/tests/' + data?._id);
+      const response = await appAxios.delete('/questions/' + data?._id);
       sendFeedback(response.data?.message, 'success');
       refetch();
       return closeModal();
@@ -43,7 +42,7 @@ function DeleteModal({ closeModal, refetch, open, data }: Props) {
       <form onSubmit={submitValues} className='w-full'>
         <div className='w-full border-[0.6px] rounded-md border-[#DBDBDB] p-4 mt-7 mb-10'>
           <h3 className='text-[#06102B] font-semibold text-lg mb-4 text-center'>
-            Deleting this test would do the following:
+            Deleting this question would do the following:
           </h3>
           <ul className='flex flex-col gap-3'>
             {deleteEvents.map((item) => (

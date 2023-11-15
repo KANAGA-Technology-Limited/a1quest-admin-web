@@ -45,7 +45,7 @@ const TestList = ({ subTopic, topic }: { subTopic: string; topic: string }) => {
   };
 
   useEffect(() => {
-    hasPermission(PERMISSIONS.view_tests) && getData();
+    hasPermission(PERMISSIONS.view_questions) && getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasPermission, page]);
 
@@ -56,7 +56,7 @@ const TestList = ({ subTopic, topic }: { subTopic: string; topic: string }) => {
       <PageHeader
         pageTitle='Tests'
         pageActions={
-          hasPermission(PERMISSIONS.create_test) && (
+          hasPermission(PERMISSIONS.create_question) && (
             <Button onClick={() => setAddModal(true)}>
               <AddIcon />
               Add Test
@@ -76,7 +76,7 @@ const TestList = ({ subTopic, topic }: { subTopic: string; topic: string }) => {
               setSelected(data);
               setViewModal(true);
             },
-            permission: hasPermission(PERMISSIONS.view_test),
+            permission: hasPermission(PERMISSIONS.view_question),
           },
           {
             label: 'Edit Test',
@@ -84,7 +84,7 @@ const TestList = ({ subTopic, topic }: { subTopic: string; topic: string }) => {
               setSelected(data);
               setEditModal(true);
             },
-            permission: hasPermission(PERMISSIONS.update_test),
+            permission: hasPermission(PERMISSIONS.update_question),
           },
           {
             label: 'Delete Test',
@@ -95,7 +95,7 @@ const TestList = ({ subTopic, topic }: { subTopic: string; topic: string }) => {
             style: {
               color: 'var(--error)',
             },
-            permission: hasPermission(PERMISSIONS.delete_test),
+            permission: hasPermission(PERMISSIONS.delete_question),
           },
         ]}
       />
