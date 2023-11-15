@@ -30,7 +30,7 @@ const TestList = ({ subTopic, topic }: { subTopic: string; topic: string }) => {
     try {
       setLoading(true);
 
-      const response = await appAxios.post(`/tests/view-tests`, {
+      const response = await appAxios.post(`/questions/view-questions`, {
         sub_topic_id: subTopic,
         topic_id: topic,
         page,
@@ -45,21 +45,21 @@ const TestList = ({ subTopic, topic }: { subTopic: string; topic: string }) => {
   };
 
   useEffect(() => {
-    hasPermission(PERMISSIONS.view_tests) && getData();
+    hasPermission(PERMISSIONS.view_questions) && getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasPermission, page]);
 
-  const tableHeaders = ['creation_date', 'duration', 'tableAction'];
+  const tableHeaders = ['title', 'question_type', 'question_input_type', 'tableAction'];
 
   return (
     <>
       <PageHeader
-        pageTitle='Tests'
+        pageTitle='Test Questions'
         pageActions={
-          hasPermission(PERMISSIONS.create_test) && (
+          hasPermission(PERMISSIONS.create_question) && (
             <Button onClick={() => setAddModal(true)}>
               <AddIcon />
-              Add Test
+              Add Question
             </Button>
           )
         }
@@ -71,23 +71,23 @@ const TestList = ({ subTopic, topic }: { subTopic: string; topic: string }) => {
         loading={loading}
         menuItems={[
           {
-            label: 'View Test',
+            label: 'View Question',
             onClick: (data) => {
               setSelected(data);
               setViewModal(true);
             },
-            permission: hasPermission(PERMISSIONS.view_test),
+            permission: hasPermission(PERMISSIONS.view_question),
           },
           {
-            label: 'Edit Test',
+            label: 'Edit Question',
             onClick: (data) => {
               setSelected(data);
               setEditModal(true);
             },
-            permission: hasPermission(PERMISSIONS.update_test),
+            permission: hasPermission(PERMISSIONS.update_question),
           },
           {
-            label: 'Delete Test',
+            label: 'Delete Question',
             onClick: (data) => {
               setSelected(data);
               setDeleteModal(true);
@@ -95,7 +95,7 @@ const TestList = ({ subTopic, topic }: { subTopic: string; topic: string }) => {
             style: {
               color: 'var(--error)',
             },
-            permission: hasPermission(PERMISSIONS.delete_test),
+            permission: hasPermission(PERMISSIONS.delete_question),
           },
         ]}
       />

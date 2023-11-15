@@ -71,7 +71,7 @@ const Topics = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, hasPermission, page]);
 
-  const tableHeaders = ['title', 'description', 'tableAction'];
+  const tableHeaders = ['title', 'description', 'num_of_enrollments', 'tableAction'];
 
   return (
     <AppLayout>

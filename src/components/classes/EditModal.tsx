@@ -38,7 +38,6 @@ function EditModal({ closeModal, refetch, open, data }: Props) {
         name: formik.values.name,
       });
       sendFeedback(response.data?.message, 'success');
-      formik.resetForm();
       refetch();
       return closeModal();
     } catch (error: any) {

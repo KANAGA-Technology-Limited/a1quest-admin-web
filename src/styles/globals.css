@@ -1,5 +1,6 @@
 :root {
 	--primary: #1D4ED8;
+	--success: #25AD25;
 	--secondary-dark: #ffffff;
 	--error: #DC2626;
 	--font-primary: 'Inter',
@@ -35,6 +36,8 @@ body {
 	font-weight: 500;
 	font-size: 16px;
 	color: #292929;
+	gap: 2px;
+	display: flex;
 }
 
 .inputContainer>* input,

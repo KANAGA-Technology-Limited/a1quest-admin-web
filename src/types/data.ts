@@ -259,6 +259,10 @@ export type TopicType = {
   last_updated_by: string;
   creation_date: Date;
   last_update_date: Date;
+  test_duration?: number;
+  test_notice?: string;
+  num_of_questions?: number;
+  num_of_enrollments: number;
 };
 
 export type SingleTopicType = {
@@ -282,6 +286,10 @@ export type SingleTopicType = {
   };
   creation_date: Date;
   last_update_date: Date;
+  test_duration?: number;
+  test_notice?: string;
+  num_of_questions?: number;
+  num_of_enrollments: number;
 };
 
 export type ResourceType = 'video' | 'document' | 'audio';
@@ -295,6 +303,9 @@ export type SubTopicType = {
   last_updated_by: string;
   creation_date: Date;
   last_update_date: Date;
+  test_duration?: number;
+  test_notice?: string;
+  num_of_questions?: number;
 };
 
 export type SingleSubTopicType = {
@@ -317,30 +328,28 @@ export type SingleSubTopicType = {
   };
   creation_date: Date;
   last_update_date: Date;
+  test_duration?: number;
+  test_notice?: string;
+  num_of_questions?: number;
 };
 
 export type AllowedQuestionTypes = 'input' | 'radio' | 'checkbox' | 'dropdown';
 export type AllowedInputTypes = 'number' | 'text';
 
-export type TestQuestionType = {
-  title?: string;
-  question_type?: AllowedQuestionTypes;
-  question_input_type?: AllowedInputTypes;
-  options?: {
-    option_value: string;
-    isCorrectAnswer?: boolean;
-    _id?: string;
-  }[];
+export type QuestionOptionType = {
+  option_value: string;
+  isCorrectAnswer?: boolean;
   _id?: string;
 };
 
 export type TestType = {
   _id: string;
-  duration: number;
-  notice: string;
   topic_id: string;
   sub_topic_id: string;
-  questions: TestQuestionType[];
+  title: string;
+  question_type: AllowedQuestionTypes;
+  question_input_type?: AllowedInputTypes;
+  options: QuestionOptionType[];
   created_by: string;
   creation_date: Date;
   last_updated_by: string;
@@ -349,8 +358,6 @@ export type TestType = {
 
 export type SingleTestType = {
   _id: string;
-  duration: number;
-  notice: string;
   topic_id: {
     _id: string;
     title: string;
@@ -359,7 +366,10 @@ export type SingleTestType = {
     _id: string;
     title: string;
   };
-  questions: TestQuestionType[];
+  title: string;
+  question_type: AllowedQuestionTypes;
+  question_input_type?: AllowedInputTypes;
+  options: QuestionOptionType[];
   created_by: {
     _id: string;
     firstName: string;
