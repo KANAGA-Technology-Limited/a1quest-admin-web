@@ -61,7 +61,9 @@ function EditModal({ closeModal, reload, open, topic, data }: Props) {
         topic_id: topic,
         title: formik.values.title,
         question_type: formik.values.question_type,
-        question_input_type: formik.values.question_input_type,
+        ...(formik.values.question_type === 'input' && {
+          question_input_type: formik.values.question_input_type,
+        }),
         options: options?.map((option) => ({
           option_value: option.option_value,
           isCorrectAnswer: option.isCorrectAnswer || false,
@@ -90,7 +92,7 @@ function EditModal({ closeModal, reload, open, topic, data }: Props) {
     <CustomModal
       isOpen={open}
       onRequestClose={closeModal}
-      title='Update Test'
+      title='Update Question'
       width='1200px'
       shouldCloseOnOverlayClick={false}
     >
@@ -109,6 +111,10 @@ function EditModal({ closeModal, reload, open, topic, data }: Props) {
               className='capitalize'
               placeholder='Type of question'
               formik={formik}
+              defaultValue={{
+                label: formik.values.question_type,
+                value: formik.values.question_type,
+              }}
               values={['input', 'radio', 'checkbox', 'dropdown'].map((item) => ({
                 label: item,
                 value: item,
@@ -121,10 +127,14 @@ function EditModal({ closeModal, reload, open, topic, data }: Props) {
                 label='Input Type'
                 className='capitalize'
                 placeholder='Type of question input'
-                values={['number', 'text'].map((item) => ({
+                values={['text', 'number'].map((item) => ({
                   label: item,
                   value: item,
                 }))}
+                defaultValue={{
+                  label: formik.values.question_input_type,
+                  value: formik.values.question_input_type,
+                }}
               />
             )}
           </div>

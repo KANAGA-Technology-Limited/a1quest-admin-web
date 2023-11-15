@@ -61,7 +61,9 @@ function AddModal({ closeModal, reload, open, subTopic, topic }: Props) {
         topic_id: topic,
         title: formik.values.title,
         question_type: formik.values.question_type,
-        question_input_type: formik.values.question_input_type,
+        ...(formik.values.question_type === 'input' && {
+          question_input_type: formik.values.question_input_type,
+        }),
         options: options?.map((option) => ({
           option_value: option.option_value,
           isCorrectAnswer: option.isCorrectAnswer || false,
@@ -70,6 +72,7 @@ function AddModal({ closeModal, reload, open, subTopic, topic }: Props) {
       closeModal();
       reload();
       formik.resetForm();
+      setOptions(undefined);
       sendFeedback(response.data?.message, 'success');
     } catch (error) {
       sendCatchFeedback(error);
@@ -82,7 +85,7 @@ function AddModal({ closeModal, reload, open, subTopic, topic }: Props) {
     <CustomModal
       isOpen={open}
       onRequestClose={closeModal}
-      title='Create Test'
+      title='Add Question'
       width='1200px'
       shouldCloseOnOverlayClick={false}
     >
@@ -113,7 +116,7 @@ function AddModal({ closeModal, reload, open, subTopic, topic }: Props) {
                 label='Input Type'
                 className='capitalize'
                 placeholder='Type of question input'
-                values={['number', 'text'].map((item) => ({
+                values={['text', 'number'].map((item) => ({
                   label: item,
                   value: item,
                 }))}

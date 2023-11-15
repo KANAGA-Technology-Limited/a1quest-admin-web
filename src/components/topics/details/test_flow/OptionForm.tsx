@@ -59,46 +59,41 @@ const OptionForm = ({
           Add
         </button>
       </div>
-      <div className='flex flex-col gap-6 w-full'>
+      <div className={'grid grid-cols-1 md:grid-cols-3 md:items-stretch gap-6 w-full'}>
         {options && options.length > 0 ? (
           options.map((option, index) => (
-            <>
-              <div className={'grid grid-cols-1 md:grid-cols-3 md:items-stretch gap-6'}>
-                <div key={index}>
-                  <div className='mb-2 flex items-center gap-5'>
-                    <p className='font-bold'>Option {index + 1}</p>
-                    <button
-                      type='button'
-                      className='border-none outline-none'
-                      onClick={() => removeOption(index)}
-                    >
-                      <DeleteIcon />
-                    </button>
-                  </div>
-
-                  <LabelInput
-                    useFormik={false}
-                    name={'option_value' + index}
-                    label='Option'
-                    placeholder='Type the option here'
-                    value={option.option_value}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      handleOnChangeOption({ option_value: e.target.value }, index)
-                    }
-                    className='w-full mb-2'
-                  />
-                  <Checkbox
-                    label='Correct Answer'
-                    id={'isCorrectAnswer' + index}
-                    value={String(option.isCorrectAnswer || false)?.toString()}
-                    checked={option.isCorrectAnswer || false}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      handleOnChangeOptionCorrectAnswer(index, e.target.checked)
-                    }
-                  />
-                </div>
+            <div key={index}>
+              <div className='mb-2 flex items-center gap-5'>
+                <p className='font-bold'>Option {index + 1}</p>
+                <button
+                  type='button'
+                  className='border-none outline-none'
+                  onClick={() => removeOption(index)}
+                >
+                  <DeleteIcon />
+                </button>
               </div>
-            </>
+
+              <LabelInput
+                useFormik={false}
+                name={'option_value' + index}
+                placeholder='Type the option here'
+                value={option.option_value}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleOnChangeOption({ option_value: e.target.value }, index)
+                }
+                className='w-full mb-2'
+              />
+              <Checkbox
+                label='Correct Answer'
+                id={'isCorrectAnswer' + index}
+                value={String(option.isCorrectAnswer || false)?.toString()}
+                checked={option.isCorrectAnswer || false}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleOnChangeOptionCorrectAnswer(index, e.target.checked)
+                }
+              />
+            </div>
           ))
         ) : (
           <p className='text-sm font-normal'>No option added</p>

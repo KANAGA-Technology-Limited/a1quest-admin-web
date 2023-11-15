@@ -38,7 +38,7 @@ function DeleteModal({ closeModal, refetch, open, data }: Props) {
 
   if (!data) return null;
   return (
-    <CustomModal isOpen={open} onRequestClose={closeModal} title='Delete Test'>
+    <CustomModal isOpen={open} onRequestClose={closeModal} title='Delete Question'>
       <form onSubmit={submitValues} className='w-full'>
         <div className='w-full border-[0.6px] rounded-md border-[#DBDBDB] p-4 mt-7 mb-10'>
           <h3 className='text-[#06102B] font-semibold text-lg mb-4 text-center'>

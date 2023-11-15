@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import LabelInput from '../../../../../common/LabelInput/LabelInput';
 import { QuestionOptionType, TestType } from '../../../../../types/data';
 import OptionForm from './OptionForm';
+import Dropdown from '../../../../../common/Dropdown';
 
 interface Props {
   closeModal: () => void;
@@ -62,7 +63,9 @@ function EditModal({ closeModal, reload, open, subTopic, data, topic }: Props) {
         topic_id: topic,
         title: formik.values.title,
         question_type: formik.values.question_type,
-        question_input_type: formik.values.question_input_type,
+        ...(formik.values.question_type === 'input' && {
+          question_input_type: formik.values.question_input_type,
+        }),
         options: options?.map((option) => ({
           option_value: option.option_value,
           isCorrectAnswer: option.isCorrectAnswer || false,
@@ -91,7 +94,7 @@ function EditModal({ closeModal, reload, open, subTopic, data, topic }: Props) {
     <CustomModal
       isOpen={open}
       onRequestClose={closeModal}
-      title='Update Test'
+      title='Update Question'
       width='1200px'
       shouldCloseOnOverlayClick={false}
     >
@@ -100,19 +103,42 @@ function EditModal({ closeModal, reload, open, subTopic, data, topic }: Props) {
           <div className='grid grid-cols-1 md:grid-cols-2 w-full gap-6 mb-6'>
             <LabelInput
               formik={formik}
-              name='notice'
-              label='Test Notice'
-              placeholder='Notice'
-              hint='Note to students before they start the test'
+              name='title'
+              label='Question'
+              placeholder='Type the question here'
             />
-            <LabelInput
+            <Dropdown
+              name='question_type'
+              label='Question Type'
+              className='capitalize'
+              placeholder='Type of question'
               formik={formik}
-              name='duration'
-              label='Test duration (minutes)'
-              placeholder='Duration'
-              hint='How long would the test last'
-              type='number'
+              defaultValue={{
+                label: formik.values.question_type,
+                value: formik.values.question_type,
+              }}
+              values={['input', 'radio', 'checkbox', 'dropdown'].map((item) => ({
+                label: item,
+                value: item,
+              }))}
             />
+            {formik.values.question_type === 'input' && (
+              <Dropdown
+                formik={formik}
+                name='question_input_type'
+                label='Input Type'
+                className='capitalize'
+                placeholder='Type of question input'
+                values={['text', 'number'].map((item) => ({
+                  label: item,
+                  value: item,
+                }))}
+                defaultValue={{
+                  label: formik.values.question_input_type,
+                  value: formik.values.question_input_type,
+                }}
+              />
+            )}
           </div>
 
           <OptionForm options={options} setOptions={setOptions} />
