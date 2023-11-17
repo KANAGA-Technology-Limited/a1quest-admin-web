@@ -5,6 +5,8 @@ export interface TableProps {
   tableHeaders: string[];
   loading: boolean;
   menuItems?: menuItemType[];
+  bodyStyle?: React.CSSProperties;
+  headerStyle?: React.CSSProperties;
 }
 
 export type rowType = { row: { value: string; headerName: string }[] }[];
