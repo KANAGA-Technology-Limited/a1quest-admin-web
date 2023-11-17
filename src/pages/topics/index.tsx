@@ -98,6 +98,12 @@ const Topics = () => {
           loading,
           tableHeaders,
           data: allData,
+          bodyStyle: {
+            textAlign: 'left',
+          },
+          headerStyle: {
+            textAlign: 'left',
+          },
           menuItems: [
             {
               label: 'View Topic',

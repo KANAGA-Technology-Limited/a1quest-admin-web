@@ -3,7 +3,14 @@ import { TableProps } from './types';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
 
-function Table({ loading, tableHeaders, data, menuItems }: TableProps) {
+function Table({
+  loading,
+  tableHeaders,
+  data,
+  menuItems,
+  bodyStyle,
+  headerStyle,
+}: TableProps) {
   return (
     <div className='overflow-x-auto w-full bg-white'>
       {loading ? (
@@ -12,8 +19,13 @@ function Table({ loading, tableHeaders, data, menuItems }: TableProps) {
         </div>
       ) : data && data.length ? (
         <table className='w-full text-left'>
-          <TableHeader tableHeaders={tableHeaders} />
-          <TableBody data={data} tableHeaders={tableHeaders} menuItems={menuItems} />
+          <TableHeader tableHeaders={tableHeaders} headerStyle={headerStyle} />
+          <TableBody
+            data={data}
+            tableHeaders={tableHeaders}
+            menuItems={menuItems}
+            bodyStyle={bodyStyle}
+          />
         </table>
       ) : (
         <div className='flex items-center justify-center p-10 font-bold'>

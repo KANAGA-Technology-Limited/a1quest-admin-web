@@ -37,6 +37,8 @@ function PageLayout({
         data={tableProps.data}
         loading={tableProps.loading}
         menuItems={tableProps.menuItems}
+        bodyStyle={tableProps.bodyStyle}
+        headerStyle={tableProps.headerStyle}
       />
     </>
   );
