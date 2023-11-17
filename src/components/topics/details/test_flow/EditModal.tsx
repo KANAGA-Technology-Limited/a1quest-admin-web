@@ -110,7 +110,7 @@ function EditModal({ closeModal, reload, open, topic, data }: Props) {
               className='capitalize'
               placeholder='Type of question'
               formik={formik}
-              defaultValue={{
+              value={{
                 label: formik.values.question_type,
                 value: formik.values.question_type,
               }}
@@ -130,7 +130,7 @@ function EditModal({ closeModal, reload, open, topic, data }: Props) {
                   label: item,
                   value: item,
                 }))}
-                defaultValue={{
+                value={{
                   label: formik.values.question_input_type,
                   value: formik.values.question_input_type,
                 }}
