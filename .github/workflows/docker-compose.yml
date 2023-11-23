@@ -4,10 +4,9 @@ on:
   push:
     branches: [ "main", "development" ]
 
-env:
-  # Use docker.io for Docker Hub if empty. Actor now lowercase
+env:  
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.actor }}/a1questadminweb:latest
+  IMAGE_NAME: ajykee/a1questadminweb:latest
 
 jobs:
     publish:
@@ -18,7 +17,7 @@ jobs:
         - uses: actions/checkout@v3
         - name: Login
           run: |
-            echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            echo ${{ secrets.PAT }} | docker login ghcr.io -u ajykee --password-stdin
         - name: Build and Publish
           run: |
             docker build . --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
@@ -31,8 +30,6 @@ jobs:
 
         steps:
         - name: install ssh keys
-          # check this thread to understand why its needed:ok
-          # <https://stackoverflow.com/a/70447517>
           run: |
             install -m 600 -D /dev/null ~/.ssh/id_rsa
             echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
