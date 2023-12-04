@@ -61,9 +61,13 @@ function AddModal({ closeModal, reload, open, subTopic, topic }: Props) {
         topic_id: topic,
         title: formik.values.title,
         question_type: formik.values.question_type,
-        ...(formik.values.question_type === 'input' && {
-          question_input_type: formik.values.question_input_type,
-        }),
+        ...(formik.values.question_type === 'input'
+          ? {
+              question_input_type: formik.values.question_input_type,
+            }
+          : {
+              question_input_type: null,
+            }),
         options: options?.map((option) => ({
           option_value: option.option_value,
           isCorrectAnswer: option.isCorrectAnswer || false,
