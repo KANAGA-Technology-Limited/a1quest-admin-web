@@ -449,3 +449,61 @@ export type SingleLessonType = {
   video_identifier: string;
   video_url: string;
 };
+
+export type StudentType = {
+  _id: string;
+  email: string;
+  userName: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  personalReferralCode: string;
+  isVerified: boolean;
+  acceptTermsAndConditions: boolean;
+  isNotFreezed: boolean;
+  createdAt: Date;
+  verificationCode: string;
+  verificationCodeExpires: Date;
+  classLevel: string;
+  country: string;
+  countryState: string;
+  gender: string;
+  school: string;
+  guardianEmail: string;
+  guardianFullName: string;
+  reportToGuardian: string;
+  goal: number;
+  numOfReferrals: number;
+  referralActivity: {
+    userId: string;
+    fullName: string;
+    subscriptionAmount: number;
+    subscriptionPlan: string;
+    amountEarned: number;
+    createdAt: string;
+    _id: string;
+  }[];
+  referralEarnings: number;
+  subscription: {
+    plan: string;
+    lastPaymentDate: Date;
+    nextPaymentDate: Date;
+    active: boolean;
+    running: boolean;
+    gateway: 'paystack' | 'flutterwave';
+    token: string;
+    settledReferrer: boolean;
+  };
+  profilePicture: string;
+  profilePictureId: string;
+};
+
+export type StudentDataFilter = 'registered' | 'active' | 'deleted' | 'subscribed';
+
+export type StudentTestLog = {
+  date: Date;
+  correct: number;
+  questions: number;
+  topic_title: string;
+  sub_topic_title: string;
+};
