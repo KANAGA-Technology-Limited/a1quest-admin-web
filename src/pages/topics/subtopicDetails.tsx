@@ -13,7 +13,7 @@ import { PERMISSIONS } from '../../hooks/data';
 import TestList from '../../components/topics/details/sub-topics/test_flow/TestList';
 import AllLessons from '../../components/topics/details/lesson/AllLessons';
 
-const tabs = ['About', 'Lessons', 'Tests'];
+const tabs = ['About', 'Lessons', 'Test'];
 
 const SubTopicDetails = () => {
   const [data, setData] = useState<SingleSubTopicType | undefined>(undefined);
@@ -45,7 +45,7 @@ const SubTopicDetails = () => {
       subTopic={data?._id || ''}
       topic={data?.topic_id._id || ''}
     />,
-    <TestList key='Tests' subTopic={data?._id || ''} topic={data?.topic_id._id || ''} />,
+    <TestList key='Test' subTopic={data?._id || ''} topic={data?.topic_id._id || ''} />,
   ];
 
   return (

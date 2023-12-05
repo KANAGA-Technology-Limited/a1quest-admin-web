@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import CustomModal from '../../../../common/CustomModal/CustomModal';
 import Button from '../../../../common/Button';
 import { appAxios } from '../../../../api/axios';
@@ -6,8 +6,9 @@ import { sendCatchFeedback, sendFeedback } from '../../../../functions/feedback'
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import LabelInput from '../../../../common/LabelInput/LabelInput';
-import { TestQuestionType } from '../../../../types/data';
-import QuestionForm from './QuestionForm';
+import OptionForm from './OptionForm';
+import { QuestionOptionType } from '../../../../types/data';
+import Dropdown from '../../../../common/Dropdown';
 
 interface Props {
   closeModal: () => void;
@@ -18,36 +19,35 @@ interface Props {
 
 function AddModal({ closeModal, reload, open, topic }: Props) {
   const [loading, setLoading] = useState(false);
-  const [questions, setQuestions] = useState<TestQuestionType[] | undefined>(undefined);
+  const [options, setOptions] = useState<QuestionOptionType[] | undefined>(undefined);
 
   const formik = useFormik({
     initialValues: {
-      duration: '',
-      notice: '',
+      title: '',
+      question_type: '',
+      question_input_type: '',
     },
     onSubmit: () => {
       submitValues();
     },
     validationSchema: yup.object({
-      notice: yup.string().required('Required'),
-      duration: yup.string().required('Required'),
+      title: yup.string().required('Required'),
+      question_type: yup.string().required('Required'),
+      question_input_type: yup.string().when('question_type', {
+        is: 'input',
+        then: (schema) => schema.required('Input type is required'),
+      }),
     }),
   });
 
   const submitValues = async () => {
-    if (!questions || questions.length <= 0) {
-      return sendFeedback('Please add questions under this test', 'error');
+    if (!options || options.length <= 0) {
+      return sendFeedback('Please add options under this question', 'error');
     }
 
-    const invalidQuestionInput = questions.some(
-      (item) =>
-        !item.title || // question title isn't provided
-        !item.question_type || // question type isn't selected
-        (item.question_type === 'input' && !item.question_input_type) || // question type is input and input type isn't selected
-        !item.options || // no options
-        item.options.some((option) => !option.option_value) || // one option name is missing
-        !item.options.some((option) => option.isCorrectAnswer) // no correct answer selected
-    );
+    const invalidQuestionInput =
+      options.some((item) => !item.option_value) || // option doesn't have value
+      !options.some((item) => item.isCorrectAnswer); // no correct answer selected
 
     if (invalidQuestionInput) {
       return sendFeedback('Please ensure all fields are entered correctly', 'error');
@@ -55,24 +55,26 @@ function AddModal({ closeModal, reload, open, topic }: Props) {
 
     try {
       setLoading(true);
-      const response = await appAxios.post(`/tests`, {
-        duration: Number(formik.values.duration),
-        notice: formik.values.notice,
+      const response = await appAxios.post(`/questions`, {
         topic_id: topic,
-        questions: questions.map((question) => ({
-          title: question.title,
-          question_type: question.question_type,
-          question_input_type: question.question_input_type,
-          options: question.options?.map((option) => ({
-            option_value: option.option_value,
-            isCorrectAnswer: option.isCorrectAnswer || false,
-          })),
+        title: formik.values.title,
+        question_type: formik.values.question_type,
+        ...(formik.values.question_type === 'input'
+          ? {
+              question_input_type: formik.values.question_input_type,
+            }
+          : {
+              question_input_type: null,
+            }),
+        options: options?.map((option) => ({
+          option_value: option.option_value,
+          isCorrectAnswer: option.isCorrectAnswer || false,
         })),
       });
       closeModal();
       reload();
       formik.resetForm();
-      setQuestions(undefined);
+      setOptions(undefined);
       sendFeedback(response.data?.message, 'success');
     } catch (error) {
       sendCatchFeedback(error);
@@ -85,7 +87,7 @@ function AddModal({ closeModal, reload, open, topic }: Props) {
     <CustomModal
       isOpen={open}
       onRequestClose={closeModal}
-      title='Create Test'
+      title='Add Question'
       width='1200px'
       shouldCloseOnOverlayClick={false}
     >
@@ -94,22 +96,37 @@ function AddModal({ closeModal, reload, open, topic }: Props) {
           <div className='grid grid-cols-1 md:grid-cols-2 w-full gap-6 mb-6'>
             <LabelInput
               formik={formik}
-              name='notice'
-              label='Test Notice'
-              placeholder='Notice'
-              hint='Note to students before they start the test'
+              name='title'
+              label='Question'
+              placeholder='Type the question here'
             />
-            <LabelInput
+            <Dropdown
+              name='question_type'
+              label='Question Type'
+              className='capitalize'
+              placeholder='Type of question'
               formik={formik}
-              name='duration'
-              label='Test duration (minutes)'
-              placeholder='Duration'
-              hint='How long would the test last'
-              type='number'
+              values={['input', 'radio', 'checkbox', 'dropdown'].map((item) => ({
+                label: item,
+                value: item,
+              }))}
             />
+            {formik.values.question_type === 'input' && (
+              <Dropdown
+                formik={formik}
+                name='question_input_type'
+                label='Input Type'
+                className='capitalize'
+                placeholder='Type of question input'
+                values={['text', 'number'].map((item) => ({
+                  label: item,
+                  value: item,
+                }))}
+              />
+            )}
           </div>
 
-          <QuestionForm questions={questions} setQuestions={setQuestions} />
+          <OptionForm options={options} setOptions={setOptions} />
         </div>
         <div className='flex items-center justify-center w-full px-5'>
           <div className='md:max-w-[50%] flex w-full justify-center gap-4'>

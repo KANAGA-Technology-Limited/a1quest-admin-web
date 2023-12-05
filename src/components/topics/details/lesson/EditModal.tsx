@@ -47,7 +47,6 @@ function EditModal({ closeModal, reload, open, data, topic, subTopic }: Props) {
       });
       closeModal();
       reload();
-      formik.resetForm();
       sendFeedback(response.data?.message, 'success');
     } catch (error) {
       sendCatchFeedback(error);

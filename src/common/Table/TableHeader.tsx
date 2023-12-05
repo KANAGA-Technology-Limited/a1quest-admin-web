@@ -1,6 +1,12 @@
 import React from 'react';
 
-function TableHeader({ tableHeaders }: { tableHeaders: string[] }) {
+function TableHeader({
+  tableHeaders,
+  headerStyle,
+}: {
+  tableHeaders: string[];
+  headerStyle?: React.CSSProperties;
+}) {
   return (
     <thead className='font-medium text-xs text-[#667085] uppercase  bg-white'>
       <tr>
@@ -12,12 +18,13 @@ function TableHeader({ tableHeaders }: { tableHeaders: string[] }) {
               key={header}
               style={{
                 textAlign: index === 0 ? 'left' : 'center',
+                ...headerStyle,
               }}
             >
               {/* Convert camel cased header to words */}
               {header
                 ?.replace(/([a-z])([A-Z])/g, '$1 $2')
-                ?.replace('_', ' ')
+                ?.replace(/_/g, ' ')
                 ?.toLowerCase()}
             </th>
           ) : (

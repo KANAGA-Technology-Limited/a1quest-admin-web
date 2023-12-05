@@ -42,11 +42,11 @@ export const PERMISSIONS: PERMISSIONS_TYPE = Object.freeze({
   delete_subtopic: 'Delete SubTopic',
 
   // Tests
-  view_test: 'View Test',
-  update_test: 'Update Test',
-  delete_test: 'Delete Test',
-  view_tests: 'View Tests',
-  create_test: 'Create Test',
+  view_question: 'View Question',
+  update_question: 'Update Question',
+  delete_question: 'Delete Question',
+  view_questions: 'View Questions',
+  create_question: 'Create Question',
 
   // Lessons
   view_lesson: 'View Lesson',
@@ -56,4 +56,9 @@ export const PERMISSIONS: PERMISSIONS_TYPE = Object.freeze({
   delete_lesson: 'Delete Lesson',
   create_lesson: 'Create Lesson',
   view_lessons: 'View Lessons',
+
+  // User
+  unfreeze_user: 'Unfreeze User',
+  view_users: 'View Users',
+  view_user: 'View User',
 });

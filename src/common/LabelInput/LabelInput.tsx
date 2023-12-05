@@ -48,6 +48,7 @@ function LabelInput({
               }`}
             >
               {rest.label}
+              {rest.required && <span>*</span>}
             </label>
           )}
           {hint && <div className='font-light text-xs italic text-gray-400'>{hint}</div>}
@@ -79,6 +80,7 @@ function LabelInput({
           {rest.label && (
             <label htmlFor={name} className={`${showError ? 'errorText' : ''}`}>
               {rest.label}
+              {rest.required && <span>*</span>}
             </label>
           )}
           {hint && <div className='font-light text-xs italic text-gray-400'>{hint}</div>}

@@ -79,6 +79,12 @@ const AllLessons = ({
         tableHeaders={tableHeaders}
         data={data || []}
         loading={loading}
+        bodyStyle={{
+          textAlign: 'left',
+        }}
+        headerStyle={{
+          textAlign: 'left',
+        }}
         menuItems={[
           {
             label: 'View Lesson',

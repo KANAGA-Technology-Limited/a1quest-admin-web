@@ -43,6 +43,7 @@ function TextArea({
               }`}
             >
               {label}
+              {required && <span>*</span>}
             </label>
           )}
           {hint && <div className='font-light text-xs italic text-gray-400'>{hint}</div>}
@@ -67,6 +68,7 @@ function TextArea({
         <div className={'inputContainer ' + className}>
           <label htmlFor={name} className={` ${showError ? 'errorText' : ''}`}>
             {label}
+            {required && <span>*</span>}
           </label>
           {hint && <div className='font-light text-xs italic text-gray-400'>{hint}</div>}
           <div className='relative'>

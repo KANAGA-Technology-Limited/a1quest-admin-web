@@ -68,6 +68,12 @@ const AllSubTopics = ({ topic }: { topic: string | undefined }) => {
         tableHeaders={tableHeaders}
         data={data || []}
         loading={loading}
+        bodyStyle={{
+          textAlign: 'left',
+        }}
+        headerStyle={{
+          textAlign: 'left',
+        }}
         menuItems={[
           {
             label: 'View Sub-Topic',

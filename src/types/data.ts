@@ -259,6 +259,10 @@ export type TopicType = {
   last_updated_by: string;
   creation_date: Date;
   last_update_date: Date;
+  test_duration?: number;
+  test_notice?: string;
+  num_of_questions?: number;
+  num_of_enrollments: number;
 };
 
 export type SingleTopicType = {
@@ -282,6 +286,10 @@ export type SingleTopicType = {
   };
   creation_date: Date;
   last_update_date: Date;
+  test_duration?: number;
+  test_notice?: string;
+  num_of_questions?: number;
+  num_of_enrollments: number;
 };
 
 export type ResourceType = 'video' | 'document' | 'audio';
@@ -295,6 +303,9 @@ export type SubTopicType = {
   last_updated_by: string;
   creation_date: Date;
   last_update_date: Date;
+  test_duration?: number;
+  test_notice?: string;
+  num_of_questions?: number;
 };
 
 export type SingleSubTopicType = {
@@ -317,30 +328,28 @@ export type SingleSubTopicType = {
   };
   creation_date: Date;
   last_update_date: Date;
+  test_duration?: number;
+  test_notice?: string;
+  num_of_questions?: number;
 };
 
 export type AllowedQuestionTypes = 'input' | 'radio' | 'checkbox' | 'dropdown';
 export type AllowedInputTypes = 'number' | 'text';
 
-export type TestQuestionType = {
-  title?: string;
-  question_type?: AllowedQuestionTypes;
-  question_input_type?: AllowedInputTypes;
-  options?: {
-    option_value: string;
-    isCorrectAnswer?: boolean;
-    _id?: string;
-  }[];
+export type QuestionOptionType = {
+  option_value: string;
+  isCorrectAnswer?: boolean;
   _id?: string;
 };
 
 export type TestType = {
   _id: string;
-  duration: number;
-  notice: string;
   topic_id: string;
   sub_topic_id: string;
-  questions: TestQuestionType[];
+  title: string;
+  question_type: AllowedQuestionTypes;
+  question_input_type?: AllowedInputTypes;
+  options: QuestionOptionType[];
   created_by: string;
   creation_date: Date;
   last_updated_by: string;
@@ -349,8 +358,6 @@ export type TestType = {
 
 export type SingleTestType = {
   _id: string;
-  duration: number;
-  notice: string;
   topic_id: {
     _id: string;
     title: string;
@@ -359,7 +366,10 @@ export type SingleTestType = {
     _id: string;
     title: string;
   };
-  questions: TestQuestionType[];
+  title: string;
+  question_type: AllowedQuestionTypes;
+  question_input_type?: AllowedInputTypes;
+  options: QuestionOptionType[];
   created_by: {
     _id: string;
     firstName: string;
@@ -438,4 +448,62 @@ export type SingleLessonType = {
   audio_url: string;
   video_identifier: string;
   video_url: string;
+};
+
+export type StudentType = {
+  _id: string;
+  email: string;
+  userName: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  personalReferralCode: string;
+  isVerified: boolean;
+  acceptTermsAndConditions: boolean;
+  isNotFreezed: boolean;
+  createdAt: Date;
+  verificationCode: string;
+  verificationCodeExpires: Date;
+  classLevel: string;
+  country: string;
+  countryState: string;
+  gender: string;
+  school: string;
+  guardianEmail: string;
+  guardianFullName: string;
+  reportToGuardian: string;
+  goal: number;
+  numOfReferrals: number;
+  referralActivity: {
+    userId: string;
+    fullName: string;
+    subscriptionAmount: number;
+    subscriptionPlan: string;
+    amountEarned: number;
+    createdAt: string;
+    _id: string;
+  }[];
+  referralEarnings: number;
+  subscription: {
+    plan: string;
+    lastPaymentDate: Date;
+    nextPaymentDate: Date;
+    active: boolean;
+    running: boolean;
+    gateway: 'paystack' | 'flutterwave';
+    token: string;
+    settledReferrer: boolean;
+  };
+  profilePicture: string;
+  profilePictureId: string;
+};
+
+export type StudentDataFilter = 'registered' | 'active' | 'deleted' | 'subscribed';
+
+export type StudentTestLog = {
+  date: Date;
+  correct: number;
+  questions: number;
+  topic_title: string;
+  sub_topic_title: string;
 };

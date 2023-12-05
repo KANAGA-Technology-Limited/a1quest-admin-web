@@ -6,10 +6,12 @@ function TableBody({
   data,
   tableHeaders,
   menuItems,
+  bodyStyle,
 }: {
   data: any[];
   tableHeaders: string[];
   menuItems?: menuItemType[];
+  bodyStyle?: React.CSSProperties;
 }) {
   const tableRows: rowType = React.useMemo(
     () =>
@@ -37,14 +39,16 @@ function TableBody({
             <td
               className='px-3 py-3 text-sm align-middle'
               key={index}
-              style={{ textAlign: index === 0 ? 'left' : 'center' }}
+              style={{ textAlign: index === 0 ? 'left' : 'center', ...bodyStyle }}
             >
-              {formatTableValue({
-                value: item.value,
-                headerName: item.headerName,
-                menuItems,
-                data: data[mainIndex],
-              })}
+              <p className='line-clamp-2'>
+                {formatTableValue({
+                  value: item.value,
+                  headerName: item.headerName,
+                  menuItems,
+                  data: data[mainIndex],
+                })}
+              </p>
             </td>
           ))}
         </tr>
