@@ -8,8 +8,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install -g pm2
-RUN npm install
+RUN npm install 
 
 
 # Copy the rest of the application code to the container
