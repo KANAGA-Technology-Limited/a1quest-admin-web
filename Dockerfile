@@ -9,7 +9,6 @@ WORKDIR /usr/src/app
 
 # Install dependencies
 RUN npm install -g pm2
-RUN npm install -g yarn
 COPY package.json yarn.lock ./
 RUN yarn install
 
