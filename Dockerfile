@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as the base image
-FROM node:16-alpine
+FROM node:18-alpine
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
@@ -9,6 +9,7 @@ WORKDIR /usr/src/app
 
 # Install dependencies
 RUN npm install -g pm2
+RUN npm install -g yarn
 COPY package.json yarn.lock ./
 RUN yarn install
 
