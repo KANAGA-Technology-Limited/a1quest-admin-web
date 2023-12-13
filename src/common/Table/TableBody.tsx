@@ -41,14 +41,14 @@ function TableBody({
               key={index}
               style={{ textAlign: index === 0 ? 'left' : 'center', ...bodyStyle }}
             >
-              <p className='line-clamp-2'>
+              <div className='line-clamp-2'>
                 {formatTableValue({
                   value: item.value,
                   headerName: item.headerName,
                   menuItems,
                   data: data[mainIndex],
                 })}
-              </p>
+              </div>
             </td>
           ))}
         </tr>
