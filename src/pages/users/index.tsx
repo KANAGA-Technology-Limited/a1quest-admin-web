@@ -29,6 +29,9 @@ const Users = () => {
             ...(filter === 'active' && {
               active: true,
             }),
+            ...(filter === 'frozen' && {
+              active: false,
+            }),
             ...(filter === 'subscribed' && {
               running: true,
             }),
@@ -99,6 +102,10 @@ const Users = () => {
             {
               label: 'Subscribed',
               value: 'subscribed',
+            },
+            {
+              label: 'Frozen',
+              value: 'frozen',
             },
             {
               label: 'Deleted',

@@ -5,22 +5,29 @@ import { StudentTestLog } from '../../../../types/data';
 import LoadingIndicator from '../../../../common/LoadingIndicator';
 import Pagination from '../../../../common/Pagination';
 import LabelInput from '../../../../common/LabelInput/LabelInput';
+import { addOneDayToDate } from '../../../../functions/date';
 
 const UserTestLog = ({ userId }: { userId: string }) => {
   const [data, setData] = useState<StudentTestLog[] | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const [totalResults, setTotalResults] = useState(0);
   const [page, setPage] = useState(1);
-  const [selectedDate, setSelectedDate] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   const getData = async () => {
+    let apiString = `/users/${userId}/test-logs?page=${page}`;
     try {
       setLoading(true);
-      const apiString = selectedDate
-        ? `/users/${userId}/test-logs?page=${page}&year=${new Date(
-            selectedDate
-          ).getFullYear()}&month=${new Date(selectedDate).getMonth() + 1}`
-        : `/users/${userId}/test-logs?page=${page}`;
+      if (startDate) {
+        apiString += `&start_date=${startDate}`;
+
+        if (endDate) {
+          apiString += `&end_date=${addOneDayToDate(endDate)}`;
+        } else {
+          apiString += `&end_date=${addOneDayToDate(startDate)}`;
+        }
+      }
 
       const response = await appAxios.get(apiString);
       setData(response.data?.data);
@@ -34,32 +41,46 @@ const UserTestLog = ({ userId }: { userId: string }) => {
   useEffect(() => {
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, selectedDate]);
+  }, [page, startDate, endDate]);
 
   return (
     <>
-      <LabelInput
-        className='mb-10 !w-fit'
-        type='month'
-        label='Date Filter'
-        useFormik={false}
-        value={selectedDate}
-        name='date'
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setSelectedDate(e.target.value)
-        }
-      />
+      <div className='flex gap-5 items-center justify-end mb-10 flex-col md:flex-row'>
+        <LabelInput
+          className='!w-full md:!w-fit'
+          type='date'
+          label='Start Date'
+          useFormik={false}
+          value={startDate}
+          name='date'
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setStartDate(e.target.value)
+          }
+        />
+        <LabelInput
+          className='!w-full md:!w-fit'
+          type='date'
+          label='End Date'
+          useFormik={false}
+          value={endDate}
+          name='date'
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setEndDate(e.target.value)
+          }
+        />
+      </div>
       {loading ? (
         <LoadingIndicator />
       ) : data && data.length > 0 ? (
         <>
           <div className='grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full'>
-            {data.map((item) => (
+            {data.map((item, index) => (
               <div
                 className='w-full p-4 flex items-center justify-between gap-5'
                 style={{
                   boxShadow: ' 0px 8px 24px 0px rgba(149, 157, 165, 0.20)',
                 }}
+                key={index}
               >
                 <div className='flex flex-col gap-[10px]'>
                   <span className='text-[#0D0F11] text-sm font-semibold'>

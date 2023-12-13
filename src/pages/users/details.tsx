@@ -65,7 +65,7 @@ const UserDetails = () => {
         loading={loading}
         pageActions={
           data &&
-          !data.isNotFreezed &&
+          !data.subscription?.active &&
           hasPermission(PERMISSIONS.unfreeze_user) && (
             <Button onClick={() => setUnfreezeModal(true)}>Unfreeze Account</Button>
           )
