@@ -1,33 +1,38 @@
-# Use an official Node.js runtime as the base image
-FROM node:16-alpine
+FROM node:18-alpine
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the container
-#COPY package*.json ./
+# Install a specific version of npm globally
+RUN npm install -g npm@7
 
-# Install dependencies
+# Install PM2 globally
 RUN npm install -g pm2
-COPY package.json yarn.lock ./
+
+# Install Yarn globally
+#RUN npm install -g yarn
+
+# Copy package.json and yarn.lock to the container
+COPY package*.json yarn.lock ./
+
+# Install dependencies using Yarn
 RUN yarn install
 
 # Copy the rest of the application code to the container
 COPY . .
-EXPOSE 3000
+
 # Set environment variables
-ENV NEXT_PUBLIC_API_URL=https://a1quest-api-production.up.railway.app/api/v1
-ENV NEXT_PUBLIC_SESSION_NAME="A1Quest_Admin"
-ENV NEXT_PUBLIC_SESSION_KEY=A!Quest_AD_MIN
-ENV NEXT_PUBLIC_TOKEN_NAME="A1Quest Admin"
-ENV NEXT_PUBLIC_TOKEN_KEY=A1_AD_QUE_TOK_KEY
-CMD ["pm2-runtime", "yarn", "start"]
+ENV REACT_APP_API_URL=http://api-dev.a1quest.com/api/v1
+ENV REACT_APP_SESSION_NAME="A1Quest_Admin"
+ENV REACT_APP_SESSION_KEY=A!Quest_AD_MIN
+ENV REACT_APP_TOKEN_NAME="A1Quest Admin"
+ENV REACT_APP_TOKEN_KEY=A1_AD_QUE_TOK_KEY
 
-
-# Build the Next.js application
-
+# Build the React app
+RUN yarn build
 
 # Expose the port that the application will run on
+EXPOSE 3000
 
-# Start the Next.js application
-
+# Start the React app with PM2
+CMD ["yarn", "start"]
