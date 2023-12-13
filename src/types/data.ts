@@ -460,7 +460,7 @@ export type StudentType = {
   personalReferralCode: string;
   isVerified: boolean;
   acceptTermsAndConditions: boolean;
-  isNotFreezed: boolean;
+  isNotFreezed?: boolean;
   createdAt: Date;
   verificationCode: string;
   verificationCodeExpires: Date;
@@ -498,7 +498,12 @@ export type StudentType = {
   profilePictureId: string;
 };
 
-export type StudentDataFilter = 'registered' | 'active' | 'deleted' | 'subscribed';
+export type StudentDataFilter =
+  | 'registered'
+  | 'active'
+  | 'deleted'
+  | 'subscribed'
+  | 'frozen';
 
 export type StudentTestLog = {
   date: Date;

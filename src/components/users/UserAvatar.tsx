@@ -8,7 +8,7 @@ const UserAvatar = ({ avatar }: { avatar: string }) => {
       alt='User Avatar'
       width={200}
       height={200}
-      className='w-16 h-16 rounded-full object-cover'
+      className='w-16 h-16 rounded-full object-contain'
     />
   );
 };
