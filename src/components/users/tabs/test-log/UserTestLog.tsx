@@ -19,14 +19,8 @@ const UserTestLog = ({ userId }: { userId: string }) => {
     let apiString = `/users/${userId}/test-logs?page=${page}`;
     try {
       setLoading(true);
-      if (startDate) {
-        apiString += `&start_date=${startDate}`;
-
-        if (endDate) {
-          apiString += `&end_date=${addOneDayToDate(endDate)}`;
-        } else {
-          apiString += `&end_date=${addOneDayToDate(startDate)}`;
-        }
+      if (startDate && endDate) {
+        apiString += `&start_date=${startDate}&end_date=${addOneDayToDate(endDate)}`;
       }
 
       const response = await appAxios.get(apiString);
