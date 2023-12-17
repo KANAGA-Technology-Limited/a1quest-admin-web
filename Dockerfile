@@ -22,7 +22,7 @@ RUN yarn install
 COPY . .
 
 # Set environment variables
-ENV REACT_APP_API_URL=http://api-dev.a1quest.com/api/v1
+ENV REACT_APP_API_URL=https://api.a1quest.com/api/v1
 ENV REACT_APP_SESSION_NAME="A1Quest_Admin"
 ENV REACT_APP_SESSION_KEY=A!Quest_AD_MIN
 ENV REACT_APP_TOKEN_NAME="A1Quest Admin"
