@@ -512,3 +512,41 @@ export type StudentTestLog = {
   topic_title: string;
   sub_topic_title: string;
 };
+
+export interface LessonReportType {
+  _id: string;
+  title: string;
+  allLessons: number;
+  takenLessons: number;
+}
+
+export interface SingleLessonReportType {
+  sub_topics: {
+    title: string;
+    time: number;
+  }[];
+  total_time: number;
+  allLessons: number;
+  takenLessons: number;
+}
+
+export interface TopicPerformanceType {
+  numOfTests: number;
+  questionsGotten: number;
+  averageTimePerQuestion: number;
+  tests: [
+    {
+      topic: string;
+      sub_topic: string;
+      percentage: number;
+      expert: boolean;
+    },
+    {
+      topic: string;
+      sub_topic: string;
+      percentage: number;
+      intermediate: boolean;
+    }
+  ];
+  averagePercentageScore: number;
+}
