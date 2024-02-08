@@ -84,5 +84,18 @@ export const formatTableValue = ({
     return <TableMenu data={data} menuItems={menuItems} />;
   }
 
+  // image check
+  if (['badge'].includes(headerName)) {
+    return (
+      <img
+        src={value}
+        alt=''
+        className='w-[50px] h-[50px] rounded-full object-cover'
+        width={100}
+        height={100}
+      />
+    );
+  }
+
   return <span className='capitalize'>{value?.toString() || '-'}</span>;
 };
