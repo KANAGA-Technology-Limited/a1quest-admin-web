@@ -68,7 +68,12 @@ function EditModal({ closeModal, refetch, open, data, permissions }: Props) {
   }, [open, permissions, data]);
 
   return (
-    <CustomModal isOpen={open} onRequestClose={closeModal} title='Edit Role'>
+    <CustomModal
+      isOpen={open}
+      onRequestClose={closeModal}
+      title='Edit Role'
+      width='1000px'
+    >
       <form onSubmit={formik.handleSubmit} className='w-full'>
         <div className='w-full border-[0.6px] rounded-md border-[#DBDBDB] p-4 mt-7 mb-10'>
           <LabelInput
@@ -78,7 +83,7 @@ function EditModal({ closeModal, refetch, open, data, permissions }: Props) {
             placeholder='Enter class name'
           />
           <p className='mt-8 mb-4 text-[#292929] font-medium'>Select Permissions</p>
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5'>
             {permissions?.map((permission) => {
               const checked = selectedPermissions?.some(
                 (item) => item._id === permission._id

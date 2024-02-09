@@ -220,7 +220,7 @@ export const AchievementIcon = ({ className }: { className?: string }) => {
         d='M7.15002 22H17.15V21C17.15 19.9 16.25 19 15.15 19H9.15002C8.05002 19 7.15002 19.9 7.15002 21V22V22Z'
         stroke='#596780'
         strokeWidth='1.5'
-        stroke-miterlimit='10'
+        strokeMiterlimit='10'
       />
       <path
         d='M6.15002 22H18.15'
