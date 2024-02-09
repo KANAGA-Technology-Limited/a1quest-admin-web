@@ -20,7 +20,7 @@ function DeleteModal({ closeModal, refetch, open, data }: Props) {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await appAxios.delete('/admin-mgmt/' + data?._id);
+      const response = await appAxios.delete('/achievements/' + data?._id);
       sendFeedback(response.data?.message, 'success');
       refetch();
       return closeModal();
@@ -33,20 +33,20 @@ function DeleteModal({ closeModal, refetch, open, data }: Props) {
 
   if (!data) return null;
   return (
-    <CustomModal isOpen={open} onRequestClose={closeModal} title='Delete Admin'>
+    <CustomModal isOpen={open} onRequestClose={closeModal} title='Delete Achievement'>
       <form onSubmit={submitValues} className='w-full'>
         <div className='w-full border-[0.6px] rounded-md border-[#DBDBDB] p-4 mt-7 mb-10'>
           <h3 className='text-[#06102B] font-semibold text-lg mb-4 text-center'>
-            Deleting this admin would do the following:
+            Deleting this achievement would do the following:
           </h3>
           <ul className='flex flex-col gap-3'>
             <li className='flex items-center gap-[10px] text-[#4B5768]'>
               <CrossIcon />
-              <span>Lose the trail of event logs done</span>
+              <span>Clear all the associated settings for this achievement</span>
             </li>
             <li className='flex items-center gap-[10px] text-[#4B5768]'>
               <CrossIcon />
-              <span>Revoke access to A1Quest</span>
+              <span>Remove this achievement from associated users</span>
             </li>
           </ul>
         </div>
