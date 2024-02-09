@@ -60,7 +60,7 @@ function AddModal({ closeModal, reload, open }: Props) {
       formik.values.avg_score && formData.append('avg_score', formik.values.avg_score);
       formik.values.no_of_days_in_streak &&
         formData.append('no_of_days_in_streak', formik.values.no_of_days_in_streak);
-      formik.values.active && formData.append('active', String(formik.values.active));
+      formData.append('active', String(formik.values.active));
 
       const response = await appAxios.post(`/achievements`, formData, {
         headers: {
