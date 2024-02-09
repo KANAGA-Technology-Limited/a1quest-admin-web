@@ -25,7 +25,7 @@ const ProfileImage = () => {
   const submitValues = async () => {
     try {
       if (!formik.values.profileImage) {
-        return sendFeedback('Select and image', 'error');
+        return sendFeedback('Select an image', 'error');
       }
       setLoading(true);
 

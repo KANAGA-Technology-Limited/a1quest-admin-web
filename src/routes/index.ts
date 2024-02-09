@@ -7,6 +7,7 @@ import settingsRoutes from './settings';
 import usersRoutes from './users';
 import rolesRoutes from './roles';
 import classesRoutes from './classes';
+import achievementRoutes from './achievements';
 
 const routes: any[] = [
   ...authenticationRoutes,
@@ -18,6 +19,7 @@ const routes: any[] = [
   ...usersRoutes,
   ...rolesRoutes,
   ...classesRoutes,
+  ...achievementRoutes,
 ];
 
 export default routes;

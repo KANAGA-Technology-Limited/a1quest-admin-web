@@ -550,3 +550,49 @@ export interface TopicPerformanceType {
   ];
   averagePercentageScore: number;
 }
+
+export interface AchievementType {
+  _id: string;
+  name: string;
+  notification_message: string;
+  badge: string;
+  badge_id: string;
+  no_of_lessons: number;
+  no_of_sub_topics: number;
+  no_of_topics: number;
+  tests?: {
+    no_of_tests: number;
+    avg_score: number;
+  };
+  no_of_days_in_streak: number;
+  active: boolean;
+  created_by: string;
+  creation_date: string;
+  last_updated_by: string;
+  last_update_date: string;
+}
+
+export interface SingleAchievementType {
+  tests?: {
+    no_of_tests: number;
+    avg_score: number;
+  };
+  _id: string;
+  name: string;
+  notification_message: string;
+  badge: string;
+  badge_id: string;
+  no_of_lessons: number;
+  no_of_sub_topics: number;
+  no_of_topics: number;
+  no_of_days_in_streak: number;
+  active: boolean;
+  created_by?: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
+  creation_date: string;
+  last_updated_by: string;
+  last_update_date: string;
+}

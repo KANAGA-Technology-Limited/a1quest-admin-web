@@ -61,4 +61,11 @@ export const PERMISSIONS: PERMISSIONS_TYPE = Object.freeze({
   unfreeze_user: 'Unfreeze User',
   view_users: 'View Users',
   view_user: 'View User',
+
+  // Achievements
+  view_achievement: 'View Achievement',
+  view_achievements: 'View Achievements',
+  update_achievement: 'Update Achievement',
+  delete_achievement: 'Delete Achievement',
+  create_achievement: 'Create Achievement',
 });
