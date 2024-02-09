@@ -560,7 +560,7 @@ export interface AchievementType {
   no_of_lessons: number;
   no_of_sub_topics: number;
   no_of_topics: number;
-  tests: {
+  tests?: {
     no_of_tests: number;
     avg_score: number;
   };
@@ -573,7 +573,7 @@ export interface AchievementType {
 }
 
 export interface SingleAchievementType {
-  tests: {
+  tests?: {
     no_of_tests: number;
     avg_score: number;
   };
@@ -587,7 +587,7 @@ export interface SingleAchievementType {
   no_of_topics: number;
   no_of_days_in_streak: number;
   active: boolean;
-  created_by: {
+  created_by?: {
     _id: string;
     firstName: string;
     lastName: string;
