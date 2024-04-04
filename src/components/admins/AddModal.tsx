@@ -6,6 +6,8 @@ import { sendCatchFeedback, sendFeedback } from '../../functions/feedback';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import LabelInput from '../../common/LabelInput/LabelInput';
+import { useAppSelector } from '../../store/hooks';
+import Dropdown from '../../common/Dropdown';
 
 interface Props {
   closeModal: () => void;
@@ -15,6 +17,7 @@ interface Props {
 
 function AddModal({ closeModal, reload, open }: Props) {
   const [loading, setLoading] = useState(false);
+  const { user } = useAppSelector((state) => state.user);
 
   const formik = useFormik({
     initialValues: {
@@ -24,6 +27,7 @@ function AddModal({ closeModal, reload, open }: Props) {
       userName: '',
       lastName: '',
       password: '',
+      role: 'admin',
     },
     onSubmit: () => {
       submitValues();
@@ -35,6 +39,7 @@ function AddModal({ closeModal, reload, open }: Props) {
       userName: yup.string().required('Required'),
       lastName: yup.string().required('Required'),
       password: yup.string().required('Required'),
+      role: yup.string().required('Required'),
     }),
   });
 
@@ -48,6 +53,7 @@ function AddModal({ closeModal, reload, open }: Props) {
         userName: formik.values.userName,
         lastName: formik.values.lastName,
         password: formik.values.password,
+        role: formik.values.role,
       });
       closeModal();
       reload();
@@ -64,12 +70,31 @@ function AddModal({ closeModal, reload, open }: Props) {
     <CustomModal isOpen={open} onRequestClose={closeModal} title='Create Admin'>
       <form onSubmit={formik.handleSubmit} className='w-full'>
         <div className='w-full border-[0.6px] rounded-md border-[#DBDBDB] p-4 mt-7 mb-10'>
+          {user?.role === 'super' && (
+            <Dropdown
+              values={['admin', 'super'].map((item) => ({
+                label: item,
+                value: item,
+              }))}
+              name='role'
+              formik={formik}
+              placeholder='Admin Type'
+              className='capitalize mb-6'
+              value={{
+                label: formik.values.role,
+                value: formik.values.role,
+              }}
+              label='Admin Type'
+            />
+          )}
+
           <LabelInput
             formik={formik}
             name='firstName'
             label='First name'
             className='mb-6'
           />
+
           <LabelInput
             formik={formik}
             name='lastName'
