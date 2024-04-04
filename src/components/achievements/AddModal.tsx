@@ -53,6 +53,8 @@ function AddModal({ closeModal, reload, open }: Props) {
 
       formik.values.no_of_topics &&
         formData.append('no_of_topics', formik.values.no_of_topics);
+      formik.values.no_of_lessons &&
+        formData.append('no_of_lessons', formik.values.no_of_lessons);
       formik.values.no_of_sub_topics &&
         formData.append('no_of_sub_topics', formik.values.no_of_sub_topics);
       formik.values.no_of_tests &&
@@ -87,7 +89,7 @@ function AddModal({ closeModal, reload, open }: Props) {
     >
       <form onSubmit={formik.handleSubmit} className='w-full'>
         <div className='w-full border-[0.6px] rounded-md border-[#DBDBDB] p-4 mt-7 mb-10 grid grid-cols-1 md:grid-cols-2 gap-6'>
-          <div className='flex flex-col gap-3 col-span-2 border rounded p-2'>
+          <div className='flex flex-col gap-3 md:col-span-2 border rounded p-2'>
             <label htmlFor='badgeImage'>Badge Image</label>
             <input
               type='file'
@@ -153,7 +155,7 @@ function AddModal({ closeModal, reload, open }: Props) {
             name='active'
             formik={formik}
             placeholder='Activate Now?'
-            className='col-span-2'
+            className='md:col-span-2'
             value={{
               label: formik.values.active ? 'Yes' : 'No',
               value: formik.values.active,

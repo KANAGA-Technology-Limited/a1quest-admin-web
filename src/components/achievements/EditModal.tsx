@@ -54,6 +54,8 @@ function EditModal({ closeModal, reload, open, data }: Props) {
 
       formik.values.no_of_topics &&
         formData.append('no_of_topics', formik.values.no_of_topics.toString());
+      formik.values.no_of_lessons &&
+        formData.append('no_of_lessons', formik.values.no_of_lessons.toString());
       formik.values.no_of_sub_topics &&
         formData.append('no_of_sub_topics', formik.values.no_of_sub_topics.toString());
       formik.values.no_of_tests &&
@@ -146,7 +148,7 @@ function EditModal({ closeModal, reload, open, data }: Props) {
             name='active'
             formik={formik}
             placeholder='Activate Now?'
-            className='col-span-2'
+            className='md:col-span-2'
             value={{
               label: formik.values.active ? 'Yes' : 'No',
               value: formik.values.active,
@@ -164,7 +166,7 @@ function EditModal({ closeModal, reload, open, data }: Props) {
             name='changeBadge'
             formik={formik}
             placeholder='Change Badge Image?'
-            className='col-span-2'
+            className='md:col-span-2'
             value={{
               label: formik.values.changeBadge ? 'Yes' : 'No',
               value: formik.values.changeBadge,
