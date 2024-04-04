@@ -77,6 +77,7 @@ function Admins() {
     'email',
     'phoneNumber',
     'userName',
+    'role',
     'tableAction',
   ];
 
