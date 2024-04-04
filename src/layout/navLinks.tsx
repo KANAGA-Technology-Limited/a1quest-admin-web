@@ -1,5 +1,6 @@
 import { PERMISSIONS } from '../hooks/data';
 import {
+  AchievementIcon,
   AdminsIcon,
   ClassIcon,
   HomeIcon,
@@ -45,6 +46,11 @@ export const mainLinks: navItemType[] = [
     label: 'User',
     href: '/users',
     icon: <UserIcon className={styles.navIcon} />,
+  },
+  {
+    label: 'Achievements',
+    href: '/achievements',
+    icon: <AchievementIcon className={styles.altNavIcon} />,
   },
 ];
 

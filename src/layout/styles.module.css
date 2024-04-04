@@ -37,3 +37,7 @@
   transition: stroke 0.3s;
   fill: #fff !important;
 }
+.activeNavLink .altNavIcon path {
+  transition: stroke 0.3s;
+  stroke: #fff !important;
+}

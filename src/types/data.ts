@@ -512,3 +512,87 @@ export type StudentTestLog = {
   topic_title: string;
   sub_topic_title: string;
 };
+
+export interface LessonReportType {
+  _id: string;
+  title: string;
+  allLessons: number;
+  takenLessons: number;
+}
+
+export interface SingleLessonReportType {
+  sub_topics: {
+    title: string;
+    time: number;
+  }[];
+  total_time: number;
+  allLessons: number;
+  takenLessons: number;
+}
+
+export interface TopicPerformanceType {
+  numOfTests: number;
+  questionsGotten: number;
+  averageTimePerQuestion: number;
+  tests: [
+    {
+      topic: string;
+      sub_topic: string;
+      percentage: number;
+      expert: boolean;
+    },
+    {
+      topic: string;
+      sub_topic: string;
+      percentage: number;
+      intermediate: boolean;
+    }
+  ];
+  averagePercentageScore: number;
+}
+
+export interface AchievementType {
+  _id: string;
+  name: string;
+  notification_message: string;
+  badge: string;
+  badge_id: string;
+  no_of_lessons: number;
+  no_of_sub_topics: number;
+  no_of_topics: number;
+  tests?: {
+    no_of_tests: number;
+    avg_score: number;
+  };
+  no_of_days_in_streak: number;
+  active: boolean;
+  created_by: string;
+  creation_date: string;
+  last_updated_by: string;
+  last_update_date: string;
+}
+
+export interface SingleAchievementType {
+  tests?: {
+    no_of_tests: number;
+    avg_score: number;
+  };
+  _id: string;
+  name: string;
+  notification_message: string;
+  badge: string;
+  badge_id: string;
+  no_of_lessons: number;
+  no_of_sub_topics: number;
+  no_of_topics: number;
+  no_of_days_in_streak: number;
+  active: boolean;
+  created_by?: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
+  creation_date: string;
+  last_updated_by: string;
+  last_update_date: string;
+}
