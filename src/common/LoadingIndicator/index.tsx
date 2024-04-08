@@ -1,16 +1,28 @@
-import React from 'react';
 import styles from './style.module.css';
 
-const LoadingIndicator = ({ text, size = 30 }: { text?: string; size?: number }) => {
+const LoadingIndicator = ({
+  text,
+  size = 30,
+  align = 'flex-start',
+}: {
+  text?: string;
+  size?: number;
+  align?: 'flex-start' | 'flex-end' | 'center';
+}) => {
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      style={{
+        alignItems: align,
+      }}
+    >
       <div
         className={styles.loader}
         style={{
           height: size,
           width: size,
         }}
-      ></div>
+      />
       {text && <span>{text}</span>}
     </div>
   );
