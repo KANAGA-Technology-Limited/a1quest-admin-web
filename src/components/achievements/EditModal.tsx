@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import CustomModal from '../../common/CustomModal/CustomModal';
-import Button from '../../common/Button';
-import { appAxios } from '../../api/axios';
-import { sendCatchFeedback, sendFeedback } from '../../functions/feedback';
 import { useFormik } from 'formik';
+import { useState } from 'react';
 import * as yup from 'yup';
-import LabelInput from '../../common/LabelInput/LabelInput';
-import { AchievementType } from '../../types/data';
+import { appAxios } from '../../api/axios';
+import Button from '../../common/Button';
+import CustomModal from '../../common/CustomModal/CustomModal';
 import Dropdown from '../../common/Dropdown';
+import LabelInput from '../../common/LabelInput/LabelInput';
+import { sendCatchFeedback, sendFeedback } from '../../functions/feedback';
+import { AchievementType } from '../../types/data';
 
 interface Props {
   closeModal: () => void;
@@ -76,6 +76,7 @@ function EditModal({ closeModal, reload, open, data }: Props) {
       });
       closeModal();
       reload();
+      formik.resetForm();
       sendFeedback(response.data?.message, 'success');
     } catch (error) {
       sendCatchFeedback(error);
