@@ -3,6 +3,7 @@ import {
   AchievementIcon,
   AdminsIcon,
   ClassIcon,
+  FeedbackIcon,
   HomeIcon,
   RoleIcon,
   SettingIcon,
@@ -51,6 +52,11 @@ export const mainLinks: navItemType[] = [
     label: 'Achievements',
     href: '/achievements',
     icon: <AchievementIcon className={styles.altNavIcon} />,
+  },
+  {
+    label: 'Feedback',
+    href: '/feedback',
+    icon: <FeedbackIcon className={styles.altNavIcon} />,
   },
 ];
 
