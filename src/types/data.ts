@@ -596,3 +596,11 @@ export interface SingleAchievementType {
   last_updated_by: string;
   last_update_date: string;
 }
+
+export interface FeedbackType {
+  _id: string;
+  fullName: string;
+  email: string;
+  message: string;
+  creation_date: string;
+}
