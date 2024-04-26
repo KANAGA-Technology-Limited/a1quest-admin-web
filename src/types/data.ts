@@ -460,7 +460,6 @@ export type StudentType = {
   personalReferralCode: string;
   isVerified: boolean;
   acceptTermsAndConditions: boolean;
-  isNotFreezed?: boolean;
   createdAt: Date;
   verificationCode: string;
   verificationCodeExpires: Date;

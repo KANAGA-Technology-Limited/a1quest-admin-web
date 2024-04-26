@@ -1,4 +1,3 @@
-import React from 'react';
 import { StudentType } from '../../types/data';
 
 const AccountInfo = ({ user }: { user: StudentType }) => {
@@ -19,7 +18,7 @@ const AccountInfo = ({ user }: { user: StudentType }) => {
         <b>Verified:</b> <span>{user.isVerified ? 'Yes' : 'No'}</span>
       </p>
       <p>
-        <b>Frozen:</b> <span>{!user.isNotFreezed ? 'Yes' : 'No'}</span>
+        <b>Frozen:</b> <span>{!user.subscription?.active ? 'Yes' : 'No'}</span>
       </p>
     </div>
   );
