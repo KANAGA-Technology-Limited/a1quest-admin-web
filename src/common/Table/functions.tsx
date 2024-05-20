@@ -37,7 +37,13 @@ export const formatTableValue = ({
   if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
     return (
       <span className='capitalize'>
-        {(value['fullname'] || value['name'] || Object.values(value)[0]) as string}
+        {
+          (value['fullname'] ||
+            value['name'] ||
+            value['userName'] ||
+            value['firstName'] ||
+            Object.values(value)[0]) as string
+        }
       </span>
     );
   }
