@@ -603,3 +603,17 @@ export interface FeedbackType {
   message: string;
   creation_date: string;
 }
+
+export interface BroadcastType {
+  _id: string;
+  admin_id?: {
+    _id: string;
+    userName: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+  };
+  message: string;
+  category: 'in-app' | 'push';
+  creation_date: string;
+}

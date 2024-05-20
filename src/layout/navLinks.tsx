@@ -2,6 +2,7 @@ import { PERMISSIONS } from '../hooks/data';
 import {
   AchievementIcon,
   AdminsIcon,
+  BroadcastIcon,
   ClassIcon,
   FeedbackIcon,
   HomeIcon,
@@ -29,6 +30,7 @@ export const mainLinks: navItemType[] = [
     label: 'Dashboard',
     href: '/dashboard',
     icon: <HomeIcon className={styles.navIcon} />,
+    permission: PERMISSIONS.view_dashboard,
   },
 
   {
@@ -57,6 +59,13 @@ export const mainLinks: navItemType[] = [
     label: 'Feedback',
     href: '/feedback',
     icon: <FeedbackIcon className={styles.altNavIcon} />,
+    permission: PERMISSIONS.view_feedback,
+  },
+  {
+    label: 'Broadcasts',
+    href: '/broadcasts',
+    icon: <BroadcastIcon className={styles.altNavIcon} />,
+    permission: PERMISSIONS.view_feedback,
   },
 ];
 
