@@ -66,4 +66,15 @@ export type PERMISSIONS_TYPE = {
   update_achievement: 'Update Achievement';
   delete_achievement: 'Delete Achievement';
   create_achievement: 'Create Achievement';
+
+  // Dashboard
+  view_dashboard: 'View Dashboard';
+
+  // User Feedback
+  view_feedback: 'View Messages';
+
+  // Notification Broadcasts
+  send_broadcast: 'Broadcast Notification';
+  view_broadcasts: 'View Notifications';
+  view_broadcast: 'View Notification';
 };

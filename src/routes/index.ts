@@ -1,6 +1,7 @@
 import achievementRoutes from './achievements';
 import adminsRoutes from './admins';
 import authenticationRoutes from './authentication';
+import broadcastRoutes from './broadcasts';
 import classesRoutes from './classes';
 import dashboardRoutes from './dashboard';
 import { feedbackRoutes } from './feedback';
@@ -22,6 +23,7 @@ const routes: any[] = [
   ...classesRoutes,
   ...achievementRoutes,
   ...feedbackRoutes,
+  ...broadcastRoutes,
 ];
 
 export default routes;
