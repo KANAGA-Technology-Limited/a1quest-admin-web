@@ -1,16 +1,15 @@
-import { useState, useRef, useEffect } from 'react';
+import autoAnimate from '@formkit/auto-animate';
+import { useEffect, useRef, useState } from 'react';
 import ClickAwayListener from 'react-click-away-listener';
 import { Link, useNavigate } from 'react-router-dom';
+import { appAxios } from '../../api/axios';
 import ArrowDownIcon from '../../assets/icons/chevron-down.svg';
+import { sendCatchFeedback, sendFeedback } from '../../functions/feedback';
+import { getNameInitials } from '../../functions/stringManipulations';
+import usePermissions from '../../hooks/usePermissions';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { signOut } from '../../store/slices/user';
 import { mainLinks, navItemType, preferencesLinks } from '../navLinks';
-import { getNameInitials } from '../../functions/stringManipulations';
-import autoAnimate from '@formkit/auto-animate';
-import Notification from './Notification';
-import { sendCatchFeedback, sendFeedback } from '../../functions/feedback';
-import { appAxios } from '../../api/axios';
-import usePermissions from '../../hooks/usePermissions';
 
 function UserMenu() {
   const [open, setOpen] = useState(false);
@@ -43,7 +42,7 @@ function UserMenu() {
   return (
     <ClickAwayListener onClickAway={() => setOpen(false)}>
       <div className='flex items-center' ref={parentRef}>
-        <Notification />
+        {/* <Notification /> */}
         <div className='relative'>
           <button onClick={() => setOpen(true)} className='flex items-center relative'>
             <div className='w-[39px] h-[39px] bg-[#00FFFF] flex items-center justify-center rounded-full mr-[5px]'>

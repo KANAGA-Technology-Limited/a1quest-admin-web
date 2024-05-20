@@ -460,7 +460,6 @@ export type StudentType = {
   personalReferralCode: string;
   isVerified: boolean;
   acceptTermsAndConditions: boolean;
-  isNotFreezed?: boolean;
   createdAt: Date;
   verificationCode: string;
   verificationCodeExpires: Date;
@@ -595,4 +594,26 @@ export interface SingleAchievementType {
   creation_date: string;
   last_updated_by: string;
   last_update_date: string;
+}
+
+export interface FeedbackType {
+  _id: string;
+  fullName: string;
+  email: string;
+  message: string;
+  creation_date: string;
+}
+
+export interface BroadcastType {
+  _id: string;
+  admin_id?: {
+    _id: string;
+    userName: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+  };
+  message: string;
+  category: 'in-app' | 'push';
+  creation_date: string;
 }
