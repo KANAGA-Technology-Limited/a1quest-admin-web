@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { appAxios } from '../../api/axios';
+import LoadingIndicator from '../../common/LoadingIndicator';
+import StyledTabs from '../../common/StyledTabs';
+import AllLessons from '../../components/topics/details/lesson/AllLessons';
+import SubTopicInfo from '../../components/topics/details/sub-topics/SubTopicInfo';
+import TestList from '../../components/topics/details/sub-topics/test_flow/TestList';
+import { sendCatchFeedback } from '../../functions/feedback';
+import { PERMISSIONS } from '../../hooks/data';
+import usePermissions from '../../hooks/usePermissions';
 import AppLayout from '../../layout/AppLayout';
 import PageHeader from '../../layout/PageLayout/PageHeader';
 import { SingleSubTopicType } from '../../types/data';
-import { appAxios } from '../../api/axios';
-import { useParams } from 'react-router-dom';
-import { sendCatchFeedback } from '../../functions/feedback';
-import StyledTabs from '../../common/StyledTabs';
-import LoadingIndicator from '../../common/LoadingIndicator';
-import SubTopicInfo from '../../components/topics/details/sub-topics/SubTopicInfo';
-import usePermissions from '../../hooks/usePermissions';
-import { PERMISSIONS } from '../../hooks/data';
-import TestList from '../../components/topics/details/sub-topics/test_flow/TestList';
-import AllLessons from '../../components/topics/details/lesson/AllLessons';
 
 const tabs = ['About', 'Lessons', 'Test'];
 
@@ -45,7 +45,12 @@ const SubTopicDetails = () => {
       subTopic={data?._id || ''}
       topic={data?.topic_id._id || ''}
     />,
-    <TestList key='Test' subTopic={data?._id || ''} topic={data?.topic_id._id || ''} />,
+    <TestList
+      key='Test'
+      subTopic={data?._id || ''}
+      topic={data?.topic_id._id || ''}
+      minimumQuestion={data?.num_of_questions || 0}
+    />,
   ];
 
   return (
