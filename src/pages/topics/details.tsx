@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import AppLayout from '../../layout/AppLayout';
-import PageHeader from '../../layout/PageLayout/PageHeader';
-import { SingleTopicType } from '../../types/data';
-import { appAxios } from '../../api/axios';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { sendCatchFeedback } from '../../functions/feedback';
+import { appAxios } from '../../api/axios';
+import LoadingIndicator from '../../common/LoadingIndicator';
 import StyledTabs from '../../common/StyledTabs';
 import TopicInfo from '../../components/topics/details/TopicInfo';
 import AllSubTopics from '../../components/topics/details/sub-topics/AllSubTopics';
-import LoadingIndicator from '../../common/LoadingIndicator';
-import usePermissions from '../../hooks/usePermissions';
-import { PERMISSIONS } from '../../hooks/data';
 import TestList from '../../components/topics/details/test_flow/TestList';
+import { sendCatchFeedback } from '../../functions/feedback';
+import { PERMISSIONS } from '../../hooks/data';
+import usePermissions from '../../hooks/usePermissions';
+import AppLayout from '../../layout/AppLayout';
+import PageHeader from '../../layout/PageLayout/PageHeader';
+import { SingleTopicType } from '../../types/data';
 
 const tabs = ['About', 'Sub-Topics', 'Test'];
 
@@ -41,7 +41,7 @@ const TopicDetails = () => {
   const panels = [
     <TopicInfo key='About' data={data} />,
     <AllSubTopics key='Sub-Topics' topic={data?._id} />,
-    <TestList key='Test' topic={data?._id || ''} />,
+    <TestList key='Test' topic={data?._id || ''} minimumQuestion={data?.num_of_questions || 0} />,
   ];
 
   return (

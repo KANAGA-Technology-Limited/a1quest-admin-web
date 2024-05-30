@@ -1,20 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { PERMISSIONS } from '../../../../hooks/data';
-import AddModal from './AddModal';
-import EditModal from './EditModal';
-import DeleteModal from './DeleteModal';
-import Table from '../../../../common/Table';
-import ViewModal from './ViewModal';
-import PageHeader from '../../../../layout/PageLayout/PageHeader';
-import { sendCatchFeedback } from '../../../../functions/feedback';
+import { useEffect, useState } from 'react';
 import { appAxios } from '../../../../api/axios';
-import { TestType } from '../../../../types/data';
-import usePermissions from '../../../../hooks/usePermissions';
 import Button from '../../../../common/Button';
-import { AddIcon } from '../../../icons';
 import Pagination from '../../../../common/Pagination';
+import Table from '../../../../common/Table';
+import { sendCatchFeedback } from '../../../../functions/feedback';
+import { PERMISSIONS } from '../../../../hooks/data';
+import usePermissions from '../../../../hooks/usePermissions';
+import PageHeader from '../../../../layout/PageLayout/PageHeader';
+import { TestType } from '../../../../types/data';
+import { AddIcon } from '../../../icons';
+import AddModal from './AddModal';
+import DeleteModal from './DeleteModal';
+import EditModal from './EditModal';
+import ViewModal from './ViewModal';
 
-const TestList = ({ topic }: { topic: string }) => {
+const TestList = ({
+  topic,
+  minimumQuestion = 0,
+}: {
+  topic: string;
+  minimumQuestion: number;
+}) => {
   const [addModal, setAddModal] = useState(false);
   const [data, setData] = useState<TestType[] | undefined>(undefined);
   const [loading, setLoading] = useState(true);
@@ -53,7 +59,7 @@ const TestList = ({ topic }: { topic: string }) => {
   return (
     <>
       <PageHeader
-        pageTitle='Test Questions'
+        pageTitle={`Test Questions (${minimumQuestion} minimum)`}
         pageActions={
           hasPermission(PERMISSIONS.create_question) && (
             <Button onClick={() => setAddModal(true)}>
